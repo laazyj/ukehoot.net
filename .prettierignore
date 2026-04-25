@@ -1,0 +1,7 @@
+**/dist
+**/node_modules
+package-lock.json
+**/cdk.out
+.claude
+.nx
+packages/site/content/posts
