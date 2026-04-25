@@ -22,13 +22,34 @@ Nx orchestrates all per-package work (build/test/typecheck/clean) and caches res
 root `npm run` scripts below delegate to Nx — prefer them over invoking workspace scripts
 directly so you benefit from the task graph and cache.
 
+Cross-cutting:
+
 - `npm run build` — build all packages.
 - `npm run typecheck` — typecheck all packages.
-- `npm test` — run tests across all packages.
+- `npm test` / `npm run test:update` — run tests across all packages (`:update` regenerates snapshots).
 - `npm run clean` — remove build outputs across all packages.
 - `npm run lint` / `npm run lint:fix` — ESLint across the repo.
 - `npm run format` / `npm run format:check` — Prettier across the repo.
-- `npm run synth` / `npm run diff` / `npm run deploy` — CDK targets (build runs automatically as a dependency).
 - `npm run verify` — format check, build, lint, and test (CI parity).
+
+Site (`site:*`):
+
+- `npm run site:start` / `npm run site:build` / `npm run site:clean`.
+- `npm run site:check-redirects` — validate live 301s match `packages/cdk/redirects.json`.
+
+CDK (`cdk:*`) — each runs the cdk build + site build first via Nx's task graph:
+
+- `npm run cdk:synth` — render CloudFormation for all stacks.
+- `npm run cdk:diff` — preview changes for all stacks.
+- `npm run cdk:deploy` — deploy **all** stacks.
+- `npm run cdk:deploy:stack -- <StackName>` — escape hatch for a single stack.
+
+To target a single package or run only affected projects, use Nx directly:
+
+```sh
+npx nx run @ukehoot-net/cdk:test         # one project, one target
+npx nx affected -t build test lint       # only projects touched since main
+npx nx graph                             # open the task/dependency graph
+```
 
 See [AGENTS.md](./AGENTS.md) for contributor instructions.

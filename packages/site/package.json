@@ -1,0 +1,36 @@
+{
+  "name": "@ukehoot-net/site",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Blog and landing site for ukehoot.net (Eleventy).",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf dist",
+    "build": "eleventy",
+    "start": "eleventy --serve --quiet"
+  },
+  "nx": {
+    "targets": {
+      "build": {
+        "inputs": [
+          "default",
+          "^default",
+          {
+            "env": "GA_MEASUREMENT_ID"
+          },
+          {
+            "env": "GITHUB_SHA"
+          }
+        ]
+      },
+      "start": {
+        "cache": false
+      }
+    }
+  },
+  "devDependencies": {
+    "@11ty/eleventy": "^3.0.0",
+    "@11ty/eleventy-plugin-rss": "^3.0.0",
+    "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0"
+  }
+}

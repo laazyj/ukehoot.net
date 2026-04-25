@@ -1,0 +1,25 @@
+{% set groups = posts | byYear %}
+{% for group in groups %}
+  <section class="year-block">
+    <h2 class="year"><a href="{{ ('/' + group.year + '/') | rel }}">{{ group.year }}</a></h2>
+    <ul class="posts">
+      {% for post in group.posts %}
+      <li>
+        <a class="card" href="{{ post.url | rel }}">
+          {% if post.data.photos and post.data.photos.length > 0 %}
+            <span class="thumb"><img loading="lazy" src="{{ (post.url + post.data.photos[0]) | rel }}" alt="" /></span>
+          {% endif %}
+          <span class="card-body">
+            <time datetime="{{ post.date | htmlDateString }}">{{ post.date | shortDate }}</time>
+            <span class="title">{{ post.data.title or post.data.summary or "(untitled)" }}</span>
+          </span>
+        </a>
+      </li>
+      {% endfor %}
+    </ul>
+  </section>
+{% endfor %}
+
+{% if not posts or posts.length == 0 %}
+<p class="intro"><em>Nothing here yet.</em></p>
+{% endif %}

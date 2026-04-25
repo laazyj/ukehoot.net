@@ -1,0 +1,6 @@
+<nav class="year-nav">
+  <span class="year-nav-label">Years</span>
+  {% for group in collections.postsByYear %}
+    <a href="{{ ('/' + group.year + '/') | rel }}">{{ group.year }} <small>({{ group.posts.length }})</small></a>
+  {% endfor %}
+</nav>

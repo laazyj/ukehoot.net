@@ -1,0 +1,23 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "{{ site.url }}/#website",
+      "url": "{{ site.url }}/",
+      "name": {{ site.title | dump | safe }},
+      "description": {{ site.description | dump | safe }},
+      "inLanguage": "{{ site.language }}",
+      "publisher": { "@id": "{{ site.author.id }}" }
+    },
+    {
+      "@type": "Organization",
+      "@id": "{{ site.author.id }}",
+      "name": {{ site.author.name | dump | safe }},
+      "url": "{{ site.url }}/about/"{% if site.author.email %},
+      "email": {{ site.author.email | dump | safe }}{% endif %}
+    }
+  ]
+}
+</script>

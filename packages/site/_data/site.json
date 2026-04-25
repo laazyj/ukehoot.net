@@ -1,0 +1,13 @@
+{
+  "title": "Uke hOOt",
+  "tagline": "Edinburgh's weekly ukulele jam",
+  "description": "Photos and notes from Uke hOOt, Edinburgh's weekly ukulele jam.",
+  "url": "https://ukehoot.net",
+  "author": {
+    "id": "https://ukehoot.net/about/#org",
+    "name": "Uke hOOt",
+    "email": "uke.hoot@gmail.com"
+  },
+  "language": "en-GB",
+  "defaultOgImage": null
+}

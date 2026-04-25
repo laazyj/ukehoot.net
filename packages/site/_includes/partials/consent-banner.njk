@@ -1,0 +1,52 @@
+{% if analytics.measurementId %}
+<aside
+  class="consent"
+  id="ukehoot-consent"
+  role="dialog"
+  aria-label="Cookie consent"
+  aria-describedby="ukehoot-consent-msg"
+  hidden
+>
+  <p class="consent-msg" id="ukehoot-consent-msg">
+    We'd like to use Google Analytics to see which posts land. It uses cookies.
+    <span class="consent-cta">Up to you.</span>
+  </p>
+  <div class="consent-actions">
+    <button type="button" class="consent-btn consent-btn--ghost" data-consent="reject">Reject</button>
+    <button type="button" class="consent-btn consent-btn--primary" data-consent="accept">Accept</button>
+  </div>
+</aside>
+<script>
+  (function () {
+    var KEY = "ukehoot-consent-v1";
+    var banner = document.getElementById("ukehoot-consent");
+    if (!banner) return;
+    var stored = null;
+    try { stored = localStorage.getItem(KEY); } catch (e) {}
+    function show() { banner.hidden = false; }
+    function hide() { banner.hidden = true; }
+    function set(value) {
+      try { localStorage.setItem(KEY, value); } catch (e) {}
+      if (value === "granted" && typeof gtag === "function") {
+        gtag("consent", "update", { analytics_storage: "granted" });
+      }
+      hide();
+    }
+    banner.addEventListener("click", function (e) {
+      var t = e.target.closest("[data-consent]");
+      if (!t) return;
+      set(t.dataset.consent === "accept" ? "granted" : "denied");
+    });
+    document.addEventListener("keydown", function (e) {
+      if (e.key === "Escape" && !banner.hidden) set("denied");
+    });
+    document.addEventListener("click", function (e) {
+      var t = e.target.closest("[data-consent-reopen]");
+      if (!t) return;
+      e.preventDefault();
+      show();
+    });
+    if (stored !== "granted" && stored !== "denied") show();
+  })();
+</script>
+{% endif %}

@@ -1,0 +1,7 @@
+<div class="photos photos-{{ photos.length }}">
+  {% for photo in photos %}
+    <figure>
+      <img loading="lazy" src="{{ photo }}" alt="" />
+    </figure>
+  {% endfor %}
+</div>
