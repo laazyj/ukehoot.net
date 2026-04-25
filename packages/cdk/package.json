@@ -1,0 +1,61 @@
+{
+  "name": "@ukehoot-net/cdk",
+  "version": "0.0.0",
+  "private": true,
+  "description": "AWS CDK infrastructure for ukehoot.net (domain, hosting, DNS).",
+  "type": "module",
+  "scripts": {
+    "clean": "rm -rf dist cdk.out",
+    "build": "tsc -p tsconfig.build.json",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run --passWithNoTests",
+    "test:watch": "vitest",
+    "cdk": "cdk",
+    "synth": "cdk synth",
+    "deploy": "cdk deploy",
+    "diff": "cdk diff",
+    "check:redirects": "node scripts/check-redirects.mjs"
+  },
+  "nx": {
+    "targets": {
+      "synth": {
+        "dependsOn": [
+          "build"
+        ],
+        "outputs": [
+          "{projectRoot}/cdk.out"
+        ],
+        "cache": true
+      },
+      "deploy": {
+        "dependsOn": [
+          "build"
+        ],
+        "cache": false
+      },
+      "diff": {
+        "dependsOn": [
+          "build"
+        ],
+        "cache": false
+      }
+    }
+  },
+  "dependencies": {
+    "@composurecdk/acm": "^0.4.5",
+    "@composurecdk/cloudformation": "^0.4.5",
+    "@composurecdk/cloudfront": "^0.4.5",
+    "@composurecdk/cloudwatch": "^0.4.5",
+    "@composurecdk/core": "^0.4.5",
+    "@composurecdk/route53": "^0.4.5",
+    "@composurecdk/s3": "^0.4.5",
+    "@composurecdk/sns": "^0.4.5",
+    "aws-cdk-lib": "^2.180.0",
+    "constructs": "^10.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^25.6.0",
+    "aws-cdk": "^2.180.0",
+    "vitest": "^4.1.4"
+  }
+}
