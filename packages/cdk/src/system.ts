@@ -1,4 +1,4 @@
-import { Duration, Fn, RemovalPolicy, type Stack } from "aws-cdk-lib";
+import { type CfnResource, Duration, Fn, RemovalPolicy, type Stack } from "aws-cdk-lib";
 import {
   FunctionCode,
   FunctionEventType,
@@ -29,6 +29,14 @@ import { outputs } from "@composurecdk/cloudformation";
 
 import { buildRedirectFunctionCode } from "./redirect-function.js";
 import { DOMAIN, WWW, ZONE_RECORDS } from "./zone-records.js";
+
+// Pinning the hosted zone's CFN logical ID decouples it from the construct
+// path, so structural refactors (rename build id, regroup components, swap
+// composurecdk versions) never force-replace the live zone. Replacing it
+// would rotate the registrar-facing NS records — the one expensive thing in
+// this stack. Records intentionally get path-derived IDs; recreating them is
+// cheap.
+const HOSTED_ZONE_LOGICAL_ID = "HostedZone";
 
 export interface SystemStacks {
   /** Route 53 hosted zone + records. Region is cosmetic — Route 53 is global. */
@@ -168,6 +176,9 @@ export function createSystem(stacks: SystemStacks, siteContentPath: string) {
         SiteAlertsTopicArn: topicArnOutput("siteAlerts", "site-stack alarm notifications"),
       }),
     )
+    .afterBuild((_scope, _id, { zone }) => {
+      (zone.hostedZone.node.defaultChild as CfnResource).overrideLogicalId(HOSTED_ZONE_LOGICAL_ID);
+    })
     .afterBuild((_scope, _id, results) => {
       const usEast1Action = new SnsAction(results.usEast1Alerts.topic);
       alarmActionsPolicy(usEast1AlertsStack, { defaults: { alarmActions: [usEast1Action] } });

@@ -7,9 +7,10 @@ interface RedirectsFile {
 
 /**
  * Builds the source for a CloudFront Function (viewer-request stage) that
- * canonicalises `www.{domain}` → apex and serves the compiled-in old-URL 301
- * map. The map is injected at synth time because CloudFront Functions cannot
- * make network calls.
+ * canonicalises `www.{domain}` → apex, serves the compiled-in old-URL 301
+ * map, and rewrites pretty URLs to their `index.html` so S3 can serve them.
+ * The redirect map is injected at synth time because CloudFront Functions
+ * cannot make network calls.
  */
 export function buildRedirectFunctionCode(domain: string): string {
   const redirectsPath = resolve(import.meta.dirname, "..", "redirects.json");
@@ -45,6 +46,15 @@ function handler(event) {
         location: { value: REDIRECTS[uri] }
       }
     };
+  }
+
+  // Eleventy emits pretty URLs as <path>/index.html. CloudFront's
+  // defaultRootObject only rewrites "/" → "/index.html", so map directory-
+  // style requests onto their index file before the S3 origin sees them.
+  if (uri.endsWith("/")) {
+    req.uri = uri + "index.html";
+  } else if (uri.lastIndexOf(".") < uri.lastIndexOf("/")) {
+    req.uri = uri + "/index.html";
   }
 
   return req;
