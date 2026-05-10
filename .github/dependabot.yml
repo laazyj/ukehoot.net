@@ -6,7 +6,18 @@ updates:
       interval: weekly
     open-pull-requests-limit: 5
     groups:
+      # composurecdk is pre-1.0, so a minor bump is breaking by semver
+      # convention. Keep these out of the routine batch and review
+      # together as their own PR.
+      composurecdk:
+        patterns:
+          - "@composurecdk/*"
+        update-types: [minor, patch, major]
       minor-and-patch:
+        patterns:
+          - "*"
+        exclude-patterns:
+          - "@composurecdk/*"
         update-types: [minor, patch]
 
   - package-ecosystem: github-actions
