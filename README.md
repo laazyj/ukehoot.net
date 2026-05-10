@@ -1,7 +1,14 @@
 # ukehoot.net
 
+[![Built with ComposureCDK](https://img.shields.io/badge/built%20with-ComposureCDK-0f0d0c?labelColor=b85416)](https://github.com/laazyj/composureCDK)
+
 Monorepo for `ukehoot.net` — infrastructure and blog for **Uke hOOt**, Edinburgh's weekly
 ukulele jam. Successor to https://ukehoot.tumblr.com/.
+
+The AWS infrastructure under `packages/cdk` is built with
+[composureCDK](https://github.com/laazyj/composureCDK): a multi-region, multi-stack
+system composed declaratively from independent builders. The wiring lives in
+[`packages/cdk/src/system.ts`](packages/cdk/src/system.ts).
 
 ## Packages
 
