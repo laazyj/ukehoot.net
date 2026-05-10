@@ -57,7 +57,7 @@
         },
         "Name": "exchange.ukehoot.net.",
         "ResourceRecords": [
-          "213.171.192.50"
+          "213.171.193.192"
         ],
         "TTL": "300",
         "Type": "A"
@@ -113,7 +113,7 @@
         },
         "Name": "livemail1._domainkey.ukehoot.net.",
         "ResourceRecords": [
-          "livemail1._domainkey.39769.dkim.livemail.co.uk."
+          "livemail1._domainkey.144548.dkim.livemail.co.uk."
         ],
         "TTL": "300",
         "Type": "CNAME"
@@ -127,7 +127,7 @@
         },
         "Name": "livemail2._domainkey.ukehoot.net.",
         "ResourceRecords": [
-          "livemail2._domainkey.39769.dkim.livemail.co.uk."
+          "livemail2._domainkey.144548.dkim.livemail.co.uk."
         ],
         "TTL": "300",
         "Type": "CNAME"
@@ -141,7 +141,7 @@
         },
         "Name": "livemail3._domainkey.ukehoot.net.",
         "ResourceRecords": [
-          "livemail3._domainkey.39769.dkim.livemail.co.uk."
+          "livemail3._domainkey.144548.dkim.livemail.co.uk."
         ],
         "TTL": "300",
         "Type": "CNAME"
@@ -155,7 +155,7 @@
         },
         "Name": "livemail4._domainkey.ukehoot.net.",
         "ResourceRecords": [
-          "livemail4._domainkey.39769.dkim.livemail.co.uk."
+          "livemail4._domainkey.144548.dkim.livemail.co.uk."
         ],
         "TTL": "300",
         "Type": "CNAME"
@@ -169,7 +169,6 @@
         },
         "Name": "ukehoot.net.",
         "ResourceRecords": [
-          "\"MS=ms66482160\"",
           "\"v=spf1 mx a include:_spf.livemail.co.uk ~all\""
         ],
         "TTL": "300",
@@ -185,20 +184,6 @@
         "Name": "_dmarc.ukehoot.net.",
         "ResourceRecords": [
           "\"v=DMARC1; p=none;\""
-        ],
-        "TTL": "300",
-        "Type": "TXT"
-      }
-    },
-    "ukehootnetrecordstxtdzcnuget245BFE26": {
-      "Type": "AWS::Route53::RecordSet",
-      "Properties": {
-        "HostedZoneId": {
-          "Ref": "HostedZone"
-        },
-        "Name": "dzc.nuget.ukehoot.net.",
-        "ResourceRecords": [
-          "\"K2G6Wa8y\""
         ],
         "TTL": "300",
         "Type": "TXT"
