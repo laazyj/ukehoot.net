@@ -1,0 +1,17 @@
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BlogPosting",
+  "@id": "{{ site.url }}{{ page.url }}#post",
+  "mainEntityOfPage": "{{ site.url }}{{ page.url }}",
+  "url": "{{ site.url }}{{ page.url }}",
+  "headline": {{ (title or summary or "(untitled)") | dump | safe }},
+  "datePublished": "{{ page.date | htmlDateString }}",
+  "inLanguage": "{{ site.language }}",
+  "author": { "@id": "{{ site.author.id }}" },
+  "publisher": { "@id": "{{ site.author.id }}" }{% if updated %},
+  "dateModified": "{{ updated | htmlDateString }}"{% endif %}{% if summary %},
+  "description": {{ summary | dump | safe }}{% endif %}{% if tags %},
+  "keywords": {{ tags | dump | safe }}{% endif %}
+}
+</script>

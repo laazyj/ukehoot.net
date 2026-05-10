@@ -1,0 +1,121 @@
+import fs from "node:fs";
+import path from "node:path";
+import process from "node:process";
+import { fileURLToPath } from "node:url";
+import rssPlugin from "@11ty/eleventy-plugin-rss";
+import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
+
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+export default function (eleventyConfig) {
+  eleventyConfig.addPlugin(rssPlugin);
+  eleventyConfig.addPlugin(syntaxHighlight);
+
+  eleventyConfig.amendLibrary("md", (md) => {
+    md.set({ typographer: true });
+    md.enable(["replacements", "smartquotes"]);
+  });
+
+  eleventyConfig.addPassthroughCopy({ assets: "assets" });
+  eleventyConfig.addPassthroughCopy({ static: "/" });
+  // Media lives alongside each post under content/posts/<YYYY>/<slug>/. Pass
+  // it through verbatim so post pages can reference photo-1.jpg etc. by
+  // simple relative URL.
+  eleventyConfig.addPassthroughCopy("content/posts/**/*.{jpg,jpeg,png,gif,mp4,webm,mp3}");
+
+  eleventyConfig.addGlobalData("currentYear", () => new Date().getFullYear());
+  eleventyConfig.addGlobalData("analytics", () => ({
+    measurementId: process.env.GA_MEASUREMENT_ID || null,
+  }));
+  eleventyConfig.addGlobalData("build", () => ({
+    sha: process.env.GITHUB_SHA || "dev",
+  }));
+
+  // Inline a file's contents verbatim. Used to ship the stylesheet inside
+  // each page's <style> — one fewer HTTP request, instant first paint.
+  eleventyConfig.addShortcode("inlineFile", (relPath) =>
+    fs.readFileSync(path.join(__dirname, relPath), "utf8"),
+  );
+
+  // Convert a root-absolute path ("/assets/x.css") into a path relative to
+  // the current page. Lets the site render under any URL prefix without a
+  // build-time pathPrefix flag.
+  eleventyConfig.addFilter("rel", function (target) {
+    if (typeof target !== "string" || !target.startsWith("/")) return target;
+    const pageUrl =
+      (this.page && this.page.url) || (this.ctx && this.ctx.page && this.ctx.page.url) || "/";
+    const depth = pageUrl.split("/").filter(Boolean).length;
+    const prefix = depth === 0 ? "./" : "../".repeat(depth);
+    return prefix + target.replace(/^\//, "");
+  });
+
+  const toDate = (date) => (date instanceof Date ? date : new Date(date));
+
+  eleventyConfig.addFilter("readableDate", (date) =>
+    toDate(date).toLocaleDateString("en-GB", { year: "numeric", month: "long", day: "numeric" }),
+  );
+
+  eleventyConfig.addFilter("shortDate", (date) =>
+    toDate(date).toLocaleDateString("en-GB", { month: "short", day: "numeric" }),
+  );
+
+  eleventyConfig.addFilter("htmlDateString", (date) => toDate(date).toISOString().slice(0, 10));
+
+  eleventyConfig.addFilter("year", (date) => toDate(date).getFullYear());
+
+  eleventyConfig.addFilter("readingTime", (input) => {
+    if (!input) return 0;
+    const text = String(input).replace(/<[^>]+>/g, " ");
+    const words = text.split(/\s+/).filter(Boolean).length;
+    return Math.max(1, Math.round(words / 225));
+  });
+
+  // Group a collection into [{ year, posts[] }] in reverse-chronological order.
+  eleventyConfig.addFilter("byYear", (posts) => {
+    const groups = new Map();
+    for (const p of [...posts].reverse()) {
+      const year = new Date(p.date).getFullYear();
+      if (!groups.has(year)) groups.set(year, []);
+      groups.get(year).push(p);
+    }
+    return [...groups.entries()].map(([year, posts]) => ({ year, posts }));
+  });
+
+  // The whole-blog feed: every post tagged "post", chronological. The site
+  // taxonomy is by year, but year is derived from each post's date — there
+  // is no per-year directory tag.
+  eleventyConfig.addCollection("posts", (api) =>
+    api
+      .getFilteredByTag("post")
+      .filter((item) => !item.data.eleventyExcludeFromCollections)
+      .sort((a, b) => a.date - b.date),
+  );
+
+  // [{ year, posts[] }], newest year first. Drives both the home page list
+  // and the year-archive pagination.
+  eleventyConfig.addCollection("postsByYear", (api) => {
+    const posts = api
+      .getFilteredByTag("post")
+      .filter((item) => !item.data.eleventyExcludeFromCollections)
+      .sort((a, b) => a.date - b.date);
+    const groups = new Map();
+    for (const p of [...posts].reverse()) {
+      const year = new Date(p.date).getFullYear();
+      if (!groups.has(year)) groups.set(year, []);
+      groups.get(year).push(p);
+    }
+    return [...groups.entries()].map(([year, posts]) => ({ year, posts }));
+  });
+
+  return {
+    dir: {
+      input: "content",
+      output: "dist",
+      includes: "../_includes",
+      data: "../_data",
+    },
+    templateFormats: ["njk", "md", "html"],
+    markdownTemplateEngine: "njk",
+    htmlTemplateEngine: "njk",
+  };
+}

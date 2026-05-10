@@ -1,0 +1,48 @@
+---
+layout: layouts/base.njk
+---
+<article class="post post-{{ postType or 'text' }}">
+  {% if title %}<h1>{{ title }}</h1>{% endif %}
+
+  <div class="meta">
+    <time datetime="{{ page.date | htmlDateString }}">{{ page.date | readableDate }}</time>
+    {% if tags %}
+      {% for t in tags %}{% if t != "post" %}<span class="tag">{{ t }}</span>{% endif %}{% endfor %}
+    {% endif %}
+    {% set rt = content | readingTime %}
+    {% if rt > 0 %}<span class="reading-time">{{ rt }} min read</span>{% endif %}
+  </div>
+
+  {% if photos and photos.length > 0 %}
+    {% include "partials/photo-grid.njk" %}
+  {% endif %}
+
+  {% if video %}
+    <div class="video">
+      <video controls preload="metadata" src="{{ video }}"></video>
+    </div>
+  {% endif %}
+
+  {% if linkUrl %}
+    <p class="external-link">
+      <a href="{{ linkUrl }}" rel="external">{{ linkUrl }}</a>
+    </p>
+  {% endif %}
+
+  {% if quote %}
+    <blockquote class="big-quote">
+      <p>{{ quote | safe }}</p>
+      {% if quoteSource %}<cite>{{ quoteSource | safe }}</cite>{% endif %}
+    </blockquote>
+  {% endif %}
+
+  <div class="post-body">
+    {{ content | safe }}
+  </div>
+
+  {% if originalUrl %}
+    <p class="original-link">
+      Originally posted on Tumblr at <a href="{{ originalUrl }}" rel="external">{{ originalUrl }}</a>.
+    </p>
+  {% endif %}
+</article>

@@ -1,0 +1,15 @@
+---
+layout: layouts/base.njk
+title: ""
+eleventyExcludeFromCollections: true
+---
+<p class="intro">
+  <strong>Uke hOOt</strong> is Edinburgh's weekly ukulele jam — every Wednesday evening,
+  a roomful of friendly people, songbooks open, no audition required.
+  These are the photos and notes from the sessions.
+</p>
+
+{% include "partials/year-nav.njk" %}
+
+{% set posts = collections.posts %}
+{% include "partials/post-list.njk" %}

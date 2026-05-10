@@ -1,0 +1,33 @@
+---
+layout: layouts/base.njk
+pagination:
+  data: collections.postsByYear
+  size: 1
+  alias: yearGroup
+permalink: "/{{ yearGroup.year }}/"
+eleventyComputed:
+  title: "{{ yearGroup.year }}"
+eleventyExcludeFromCollections: true
+---
+<p class="intro">{{ yearGroup.posts.length }} posts in {{ yearGroup.year }}.</p>
+
+{% include "partials/year-nav.njk" %}
+
+{% set posts = yearGroup.posts %}
+<section class="year-block">
+  <ul class="posts">
+    {% for post in posts %}
+    <li>
+      <a class="card" href="{{ post.url | rel }}">
+        {% if post.data.photos and post.data.photos.length > 0 %}
+          <span class="thumb"><img loading="lazy" src="{{ (post.url + post.data.photos[0]) | rel }}" alt="" /></span>
+        {% endif %}
+        <span class="card-body">
+          <time datetime="{{ post.date | htmlDateString }}">{{ post.date | shortDate }}</time>
+          <span class="title">{{ post.data.title or post.data.summary or "(untitled)" }}</span>
+        </span>
+      </a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>

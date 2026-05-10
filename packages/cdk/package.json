@@ -18,10 +18,14 @@
     "check:redirects": "node scripts/check-redirects.mjs"
   },
   "nx": {
+    "implicitDependencies": [
+      "@ukehoot-net/site"
+    ],
     "targets": {
       "synth": {
         "dependsOn": [
-          "build"
+          "build",
+          "@ukehoot-net/site:build"
         ],
         "inputs": [
           "default",
@@ -43,7 +47,8 @@
       },
       "deploy": {
         "dependsOn": [
-          "build"
+          "build",
+          "@ukehoot-net/site:build"
         ],
         "cache": false
       },
@@ -55,7 +60,8 @@
       },
       "diff": {
         "dependsOn": [
-          "build"
+          "build",
+          "@ukehoot-net/site:build"
         ],
         "cache": false
       }
