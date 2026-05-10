@@ -1,0 +1,12 @@
+#!/usr/bin/env sh
+# Pre-commit secret scan. Catches credentials before they leave the laptop;
+# GitHub's server-side secret scanning is the second line of defence once the
+# repo is public. See README.md "Pre-commit secret scan" for setup.
+
+if ! command -v gitleaks >/dev/null 2>&1; then
+  echo "pre-commit: gitleaks not found in PATH." >&2
+  echo "Install it (e.g. \`brew install gitleaks\`) or skip with --no-verify." >&2
+  exit 1
+fi
+
+gitleaks protect --staged --redact --no-banner --config .gitleaks.toml

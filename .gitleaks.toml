@@ -1,0 +1,48 @@
+# gitleaks config for ukehoot.net.
+#
+# Extends the upstream default ruleset and allowlists a small set of
+# already-public values that would otherwise trigger generic-secret rules:
+#
+#   - DNS verification tokens and DKIM/SPF strings. These live in TXT/CNAME
+#     records on a public domain — anyone can `dig` them. They have no use
+#     to an attacker.
+#   - The IndexNow domain-ownership file. The file's *name* is the token, by
+#     IndexNow design (it must be served at `https://<host>/<key>.txt`).
+#
+# Anything outside this allowlist is still scanned with the full default ruleset.
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Known-public DNS, mail, and ownership tokens"
+paths = [
+  '''packages/cdk/src/zone-records\.ts''',
+  '''packages/cdk/test/__snapshots__/UkehootNetDnsStack\.json''',
+  '''packages/cdk/dist/zone-records\.js''',
+  '''packages/site/static/[a-f0-9]{32}\.txt''',
+]
+regexes = [
+  # Livemail DKIM CNAME targets — public DNS records by design.
+  '''livemail\d+\._domainkey\.\d+\.dkim\.livemail\.co\.uk\.''',
+  # Livemail mailbox identifier embedded in DKIM target hostnames.
+  '''144548''',
+  # IndexNow domain-ownership key (32 hex chars). Public by design.
+  '''b8b046e6e8c295c004ff64f03e39c575''',
+]
+
+[[allowlists]]
+description = """
+CDK asset-bundle SHA-256 hashes (S3Key) inside CloudFormation snapshot tests.
+These are content-addressable identifiers for synthesized custom-resource
+Lambda zips in the CDK bootstrap bucket — not secrets. Scoped to the snapshot
+directory and to the exact 64-hex-char shape so a real secret accidentally
+committed into a snapshot is still detected.
+"""
+condition = "AND"
+paths = [
+  '''packages/cdk/test/__snapshots__/.*\.json''',
+]
+regexes = [
+  '''^[a-f0-9]{64}\.(zip|json|txt)$''',
+]
