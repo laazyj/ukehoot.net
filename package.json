@@ -18,6 +18,8 @@
     "cdk:deploy": "nx run @ukehoot-net/cdk:deploy",
     "cdk:deploy:stack": "nx run @ukehoot-net/cdk:deploy:stack",
     "site:check-redirects": "nx run @ukehoot-net/cdk:check:redirects",
+    "site:smoke": "nx run @ukehoot-net/cdk:smoke",
+    "indexnow:ping": "nx run @ukehoot-net/cdk:indexnow:ping",
     "site:build": "nx run @ukehoot-net/site:build",
     "site:start": "nx run @ukehoot-net/site:start",
     "site:clean": "nx run @ukehoot-net/site:clean",
