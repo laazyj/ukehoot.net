@@ -1,0 +1,298 @@
+{
+  "Description": "ACM certificate for ukehoot.net.",
+  "Resources": {
+    "ukehootnetcertBB2B598E": {
+      "Type": "AWS::CertificateManager::Certificate",
+      "Properties": {
+        "CertificateTransparencyLoggingPreference": "ENABLED",
+        "DomainName": "ukehoot.net",
+        "DomainValidationOptions": [
+          {
+            "DomainName": "ukehoot.net",
+            "HostedZoneId": {
+              "Fn::GetAtt": [
+                "ExportsReader8B249524",
+                "/cdk/exports/UkehootNetCertStack/UkehootNetDnsStackeuwest2RefHostedZone057EE61C"
+              ]
+            }
+          },
+          {
+            "DomainName": "www.ukehoot.net",
+            "HostedZoneId": {
+              "Fn::GetAtt": [
+                "ExportsReader8B249524",
+                "/cdk/exports/UkehootNetCertStack/UkehootNetDnsStackeuwest2RefHostedZone057EE61C"
+              ]
+            }
+          }
+        ],
+        "KeyAlgorithm": "RSA_2048",
+        "SubjectAlternativeNames": [
+          "www.ukehoot.net"
+        ],
+        "Tags": [
+          {
+            "Key": "Name",
+            "Value": "UkehootNetCertStack/ukehoot.net--cert"
+          }
+        ],
+        "ValidationMethod": "DNS"
+      }
+    },
+    "ukehootnetcertDaysToExpiryAlarm80C76D78": {
+      "Type": "AWS::CloudWatch::Alarm",
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C"
+          }
+        ],
+        "AlarmDescription": "ACM certificate is approaching expiry. Threshold: <= 45 days remaining.",
+        "AlarmName": "ukehoot-net-cert-stack/ukehoot-net/cert/days-to-expiry",
+        "ComparisonOperator": "LessThanOrEqualToThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "CertificateArn",
+            "Value": {
+              "Ref": "ukehootnetcertBB2B598E"
+            }
+          }
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "DaysToExpiry",
+        "Namespace": "AWS/CertificateManager",
+        "Period": 86400,
+        "Statistic": "Minimum",
+        "Threshold": 45,
+        "TreatMissingData": "notBreaching"
+      }
+    },
+    "ExportsReader8B249524": {
+      "Type": "Custom::CrossRegionExportReader",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportReaderCustomResourceProviderHandler46647B68",
+            "Arn"
+          ]
+        },
+        "ReaderProps": {
+          "region": "us-east-1",
+          "prefix": "UkehootNetCertStack",
+          "imports": {
+            "/cdk/exports/UkehootNetCertStack/UkehootNetDnsStackeuwest2RefHostedZone057EE61C": "{{resolve:ssm:/cdk/exports/UkehootNetCertStack/UkehootNetDnsStackeuwest2RefHostedZone057EE61C}}"
+          }
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+          }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "Inline",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition"
+                        },
+                        ":ssm:us-east-1:111111111111:parameter/cdk/exports/UkehootNetCertStack/*"
+                      ]
+                    ]
+                  },
+                  "Action": [
+                    "ssm:AddTagsToResource",
+                    "ssm:RemoveTagsFromResource",
+                    "ssm:GetParameters"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "CustomCrossRegionExportReaderCustomResourceProviderHandler46647B68": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+          "S3Key": "f06f7035054cb2aada184c7c251ec5cb31fb6b5e975284939b9ff097603ea769.zip"
+        },
+        "Timeout": 900,
+        "MemorySize": 128,
+        "Handler": "__entrypoint__.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs22.x"
+      },
+      "DependsOn": [
+        "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD"
+      ]
+    },
+    "ExportsWritereuwest25F52B32F9AB3BFFD": {
+      "Type": "Custom::CrossRegionExportWriter",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportWriterCustomResourceProviderHandlerD8786E8A",
+            "Arn"
+          ]
+        },
+        "WriterProps": {
+          "region": "eu-west-2",
+          "exports": {
+            "/cdk/exports/UkehootNetSiteStack/UkehootNetCertStackuseast1RefukehootnetcertBB2B598E027DAE32": {
+              "Ref": "ukehootnetcertBB2B598E"
+            }
+          }
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+          }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "Inline",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Resource": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:",
+                          {
+                            "Ref": "AWS::Partition"
+                          },
+                          ":ssm:eu-west-2:111111111111:parameter/cdk/exports/*"
+                        ]
+                      ]
+                    }
+                  ],
+                  "Action": [
+                    "ssm:DeleteParameters",
+                    "ssm:ListTagsForResource",
+                    "ssm:GetParameters",
+                    "ssm:PutParameter"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "CustomCrossRegionExportWriterCustomResourceProviderHandlerD8786E8A": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+          "S3Key": "d2191f6f199b95d1c044799f514b1ceca87200b3014c43c34839aad03dc69b8c.zip"
+        },
+        "Timeout": 900,
+        "MemorySize": 128,
+        "Handler": "__entrypoint__.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs22.x"
+      },
+      "DependsOn": [
+        "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1"
+      ]
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}

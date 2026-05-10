@@ -1,0 +1,10 @@
+{
+  "app": "node dist/app.js",
+  "watch": {
+    "include": ["src/**"],
+    "exclude": ["node_modules", "dist", "cdk.out"]
+  },
+  "context": {
+    "@aws-cdk/core:newStyleStackSynthesis": true
+  }
+}

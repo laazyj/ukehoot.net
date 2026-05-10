@@ -1,0 +1,4 @@
+{
+  "_comment": "Map of old URL path -> new URL path. Any request matching a key is 301-redirected to the corresponding value. Populated from each post's originalUrl frontmatter by the Tumblr importer (see PR 4).",
+  "redirects": {}
+}
