@@ -15,7 +15,9 @@
     "deploy": "cdk deploy --all",
     "deploy:stack": "cdk deploy",
     "diff": "cdk diff",
-    "check:redirects": "node scripts/check-redirects.mjs"
+    "check:redirects": "node scripts/check-redirects.mjs",
+    "smoke": "node scripts/smoke-test.mjs",
+    "indexnow:ping": "node scripts/indexnow-ping.mjs"
   },
   "nx": {
     "implicitDependencies": [
@@ -74,6 +76,7 @@
     "@composurecdk/cloudfront": "^0.5.1",
     "@composurecdk/cloudwatch": "^0.5.0",
     "@composurecdk/core": "^0.5.1",
+    "@composurecdk/iam": "^0.5.1",
     "@composurecdk/route53": "^0.5.1",
     "@composurecdk/s3": "^0.5.0",
     "@composurecdk/sns": "^0.5.1",

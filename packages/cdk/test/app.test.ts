@@ -11,6 +11,7 @@ const STACK_NAMES = [
   "UkehootNetCertStack",
   "UkehootNetSiteStack",
   "UkehootNetCdnAlarmsStack",
+  "UkehootNetCiOidcStack",
 ] as const;
 
 const stackTemplate = (app: App, name: (typeof STACK_NAMES)[number]) =>
@@ -79,6 +80,21 @@ describe("app synthesis", () => {
       const template = stackTemplate(app, "UkehootNetCdnAlarmsStack");
       const alarmCount = Object.keys(template.findResources("AWS::CloudWatch::Alarm")).length;
       expect(alarmCount).toBeGreaterThanOrEqual(5);
+    });
+  });
+
+  describe("CI OIDC", () => {
+    it("creates a deploy role scoped to the ukehoot.net repo", () => {
+      const template = stackTemplate(app, "UkehootNetCiOidcStack");
+      template.hasResourceProperties("AWS::IAM::Role", {
+        RoleName: "GitHubActionsDeployRole",
+      });
+      // Subject claim must reference exactly this repo — forks/other repos
+      // mint OIDC tokens under different `repo:<owner>/<name>:*` namespaces
+      // and so cannot satisfy this StringLike condition.
+      const policyDoc = JSON.stringify(template.findResources("AWS::IAM::Role"));
+      expect(policyDoc).toContain("repo:laazyj/ukehoot.net:ref:refs/heads/main");
+      expect(policyDoc).toContain("repo:laazyj/ukehoot.net:pull_request");
     });
   });
 });

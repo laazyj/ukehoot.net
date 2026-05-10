@@ -2,6 +2,7 @@ import { App, Stack } from "aws-cdk-lib";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { addCiOidc } from "./stacks/ci-oidc-stack.js";
 import { createSystem } from "./system.js";
 
 /**
@@ -70,6 +71,14 @@ export function buildApp({ account, siteContentPath, alertEmail }: BuildAppOptio
     ...stackProps(CONFIG.edgeRegion),
     description: "CloudWatch alarms for site metrics that AWS only emits in us-east-1.",
   });
+
+  // Standalone — bootstrapped once from a workstation, then GitHub Actions
+  // assumes the role for all subsequent deploys. No wiring through createSystem.
+  const ciOidcStack = new Stack(app, "UkehootNetCiOidcStack", {
+    ...stackProps(CONFIG.primaryRegion),
+    description: "GitHub Actions OIDC provider + deploy role for laazyj/ukehoot.net.",
+  });
+  addCiOidc(ciOidcStack, { githubOwner: "laazyj", githubRepo: "ukehoot.net" });
 
   createSystem(
     { dnsStack, usEast1AlertsStack, certStack, siteStack, cdnAlarmsStack },

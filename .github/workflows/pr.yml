@@ -1,0 +1,121 @@
+name: pr
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+env:
+  AWS_REGION: eu-west-2
+
+concurrency:
+  group: pr-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: verify
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - run: npm run verify
+
+  cdk-diff:
+    name: cdk diff
+    runs-on: ubuntu-latest
+    # Skip the AWS-touching job for PRs that can't assume the deploy role:
+    #   - Fork PRs run under the fork's OIDC namespace.
+    #   - Dependabot PRs don't receive repo Actions secrets, so the role ARN
+    #     is empty and configure-aws-credentials fails.
+    # The verify job still runs in both cases.
+    if: >-
+      github.event.pull_request.head.repo.full_name == github.repository &&
+      github.event.pull_request.user.login != 'dependabot[bot]'
+    needs: verify
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    env:
+      ALERT_EMAIL: ${{ secrets.ALERT_EMAIL }}
+      GA_MEASUREMENT_ID: ${{ vars.GA_MEASUREMENT_ID }}
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        id: aws
+        with:
+          role-to-assume: ${{ secrets.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - run: npm run site:build
+
+      - name: cdk diff
+        env:
+          CDK_DEFAULT_ACCOUNT: ${{ steps.aws.outputs.aws-account-id }}
+          CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+        # PIPESTATUS[0] (not pipefail) — pipefail behaviour proved unreliable
+        # for this step; capturing the first command's exit code explicitly
+        # makes the step fail loud whether cdk succeeds, fails, or hangs tee.
+        run: |
+          npm run cdk:diff -- --no-color 2>&1 | tee /tmp/diff.txt
+          exit "${PIPESTATUS[0]}"
+
+      - name: post diff comment
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const fs = require('node:fs');
+            const marker = '<!-- cdk-diff-bot -->';
+            const raw = fs.readFileSync('/tmp/diff.txt', 'utf8');
+            const max = 60_000;
+            const truncated = raw.length > max
+              ? raw.slice(0, max) + `\n\n… truncated (${raw.length - max} more chars). See the workflow log for full output.`
+              : raw;
+            const body = [
+              marker,
+              `### CDK diff for \`${context.sha.slice(0, 7)}\``,
+              '',
+              '```',
+              truncated || '(no diff captured)',
+              '```',
+            ].join('\n');
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+            });
+            const existing = comments.find((c) => c.body && c.body.includes(marker));
+            if (existing) {
+              await github.rest.issues.updateComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                comment_id: existing.id,
+                body,
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body,
+              });
+            }

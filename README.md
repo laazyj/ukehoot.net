@@ -55,30 +55,31 @@ See [AGENTS.md](./AGENTS.md) for contributor instructions.
 
 ## Deploying
 
-Deploys are manual at present (CI/CD is a TODO — see issues).
+Deploys are automated. Push to `main` triggers `.github/workflows/deploy.yml`,
+which runs `npm run verify`, `cdk deploy --all`, then post-deploy smoke tests,
+redirect probes, and an IndexNow ping. PRs run `.github/workflows/pr.yml`, which
+verifies and posts a `cdk diff` comment.
 
-The CDK app reads the standard `CDK_DEFAULT_ACCOUNT` / `CDK_DEFAULT_REGION` environment
-variables, plus `ALERT_EMAIL` (the address subscribed to both alarm topics — synth fails
-if it is unset). Authenticate with the target AWS account first
-(`export AWS_PROFILE=ukehoot.net`), then:
+Both workflows authenticate to AWS via OIDC. The `UkehootNetCiOidcStack` provisions
+the GitHub OIDC provider and the `GitHubActionsDeployRole` whose ARN is wired into
+the `AWS_DEPLOY_ROLE_ARN` repo secret. That stack must be deployed once from a
+workstation before the workflows can authenticate (see [First-time setup](#first-time-setup)).
+
+To deploy a single stack manually (escape hatch):
 
 ```sh
+export AWS_PROFILE=ukehoot.net
 export ALERT_EMAIL=alert@jasonduffett.org
-npm run site:build   # build site content
-npm run cdk:synth    # render CloudFormation
-npm run cdk:diff     # preview changes
-npm run cdk:deploy   # apply (all stacks)
-```
-
-After the first deploy, AWS sends one confirmation email per topic (us-east-1 and
-eu-west-2). Click both confirm links — alerts only flow once the subscriptions are in
-the `Confirmed` state.
-
-To deploy a single stack:
-
-```sh
 npm run cdk:deploy:stack -- UkehootNetSiteStack
 ```
+
+The CDK app reads the standard `CDK_DEFAULT_ACCOUNT` / `CDK_DEFAULT_REGION` environment
+variables, plus `ALERT_EMAIL` (the address subscribed to both alarm topics — synth
+fails if it is unset).
+
+After the first deploy, AWS sends one confirmation email per topic (us-east-1 and
+eu-west-2). Click both confirm links — alerts only flow once the subscriptions are
+in the `Confirmed` state.
 
 ### Reviewing infra changes
 
@@ -108,6 +109,31 @@ npm run cdk:deploy:stack -- UkehootNetDnsStack
 Then proceed with [Domain delegation](#domain-delegation) below before deploying the
 remaining stacks (the certificate's DNS validation succeeds automatically once
 delegation lands).
+
+### Bootstrapping CI/CD
+
+The GitHub Actions workflows assume an IAM role minted by `UkehootNetCiOidcStack`.
+That stack has to be deployed once from a workstation:
+
+```sh
+npm run cdk:deploy:stack -- UkehootNetCiOidcStack
+```
+
+The stack's `GitHubActionsDeployRoleArn` output is the value for the
+`AWS_DEPLOY_ROLE_ARN` GitHub repo secret. Configure the rest under Settings →
+Secrets and variables → Actions:
+
+- Secret `AWS_DEPLOY_ROLE_ARN` — role ARN from the stack output above.
+- Secret `ALERT_EMAIL` — `alert@jasonduffett.org`.
+- Secret `INDEXNOW_KEY` — a 32-char hex key. Also commit
+  `packages/site/static/<INDEXNOW_KEY>.txt` containing the same value (IndexNow
+  fetches this URL to verify domain ownership). Without the file the ping is
+  rejected; the deploy step exits 0 either way.
+- Variable `GA_MEASUREMENT_ID` — the GA4 measurement ID (or leave unset; the
+  site degrades gracefully).
+
+Add a branch protection rule on `main` requiring the `verify` and `cdk diff`
+status checks before merge.
 
 ## Domain delegation
 
