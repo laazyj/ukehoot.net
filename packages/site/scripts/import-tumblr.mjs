@@ -244,7 +244,6 @@ function planPost(post) {
   const url = String(post["@_url"]);
   const urlWithSlug = String(post["@_url-with-slug"] ?? url);
   const oldUrlPath = new URL(url).pathname;
-  const oldUrlPathWithSlug = new URL(urlWithSlug).pathname;
   const newUrlPath = `/posts/${year}/${dirSlug}/`;
 
   let title = "";
@@ -352,9 +351,10 @@ function planPost(post) {
     indexPath: join(dir, "index.md"),
     contents: fm + bodyOut.trim() + "\n",
     downloads,
+    // The CloudFront Function strips any trailing slug, so the /post/<id>/<slug>
+    // form is redundant — only emit the bare /post/<id>.
     redirectMap: {
       [oldUrlPath]: newUrlPath,
-      ...(oldUrlPathWithSlug !== oldUrlPath ? { [oldUrlPathWithSlug]: newUrlPath } : {}),
     },
     summary: { type: postType, year, dateYmd, slug, title: title || summary || "(untitled)" },
   };

@@ -2,6 +2,9 @@ import { type CfnResource, Duration, Fn, type Stack } from "aws-cdk-lib";
 import {
   FunctionCode,
   FunctionEventType,
+  FunctionRuntime,
+  ImportSource,
+  KeyValueStore,
   PriceClass,
   ViewerProtocolPolicy,
 } from "aws-cdk-lib/aws-cloudfront";
@@ -37,7 +40,7 @@ import {
 import { createTopicBuilder, type TopicBuilderResult } from "@composurecdk/sns";
 import { outputs } from "@composurecdk/cloudformation";
 
-import { buildRedirectFunctionCode } from "./redirect-function.js";
+import { buildKvsImportData, buildRedirectFunctionCode } from "./redirect-function.js";
 import { loadRedirects } from "./redirects.js";
 import { ZONE_RECORDS } from "./zone-records.js";
 
@@ -117,6 +120,12 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
   const www = `www.${domain}`;
   const redirects = loadRedirects();
 
+  const redirectKvs = new KeyValueStore(siteStack, "RedirectKvs", {
+    keyValueStoreName: `${siteStack.stackName}-redirects`,
+    comment: "Old Tumblr-URL → new path map for the redirect viewer-request function",
+    source: ImportSource.fromInline(buildKvsImportData(redirects)),
+  });
+
   const hostedZone = ref<HostedZoneBuilderResult>("zone").get("hostedZone");
   const bucket = ref<BucketBuilderResult>("bucket").get("bucket");
   const distribution = ref<DistributionBuilderResult>("cdn").get("distribution");
@@ -191,8 +200,10 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
             {
               eventType: FunctionEventType.VIEWER_REQUEST,
               functionName: `${siteStack.stackName}-redirect`,
-              code: FunctionCode.fromInline(buildRedirectFunctionCode(domain, redirects)),
-              comment: "www→apex 301 + old-URL redirect map",
+              runtime: FunctionRuntime.JS_2_0,
+              keyValueStore: redirectKvs,
+              code: FunctionCode.fromInline(buildRedirectFunctionCode(domain)),
+              comment: "www→apex 301 + KVS-backed old-URL redirect map",
             },
           ],
         })
