@@ -4,4 +4,9 @@ package-lock.json
 **/cdk.out
 .claude
 .nx
+.vscode
 packages/site/content/posts
+# Pinned: any reformat churns the BucketDeployment asset hash and the site-stack snapshot.
+packages/cdk/test/fixtures/
+# Snapshot artifacts — must match test serializer output byte-for-byte.
+packages/cdk/test/__snapshots__/

@@ -1,0 +1,364 @@
+{
+  "Description": "DNS for ukehoot.net (Route 53 hosted zone + records).",
+  "Resources": {
+    "HostedZone": {
+      "Type": "AWS::Route53::HostedZone",
+      "Properties": {
+        "Name": "ukehoot.net."
+      }
+    },
+    "ukehootnetrecordsamailA9666064": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "mail.ukehoot.net.",
+        "ResourceRecords": [
+          "213.171.216.40"
+        ],
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "ukehootnetrecordsawebmail7308589B": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "webmail.ukehoot.net.",
+        "ResourceRecords": [
+          "213.171.216.231"
+        ],
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "ukehootnetrecordsasmtp0B70A8B9": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "smtp.ukehoot.net.",
+        "ResourceRecords": [
+          "213.171.216.50"
+        ],
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "ukehootnetrecordsaexchangeD7AB586E": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "exchange.ukehoot.net.",
+        "ResourceRecords": [
+          "213.171.192.50"
+        ],
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "ukehootnetrecordsamailserver2D1FDD59": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "mailserver.ukehoot.net.",
+        "ResourceRecords": [
+          "213.171.216.40"
+        ],
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "ukehootnetrecordsamcpC8E6F796": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "mcp.ukehoot.net.",
+        "ResourceRecords": [
+          "213.171.195.10"
+        ],
+        "TTL": "300",
+        "Type": "A"
+      }
+    },
+    "ukehootnetrecordsmxApexBBCF9A57": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "ukehoot.net.",
+        "ResourceRecords": [
+          "10 mailserver.livemail.co.uk."
+        ],
+        "TTL": "300",
+        "Type": "MX"
+      }
+    },
+    "ukehootnetrecordscnamelivemail1domainkeyB31B0B24": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "livemail1._domainkey.ukehoot.net.",
+        "ResourceRecords": [
+          "livemail1._domainkey.39769.dkim.livemail.co.uk."
+        ],
+        "TTL": "300",
+        "Type": "CNAME"
+      }
+    },
+    "ukehootnetrecordscnamelivemail2domainkey1E8D3A3B": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "livemail2._domainkey.ukehoot.net.",
+        "ResourceRecords": [
+          "livemail2._domainkey.39769.dkim.livemail.co.uk."
+        ],
+        "TTL": "300",
+        "Type": "CNAME"
+      }
+    },
+    "ukehootnetrecordscnamelivemail3domainkey05FEAFE1": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "livemail3._domainkey.ukehoot.net.",
+        "ResourceRecords": [
+          "livemail3._domainkey.39769.dkim.livemail.co.uk."
+        ],
+        "TTL": "300",
+        "Type": "CNAME"
+      }
+    },
+    "ukehootnetrecordscnamelivemail4domainkeyF8C125D1": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "livemail4._domainkey.ukehoot.net.",
+        "ResourceRecords": [
+          "livemail4._domainkey.39769.dkim.livemail.co.uk."
+        ],
+        "TTL": "300",
+        "Type": "CNAME"
+      }
+    },
+    "ukehootnetrecordstxtApex71848958": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "ukehoot.net.",
+        "ResourceRecords": [
+          "\"MS=ms66482160\"",
+          "\"v=spf1 mx a include:_spf.livemail.co.uk ~all\""
+        ],
+        "TTL": "300",
+        "Type": "TXT"
+      }
+    },
+    "ukehootnetrecordstxtdmarc23FA56DB": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "_dmarc.ukehoot.net.",
+        "ResourceRecords": [
+          "\"v=DMARC1; p=none;\""
+        ],
+        "TTL": "300",
+        "Type": "TXT"
+      }
+    },
+    "ukehootnetrecordstxtdzcnuget245BFE26": {
+      "Type": "AWS::Route53::RecordSet",
+      "Properties": {
+        "HostedZoneId": {
+          "Ref": "HostedZone"
+        },
+        "Name": "dzc.nuget.ukehoot.net.",
+        "ResourceRecords": [
+          "\"K2G6Wa8y\""
+        ],
+        "TTL": "300",
+        "Type": "TXT"
+      }
+    },
+    "ExportsWriteruseast10F67B507DDE2E818": {
+      "Type": "Custom::CrossRegionExportWriter",
+      "Properties": {
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportWriterCustomResourceProviderHandlerD8786E8A",
+            "Arn"
+          ]
+        },
+        "WriterProps": {
+          "region": "us-east-1",
+          "exports": {
+            "/cdk/exports/UkehootNetCertStack/UkehootNetDnsStackeuwest2RefHostedZone057EE61C": {
+              "Ref": "HostedZone"
+            }
+          }
+        }
+      },
+      "UpdateReplacePolicy": "Delete",
+      "DeletionPolicy": "Delete"
+    },
+    "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1": {
+      "Type": "AWS::IAM::Role",
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Version": "2012-10-17",
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com"
+              }
+            }
+          ]
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole"
+          }
+        ],
+        "Policies": [
+          {
+            "PolicyName": "Inline",
+            "PolicyDocument": {
+              "Version": "2012-10-17",
+              "Statement": [
+                {
+                  "Effect": "Allow",
+                  "Resource": [
+                    {
+                      "Fn::Join": [
+                        "",
+                        [
+                          "arn:",
+                          {
+                            "Ref": "AWS::Partition"
+                          },
+                          ":ssm:us-east-1:111111111111:parameter/cdk/exports/*"
+                        ]
+                      ]
+                    }
+                  ],
+                  "Action": [
+                    "ssm:DeleteParameters",
+                    "ssm:ListTagsForResource",
+                    "ssm:GetParameters",
+                    "ssm:PutParameter"
+                  ]
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "CustomCrossRegionExportWriterCustomResourceProviderHandlerD8786E8A": {
+      "Type": "AWS::Lambda::Function",
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-111111111111-eu-west-2",
+          "S3Key": "d2191f6f199b95d1c044799f514b1ceca87200b3014c43c34839aad03dc69b8c.zip"
+        },
+        "Timeout": 900,
+        "MemorySize": 128,
+        "Handler": "__entrypoint__.handler",
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1",
+            "Arn"
+          ]
+        },
+        "Runtime": "nodejs22.x"
+      },
+      "DependsOn": [
+        "CustomCrossRegionExportWriterCustomResourceProviderRoleC951B1E1"
+      ]
+    }
+  },
+  "Outputs": {
+    "NameServers": {
+      "Description": "Set these as the NS records at the domain registrar to delegate the zone.",
+      "Value": {
+        "Fn::Join": [
+          ",",
+          {
+            "Fn::GetAtt": [
+              "HostedZone",
+              "NameServers"
+            ]
+          }
+        ]
+      }
+    },
+    "ExportsOutputRefHostedZoneEE9C6912": {
+      "Value": {
+        "Ref": "HostedZone"
+      },
+      "Export": {
+        "Name": "UkehootNetDnsStack:ExportsOutputRefHostedZoneEE9C6912"
+      }
+    }
+  },
+  "Parameters": {
+    "BootstrapVersion": {
+      "Type": "AWS::SSM::Parameter::Value<String>",
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]"
+    }
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5"
+                  ],
+                  {
+                    "Ref": "BootstrapVersion"
+                  }
+                ]
+              }
+            ]
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI."
+        }
+      ]
+    }
+  }
+}

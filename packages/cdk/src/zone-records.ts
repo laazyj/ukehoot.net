@@ -1,22 +1,18 @@
 import { A, CNAME, MX, type RecordSpec, TXT } from "@composurecdk/route53/zone";
 
-export const DOMAIN = "ukehoot.net";
-export const WWW = `www.${DOMAIN}`;
-
 /**
- * Canonical record list for the ukehoot.net zone. Exported so tests can
- * exercise the zone composition without instantiating the full multi-stack
- * system (which requires a site-content directory for the bucket deployment).
+ * Canonical record list for the zone. The records are subdomain prefixes
+ * pointing at external services (mail provider, DKIM, verification tokens),
+ * so none of them reference the apex domain itself — apex/`www` ALIAS
+ * records to the CloudFront distribution are added in `system.ts`.
  *
- * TODO: confirm every record below with the registrar before deploying. The
- * current values are copied verbatim from jasonduffett.net as a placeholder
- * shape — IPs, MX/SPF/DKIM, and verification tokens will all need correcting
- * for ukehoot.net's actual hosting and mail setup.
+ * Exported so tests can exercise zone composition without instantiating the
+ * full multi-stack system (which requires a site-content directory for the
+ * bucket deployment).
  */
 export const ZONE_RECORDS: readonly RecordSpec[] = [
-  // Apex + service A records
-  A("@", "88.208.252.9"),
-  A("www", "88.208.252.9"),
+  // Service A records. Apex + www come from the site stack as ALIAS
+  // records pointing at the CloudFront distribution.
   A("mail", "213.171.216.40"),
   A("webmail", "213.171.216.231"),
   A("smtp", "213.171.216.50"),
