@@ -144,3 +144,6 @@ vite.config.ts.timestamp-*
 
 # AWS CDK
 cdk.out/
+
+# Playwright
+.playwright-mcp

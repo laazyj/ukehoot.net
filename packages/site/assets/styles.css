@@ -430,6 +430,99 @@ footer.site a:hover {
   text-decoration: none;
 }
 
+/* ------------------------------ Consent banner ------------------- */
+.consent {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  background: var(--paper);
+  color: var(--ink);
+  border-top: 4px solid var(--honey);
+  box-shadow: 0 -8px 24px -10px rgba(0, 0, 0, 0.5);
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem 1.5rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.consent[hidden] {
+  display: none;
+}
+
+@media (min-width: 720px) {
+  .consent {
+    padding: 1.1rem 2.5rem;
+  }
+}
+
+.consent-msg {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 500;
+  font-size: clamp(1.05rem, 2.4vw, 1.2rem);
+  line-height: 1.35;
+  color: var(--ink);
+  margin: 0;
+  max-width: 42rem;
+  flex: 1 1 20rem;
+}
+
+.consent-msg .consent-cta {
+  white-space: nowrap;
+  color: var(--muted);
+}
+
+.consent-actions {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+}
+
+.consent-btn {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  padding: 0.55rem 1.1rem;
+  border-radius: 2px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.consent-btn:focus-visible {
+  outline: 2px solid var(--honey);
+  outline-offset: 2px;
+}
+
+.consent-btn--ghost {
+  background: transparent;
+  color: var(--ink);
+  border: 1px solid var(--ink);
+}
+
+.consent-btn--ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.consent-btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+  border: 1px solid var(--ink);
+}
+
+.consent-btn--primary:hover {
+  background: var(--honey);
+  color: var(--ink);
+  border-color: var(--honey);
+}
+
 /* ------------------------------ Small screens -------------------- */
 @media (max-width: 32rem) {
   ul.posts {
