@@ -171,7 +171,7 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
       budget: createBudgetBuilder()
         .budgetName(`${domain}-monthly`)
         .limit({ amount: 4, unit: "USD" })
-        .withRecommendedThresholds(ref<TopicBuilderResult>("usEast1Alerts").get("topic"))
+        .withRecommendedThresholds({ sns: ref<TopicBuilderResult>("usEast1Alerts").get("topic") })
         .recommendedAlarms(false),
 
       // Site. Builder defaults give us versioning, RETAIN, server access logging,
