@@ -32,4 +32,7 @@ export const ZONE_RECORDS: readonly RecordSpec[] = [
   // Mail policy (TXT)
   TXT("@", "v=spf1 mx a include:_spf.livemail.co.uk ~all"),
   TXT("_dmarc", "v=DMARC1; p=none;"),
+
+  // Google Search Console
+  TXT("@", "google-site-verification=hcs_zggEiOWUdPztat0_nNBcPq3NA0x3l9tQ2EQjz8I"),
 ];

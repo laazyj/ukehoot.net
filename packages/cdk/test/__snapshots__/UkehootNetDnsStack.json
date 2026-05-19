@@ -169,7 +169,8 @@
         },
         "Name": "ukehoot.net.",
         "ResourceRecords": [
-          "\"v=spf1 mx a include:_spf.livemail.co.uk ~all\""
+          "\"v=spf1 mx a include:_spf.livemail.co.uk ~all\"",
+          "\"google-site-verification=hcs_zggEiOWUdPztat0_nNBcPq3NA0x3l9tQ2EQjz8I\""
         ],
         "TTL": "300",
         "Type": "TXT"
