@@ -34,7 +34,7 @@
     "@11ty/eleventy": "^3.0.0",
     "@11ty/eleventy-plugin-rss": "^3.0.0",
     "@11ty/eleventy-plugin-syntaxhighlight": "^5.0.0",
-    "fast-xml-parser": "^5.0.0",
+    "fast-xml-parser": "^5.8.0",
     "turndown": "^7.2.0"
   }
 }
