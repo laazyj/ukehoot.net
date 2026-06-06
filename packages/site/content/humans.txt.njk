@@ -1,0 +1,15 @@
+---
+permalink: /humans.txt
+eleventyExcludeFromCollections: true
+---
+/* TEAM */
+{% for p in site.team %}
+  {{ p.name }} — {{ p.roles | join(", ") | title }}
+  Site: {{ p.url }}
+{% for s in p.sameAs %}  {{ s }}
+{% endfor %}{% endfor %}
+/* SITE */
+
+  Last update: {{ currentYear }}
+  Built with: Eleventy
+  Location: Edinburgh, Scotland

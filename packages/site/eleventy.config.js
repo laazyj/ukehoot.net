@@ -70,6 +70,24 @@ export default function (eleventyConfig) {
   // (optionally empty) social links in site.json.
   eleventyConfig.addFilter("compact", (arr) => (Array.isArray(arr) ? arr.filter(Boolean) : arr));
 
+  // Site-credit helpers. site.json `team` is a list of people, each with a
+  // `roles` list ("co-founder" | "builder" | "maintainer"). These drive the
+  // machine-readable attribution (JSON-LD Person nodes, rel=author, humans.txt)
+  // and are written to support more than one person without template changes.
+  eleventyConfig.addFilter("withRole", (people, role) =>
+    Array.isArray(people) ? people.filter((p) => (p.roles || []).includes(role)) : [],
+  );
+  // Map people to schema.org @id references for a graph property.
+  eleventyConfig.addFilter("idRefs", (people) =>
+    (Array.isArray(people) ? people : []).map((p) => ({ "@id": p.url })),
+  );
+  // A schema.org Person node for the @graph.
+  eleventyConfig.addFilter("personNode", (p) => {
+    const node = { "@type": "Person", "@id": p.url, name: p.name, url: p.url };
+    if (p.sameAs && p.sameAs.length) node.sameAs = p.sameAs;
+    return node;
+  });
+
   eleventyConfig.addFilter("readingTime", (input) => {
     if (!input) return 0;
     const text = String(input).replace(/<[^>]+>/g, " ");
