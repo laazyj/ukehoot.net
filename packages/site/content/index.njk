@@ -116,7 +116,7 @@ eleventyExcludeFromCollections: true
   </header>
   <div class="band-body">
     <div class="teaser-grid">
-      {% for photo in collections.galleryPhotos | limit(8) %}{{ photoCell(photo, "teaser-cell", true) }}{% endfor %}
+      {% for photo in collections.galleryPhotos | limit(8) %}{{ photoCell(photo.postUrl | rel, photo.src | rel, photo.title, "teaser-cell", true) }}{% endfor %}
     </div>
     <p class="more-link"><a href="{{ '/gallery/' | rel }}">See the whole gallery →</a></p>
   </div>
