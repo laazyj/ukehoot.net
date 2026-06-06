@@ -94,17 +94,17 @@
   </div>
   {% include "partials/consent-banner.njk" %}
   <script>
-    // Reveal obfuscated email links: the address ships base64-encoded in a
-    // data attribute (never scrapeable plaintext) and becomes a real mailto
-    // only after this runs.
+    // Reveal obfuscated email links. The address is emitted here as a base64
+    // string literal (never as plaintext in the markup) and decoded at run
+    // time, so scrapers reading the HTML never see it. It is sourced from this
+    // server-rendered literal rather than a DOM attribute, so the value never
+    // originates from the DOM and never reaches href as tainted input.
     (function () {
-      var links = document.querySelectorAll("a.email-link[data-email]");
+      var addr = atob("{{ site.author.email | base64 }}");
+      var links = document.querySelectorAll("a.email-link");
       for (var i = 0; i < links.length; i++) {
-        try {
-          var addr = atob(links[i].getAttribute("data-email"));
-          links[i].setAttribute("href", "mailto:" + addr);
-          links[i].textContent = addr;
-        } catch (e) {}
+        links[i].setAttribute("href", "mailto:" + addr);
+        links[i].textContent = addr;
       }
     })();
   </script>

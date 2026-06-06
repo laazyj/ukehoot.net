@@ -1,5 +1,5 @@
 {#- Obfuscated contact-email link. The address is never emitted as scrapeable
-    plaintext: it ships base64-encoded in data-email and is assembled into a
-    real mailto by the decoder in base.njk. With JS off, the visible
-    "[at]/[dot]" text still lets a human read and type it. -#}
-<a class="email-link" data-email="{{ site.author.email | base64 }}">{{ site.author.email | replace("@", " [at] ") | replace(".", " [dot] ") }}</a>
+    plaintext; the decoder in base.njk fills in the real mailto and text at run
+    time. With JS off, the visible "[at]/[dot]" text still lets a human read and
+    type it. -#}
+<a class="email-link">{{ site.author.email | replace("@", " [at] ") | replace(".", " [dot] ") }}</a>
