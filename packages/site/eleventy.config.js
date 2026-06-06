@@ -4,6 +4,7 @@ import path from "node:path";
 import process from "node:process";
 import { fileURLToPath } from "node:url";
 import rssPlugin from "@11ty/eleventy-plugin-rss";
+// @ts-expect-error -- @11ty/eleventy-plugin-syntaxhighlight ships no type declarations (TS 7016)
 import syntaxHighlight from "@11ty/eleventy-plugin-syntaxhighlight";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
