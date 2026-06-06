@@ -415,6 +415,25 @@ header.site nav a.active {
   max-width: var(--measure-narrow);
   margin: 0.75rem 0 0;
 }
+/* The 404 reads as a centred standalone message, like the hero, rather
+   than the left-aligned gallery header it borrows .page-head from. */
+.page-head--error {
+  text-align: center;
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.page-head--error .page-intro {
+  margin-left: auto;
+  margin-right: auto;
+}
+/* Decorative mark on the 404 page. Inline SVG, so it inherits the themed
+   ink via currentColor (no invert filter needed). */
+.error-mark {
+  display: block;
+  width: 116px;
+  height: auto;
+  margin: 0 auto 1.75rem;
+}
 .gallery-grid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
