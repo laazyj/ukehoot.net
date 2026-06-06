@@ -23,7 +23,7 @@ import { setTimeout as sleep } from "node:timers/promises";
 
 import { CANONICAL_HOST, fetchWithTimeout, pool, resolveBaseUrl } from "./_lib.mjs";
 
-const SITE_TITLE = "Uke hOOt";
+const SITE_TITLE = "UkeHoot";
 const NOT_FOUND_MARKER = "Not found";
 
 const { baseUrl: BASE_URL, apex, wwwHost, isCanonicalApex: checkWww } = resolveBaseUrl();
