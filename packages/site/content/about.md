@@ -22,7 +22,7 @@ post URLs redirect to their archived counterparts on this site.
 
 ## Get in touch
 
-Email [{{ site.author.email }}](mailto:{{ site.author.email }}) for bookings, questions,
+Email {% include "partials/email-link.njk" %} for bookings, questions,
 or just to say hello.
 
 </article>
