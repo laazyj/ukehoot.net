@@ -13,7 +13,8 @@
       } catch (e) {}
     })();
   </script>
-  <title>{% if title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
+  {% set metaTitle = title or summary %}
+  <title>{% if metaTitle %}{{ metaTitle }} — {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
   <meta name="description" content="{{ summary or site.description }}" />
   <meta name="author" content="{{ site.author.name }}" />
   {% for p in site.team %}{% if "builder" in p.roles or "maintainer" in p.roles %}<link rel="author" href="{{ p.url }}" />
@@ -28,7 +29,7 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="{{ '/assets/styles.css' | rel }}" />
   <link rel="alternate" type="application/rss+xml" href="{{ '/feed.xml' | rel }}" title="{{ site.title }}" />
-  <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}" />
+  <meta property="og:title" content="{% if metaTitle %}{{ metaTitle }}{% else %}{{ site.title }}{% endif %}" />
   <meta property="og:description" content="{{ summary or site.description }}" />
   <meta property="og:type" content="{% if layout == 'layouts/post.njk' %}article{% else %}website{% endif %}" />
   <meta property="og:url" content="{{ site.url }}{{ page.url }}" />
@@ -43,7 +44,7 @@
   {% else %}
   <meta name="twitter:card" content="summary" />
   {% endif %}
-  <meta name="twitter:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}" />
+  <meta name="twitter:title" content="{% if metaTitle %}{{ metaTitle }}{% else %}{{ site.title }}{% endif %}" />
   <meta name="twitter:description" content="{{ summary or site.description }}" />
   {% if layout == 'layouts/post.njk' %}
   <meta property="article:published_time" content="{{ page.date | htmlDateString }}" />
