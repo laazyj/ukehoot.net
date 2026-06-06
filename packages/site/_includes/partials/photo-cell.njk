@@ -1,7 +1,9 @@
 {# A single gallery photo: a duotone thumbnail linking to its source post.
+   `href`/`src` must be pre-resolved with the `rel` filter by the caller — the
+   filter needs the page context, which is not available inside a macro.
    `decorative` omits the title/alt text (used for the home-page teaser). #}
-{% macro photoCell(photo, cellClass, decorative) %}
-<a class="{{ cellClass }}" href="{{ photo.postUrl | rel }}"{% if photo.title and not decorative %} title="{{ photo.title }}"{% endif %}>
-  <img loading="lazy" src="{{ photo.src | rel }}" alt="{% if not decorative %}{{ photo.title }}{% endif %}" />
+{% macro photoCell(href, src, title, cellClass, decorative) %}
+<a class="{{ cellClass }}" href="{{ href }}"{% if title and not decorative %} title="{{ title }}"{% endif %}>
+  <img loading="lazy" src="{{ src }}" alt="{% if not decorative %}{{ title }}{% endif %}" />
 </a>
 {% endmacro %}

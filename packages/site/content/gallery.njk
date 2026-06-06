@@ -17,7 +17,7 @@ eleventyExcludeFromCollections: true
 
 {% if collections.galleryPhotos.length > 0 %}
 <div class="gallery-grid">
-  {% for photo in collections.galleryPhotos %}{{ photoCell(photo, "gallery-cell", false) }}{% endfor %}
+  {% for photo in collections.galleryPhotos %}{{ photoCell(photo.postUrl | rel, photo.src | rel, photo.title, "gallery-cell", false) }}{% endfor %}
 </div>
 {% else %}
 <p class="intro"><em>No photos yet.</em></p>
