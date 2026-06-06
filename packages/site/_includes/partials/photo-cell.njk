@@ -1,0 +1,7 @@
+{# A single gallery photo: a duotone thumbnail linking to its source post.
+   `decorative` omits the title/alt text (used for the home-page teaser). #}
+{% macro photoCell(photo, cellClass, decorative) %}
+<a class="{{ cellClass }}" href="{{ photo.postUrl | rel }}"{% if photo.title and not decorative %} title="{{ photo.title }}"{% endif %}>
+  <img loading="lazy" src="{{ photo.src | rel }}" alt="{% if not decorative %}{{ photo.title }}{% endif %}" />
+</a>
+{% endmacro %}

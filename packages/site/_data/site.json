@@ -1,13 +1,27 @@
 {
-  "title": "Uke hOOt",
+  "title": "UkeHoot",
   "tagline": "Edinburgh's weekly ukulele jam",
-  "description": "Photos and notes from Uke hOOt, Edinburgh's weekly ukulele jam.",
+  "description": "UkeHoot is Edinburgh's weekly ukulele jam. Every Wednesday — songbooks open, all welcome, no audition. Bring a uke or borrow one.",
   "url": "https://ukehoot.net",
   "author": {
-    "id": "https://ukehoot.net/about/#org",
-    "name": "Uke hOOt",
-    "email": "uke.hoot@gmail.com"
+    "id": "https://ukehoot.net/#org",
+    "name": "UkeHoot",
+    "email": "info@ukehoot.net"
   },
   "language": "en-GB",
-  "defaultOgImage": null
+  "defaultOgImage": "/og-image.png",
+  "meet": {
+    "day": "Wednesdays",
+    "time": "7:30pm",
+    "venue": "The Blue Blazer",
+    "address": "2 Spittal Street, Edinburgh EH3 9DX",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=The+Blue+Blazer+Spittal+Street+Edinburgh"
+  },
+  "social": {
+    "whatsapp": "",
+    "facebook": "https://www.facebook.com/UkeHoot",
+    "instagram": "",
+    "youtube": ""
+  },
+  "songbookUrl": ""
 }

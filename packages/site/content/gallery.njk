@@ -1,0 +1,24 @@
+---
+layout: layouts/base.njk
+title: "Photos"
+permalink: /gallery/
+eleventyExcludeFromCollections: true
+---
+{% from "partials/photo-cell.njk" import photoCell %}
+
+<section class="page-head">
+  <p class="band-label">From the sessions</p>
+  <h1 class="band-song">&ldquo;Photograph&rdquo;</h1>
+  <p class="page-intro">
+    Years of UkeHoot nights, in glorious black and white. Tap any photo to read the
+    post it came from.
+  </p>
+</section>
+
+{% if collections.galleryPhotos.length > 0 %}
+<div class="gallery-grid">
+  {% for photo in collections.galleryPhotos %}{{ photoCell(photo, "gallery-cell", false) }}{% endfor %}
+</div>
+{% else %}
+<p class="intro"><em>No photos yet.</em></p>
+{% endif %}
