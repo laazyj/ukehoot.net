@@ -16,7 +16,8 @@
   <title>{% if title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
   <meta name="description" content="{{ summary or site.description }}" />
   <meta name="author" content="{{ site.author.name }}" />
-  <meta name="build-sha" content="{{ build.sha }}" />
+  {% for p in site.team %}{% if "builder" in p.roles or "maintainer" in p.roles %}<link rel="author" href="{{ p.url }}" />
+  {% endif %}{% endfor %}<meta name="build-sha" content="{{ build.sha }}" />
   <link rel="canonical" href="{{ site.url }}{{ page.url }}" />
   <link rel="icon" href="{{ '/favicon.ico' | rel }}" sizes="32x32" />
   <link rel="icon" href="{{ '/favicon.svg' | rel }}" type="image/svg+xml" />

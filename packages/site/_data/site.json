@@ -23,5 +23,13 @@
     "instagram": "",
     "youtube": ""
   },
-  "songbookUrl": ""
+  "songbookUrl": "",
+  "team": [
+    {
+      "name": "Jason Duffett",
+      "url": "https://jasonduffett.net/",
+      "roles": ["co-founder", "builder", "maintainer"],
+      "sameAs": ["https://github.com/laazyj", "https://www.linkedin.com/in/jasonduffett/"]
+    }
+  ]
 }

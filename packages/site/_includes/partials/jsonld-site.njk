@@ -1,3 +1,6 @@
+{% set founders = site.team | withRole("co-founder") %}
+{% set builders = site.team | withRole("builder") %}
+{% set maintainers = site.team | withRole("maintainer") %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -9,7 +12,9 @@
       "name": {{ site.title | dump | safe }},
       "description": {{ site.description | dump | safe }},
       "inLanguage": "{{ site.language }}",
-      "publisher": { "@id": "{{ site.author.id }}" }
+      "publisher": { "@id": "{{ site.author.id }}" }{% if builders.length %},
+      "creator": {{ builders | idRefs | dump | safe }}{% endif %}{% if maintainers.length %},
+      "maintainer": {{ maintainers | idRefs | dump | safe }}{% endif %}
     },
     {
       "@type": ["Organization", "MusicGroup"],
@@ -18,14 +23,16 @@
       "url": "{{ site.url }}/",
       "description": {{ site.description | dump | safe }},
       "areaServed": "Edinburgh, Scotland"{% if site.author.email %},
-      "email": {{ site.author.email | dump | safe }}{% endif %}{% if site.meet.venue %},
+      "email": {{ site.author.email | dump | safe }}{% endif %}{% if founders.length %},
+      "founder": {{ founders | idRefs | dump | safe }}{% endif %}{% if site.meet.venue %},
       "location": {
         "@type": "Place",
         "name": {{ site.meet.venue | dump | safe }}{% if site.meet.address %},
         "address": {{ site.meet.address | dump | safe }}{% endif %}
       }{% endif %},
       "sameAs": {{ [site.social.facebook, site.social.instagram, site.social.youtube] | compact | dump | safe }}
-    }
+    }{% for p in site.team %},
+    {{ p | personNode | dump | safe }}{% endfor %}
   ]
 }
 </script>
