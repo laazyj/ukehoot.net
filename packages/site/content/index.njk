@@ -86,7 +86,7 @@ eleventyExcludeFromCollections: true
       </li>
       <li>
         New and want a flick through first?
-        {% if site.songbookUrl %}<a href="{{ site.songbookUrl }}" rel="external">Download the songbook →</a>{% else %}<span class="soon">Songbook download — coming soon.</span>{% endif %}
+        {% if site.songbookUrl %}<a href="{{ site.songbookUrl }}" rel="external">Download the songbook →</a>{% elif s.whatsapp %}Our songbook lives in the WhatsApp community — <a href="{{ s.whatsapp }}" rel="external">join and it&rsquo;s yours →</a>{% else %}<span class="soon">Songbook — coming soon.</span>{% endif %}
       </li>
     </ul>
   </div>
