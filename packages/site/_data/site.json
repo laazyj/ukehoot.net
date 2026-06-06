@@ -13,9 +13,17 @@
   "meet": {
     "day": "Wednesdays",
     "time": "7:30pm",
-    "venue": "The Blue Blazer",
-    "address": "2 Spittal Street, Edinburgh EH3 9DX",
-    "mapUrl": "https://www.google.com/maps/search/?api=1&query=The+Blue+Blazer+Spittal+Street+Edinburgh"
+    "venue": "The Strathmore Bar",
+    "address": "17 Iona Street, Edinburgh EH6 8SG",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=The+Strathmore+Bar+17+Iona+Street+Edinburgh+EH6+8SG"
+  },
+  "gig": {
+    "schedule": "Second Saturday of the month",
+    "time": "8:30pm",
+    "venue": "Captain's Bar",
+    "address": "4 South College Street, Edinburgh EH8 9AA",
+    "url": "https://www.captainsedinburgh.com/",
+    "mapUrl": "https://www.google.com/maps/search/?api=1&query=Captains+Bar+4+South+College+Street+Edinburgh+EH8+9AA"
   },
   "social": {
     "whatsapp": "",
