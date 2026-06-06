@@ -85,9 +85,8 @@
         {% if site.social.facebook %}<a href="{{ site.social.facebook }}" rel="external">Facebook</a> · {% endif %}
         {% if site.social.instagram %}<a href="{{ site.social.instagram }}" rel="external">Instagram</a> · {% endif %}
         {% if site.social.youtube %}<a href="{{ site.social.youtube }}" rel="external">YouTube</a> · {% endif %}
-        {% include "partials/email-link.njk" %}
-        · <a href="{{ '/feed.xml' | rel }}">RSS</a>
-        {% if analytics.measurementId %}· <a href="#" data-consent-reopen>cookies</a>{% endif %}
+        <a href="{{ '/feed.xml' | rel }}">RSS</a>
+        · <a href="{{ '/privacy/' | rel }}">Privacy</a>
       </span>
     </footer>
 
