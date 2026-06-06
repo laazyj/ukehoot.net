@@ -94,6 +94,21 @@ export default function (eleventyConfig) {
   // address and the decoder in base.njk turns it back into a mailto client-side.
   eleventyConfig.addFilter("base64", (s) => Buffer.from(String(s), "utf8").toString("base64"));
 
+  // Parse a human meeting time ("7:30pm", "8pm") into 24-hour "HH:MM" for
+  // schema.org Event times. Returns the input unchanged if it can't parse.
+  eleventyConfig.addFilter("time24", (t) => {
+    const m = String(t)
+      .trim()
+      .match(/^(\d{1,2})(?::(\d{2}))?\s*(am|pm)?$/i);
+    if (!m) return t;
+    let hour = parseInt(m[1], 10);
+    const min = m[2] || "00";
+    const ap = (m[3] || "").toLowerCase();
+    if (ap === "pm" && hour < 12) hour += 12;
+    if (ap === "am" && hour === 12) hour = 0;
+    return `${String(hour).padStart(2, "0")}:${min}`;
+  });
+
   eleventyConfig.addFilter("readingTime", (input) => {
     if (!input) return 0;
     const text = String(input).replace(/<[^>]+>/g, " ");

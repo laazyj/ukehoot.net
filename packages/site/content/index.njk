@@ -11,8 +11,8 @@ eleventyExcludeFromCollections: true
   <img class="hero-logo" src="{{ '/logo.svg' | rel }}" alt="UkeHoot" />
   <p class="hero-tagline">{{ site.tagline }}</p>
   <p class="hero-sub">
-    A roomful of friendly people, songbooks open, no audition required.
-    Bring a uke — or borrow one — and have a hoot.
+    A roomful of strummers, songbooks open, nobody in charge.
+    Bring a uke or borrow one, grab a seat, have a hoot.
   </p>
 
   <p class="marquee" aria-label="When and where we meet">
@@ -32,14 +32,15 @@ eleventyExcludeFromCollections: true
   </header>
   <div class="band-body">
     <p>
-      <strong>UkeHoot</strong> is a weekly ukulele singalong in Edinburgh. We've been
-      meeting to play through songbooks together since 2012 — pop, folk, a bit of
-      rock&rsquo;n&rsquo;roll and the odd questionable novelty number.
+      <strong>UkeHoot</strong> has been Edinburgh's weekly ukulele singalong since 2012.
+      Pop, folk, a bit of rock&rsquo;n&rsquo;roll, and the odd novelty number nobody will
+      own up to picking.
     </p>
     <p>
-      Complete beginner or you've worn the frets off three ukes, it makes no odds:
-      there's a seat and a songsheet waiting. No audition, no pressure — just strumming,
-      singing and good company.
+      There&rsquo;s no leader, no committee, no setlist handed down from on high. People
+      turn up, someone kicks off a song, everyone piles in. That&rsquo;s the entire
+      agenda, and somehow it has outlasted a fistful of venues, a pandemic, and more
+      Edinburgh festivals than we can count.
     </p>
   </div>
 </section>
@@ -54,18 +55,39 @@ eleventyExcludeFromCollections: true
       We play every <strong>{{ m.day | lower }}</strong> from <strong>{{ m.time }}</strong>.
     </p>
     <p class="venue-line">
-      {{ m.venue }}{% if m.address %} — {{ m.address }}{% endif %}.
+      {{ m.venue }}{% if m.address %}, {{ m.address }}{% endif %}.
       {% if m.mapUrl %}<a href="{{ m.mapUrl }}" rel="external">Find us on the map →</a>{% endif %}
     </p>
     <p class="note">
-      Festival season can move us around. Check
-      {% if s.whatsapp %}<a href="{{ s.whatsapp }}" rel="external">WhatsApp</a>{% else %}WhatsApp{% endif %}
-      or
+      Festival season is Edinburgh's silly season and it can shuffle us about, and
+      we're starting to pop up at a few spots beyond the city too. Check
       {% if s.facebook %}<a href="{{ s.facebook }}" rel="external">Facebook</a>{% else %}Facebook{% endif %}
-      for the week's venue before you head out.
+      for where to be that week before you set off.
     </p>
   </div>
 </section>
+
+{% if site.gig %}
+{% set g = site.gig %}
+<section class="band" id="gig">
+  <header class="band-head">
+    <p class="band-label">Catch us live</p>
+    <h2 class="band-song">&ldquo;Saturday Night&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <p class="lead">
+      Once a month we plug in and play out.
+    </p>
+    <p class="venue-line">
+      {{ g.schedule }}, we take over
+      {% if g.url %}<a href="{{ g.url }}" rel="external">{{ g.venue }}</a>{% else %}{{ g.venue }}{% endif %}
+      from <strong>{{ g.time }}</strong> til the strings give out.
+      {% if g.mapUrl %}<a href="{{ g.mapUrl }}" rel="external">Find the bar →</a>{% endif %}
+    </p>
+    <p>Come watch, sing along, heckle gently.</p>
+  </div>
+</section>
+{% endif %}
 
 <section class="band" id="join">
   <header class="band-head">
@@ -73,20 +95,20 @@ eleventyExcludeFromCollections: true
     <h2 class="band-song">&ldquo;With a Little Help From My Friends&rdquo;</h2>
   </header>
   <div class="band-body">
-    <p>There's nothing to sign and no fee to pay — just turn up. To get in the loop:</p>
+    <p>Nothing to sign, no fee, no audition. Just turn up. To get in the loop:</p>
     <ul class="join-list">
       <li>
-        <strong>WhatsApp</strong> is where it all happens — who's coming, what we're
-        playing, gear chat and new-song suggestions.
+        <strong>WhatsApp</strong> is where it all happens: who's coming, what we're
+        playing, gear envy and the occasional terrible pun.
         {% if s.whatsapp %}<a href="{{ s.whatsapp }}" rel="external">Join the WhatsApp →</a>{% endif %}
       </li>
       <li>
-        Prefer the occasional headline?
-        {% if s.facebook %}<a href="{{ s.facebook }}" rel="external">Follow us on Facebook →</a>{% else %}Follow us on Facebook.{% endif %}
+        Brand new to the uke? Now and then a willing volunteer runs a beginners' session.
+        No schedule, no charge, just ask on WhatsApp.
       </li>
       <li>
         New and want a flick through first?
-        {% if site.songbookUrl %}<a href="{{ site.songbookUrl }}" rel="external">Download the songbook →</a>{% elif s.whatsapp %}Our songbook lives in the WhatsApp community — <a href="{{ s.whatsapp }}" rel="external">join and it&rsquo;s yours →</a>{% else %}<span class="soon">Songbook — coming soon.</span>{% endif %}
+        {% if site.songbookUrl %}<a href="{{ site.songbookUrl }}" rel="external">Download the songbook →</a>{% elif s.whatsapp %}Our songbook lives in the WhatsApp community. <a href="{{ s.whatsapp }}" rel="external">Join and it&rsquo;s yours →</a>{% else %}<span class="soon">Songbook — coming soon.</span>{% endif %}
       </li>
     </ul>
   </div>
@@ -99,12 +121,12 @@ eleventyExcludeFromCollections: true
   </header>
   <div class="band-body">
     <ul class="tick-list">
-      <li>A ukulele, if you have one — we can usually lend you a spare if you don't.</li>
-      <li>Nothing else required. Songbooks are shared on the night.</li>
-      <li>All levels welcome — we play at a friendly, follow-along pace.</li>
-      <li>Family-friendly, in a proper Edinburgh pub. Come for a tune, stay for a pint.</li>
+      <li>A ukulele, if you've got one. If not, we can usually lend you a spare.</li>
+      <li>That's it. Songbooks are shared on the night.</li>
+      <li>All levels welcome. We play at a friendly, follow-along pace and nobody's marking your chord shapes.</li>
+      <li>It all happens in a proper Edinburgh pub, so come for a tune and stay for a pint.</li>
     </ul>
-    <p class="answer">So — should you stay or should you go? <strong>Stay.</strong></p>
+    <p class="answer">So, should you stay or should you go? <strong>Stay.</strong></p>
   </div>
 </section>
 
@@ -129,16 +151,16 @@ eleventyExcludeFromCollections: true
     <h2 class="band-song">&ldquo;Hello, Goodbye&rdquo;</h2>
   </header>
   <div class="band-body">
-    <p>Timely stuff lives on social — that's where venue changes and one-off gigs get announced.</p>
+    <p>Venue changes, one-off gigs, festival chaos: it lands on Facebook first, so that's the one to follow. WhatsApp is for the regulars.</p>
     <p class="social-row">
-      {% if s.whatsapp %}<a class="btn btn--primary" href="{{ s.whatsapp }}" rel="external">WhatsApp</a>{% endif %}
-      {% if s.facebook %}<a class="btn btn--ghost" href="{{ s.facebook }}" rel="external">Facebook</a>{% endif %}
+      {% if s.facebook %}<a class="btn btn--primary" href="{{ s.facebook }}" rel="external">Facebook</a>{% endif %}
+      {% if s.whatsapp %}<a class="btn btn--ghost" href="{{ s.whatsapp }}" rel="external">WhatsApp</a>{% endif %}
       {% if s.instagram %}<a class="btn btn--ghost" href="{{ s.instagram }}" rel="external">Instagram</a>{% endif %}
       {% if s.youtube %}<a class="btn btn--ghost" href="{{ s.youtube }}" rel="external">YouTube</a>{% endif %}
     </p>
     <p class="contact-line">
-      Bookings, questions, or just saying hello —
-      {% include "partials/email-link.njk" %}.
+      Bookings, questions, or just saying hello?
+      {% include "partials/email-link.njk" %}
     </p>
   </div>
 </section>

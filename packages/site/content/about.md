@@ -9,11 +9,16 @@ eleventyExcludeFromCollections: true
 
 # About
 
-**UkeHoot** is Edinburgh's weekly ukulele jam. We meet every Wednesday evening to play
-through songbooks together — pop, folk, rock'n'roll, whatever's in the book. Beginners
-welcome, advanced players welcome, no audition. Bring a uke or borrow one.
+**UkeHoot** is Edinburgh's weekly ukulele singalong, and we've been at it since 2012.
+There's no leader and no agenda. People show up, add a song or a strum, and the joy
+looks after itself.
 
-Everything you need is on the [home page](/) — where and when we meet, how to join, and
+We've weathered a fair few venue moves, a pandemic, every Edinburgh festival since 2012,
+and a cheerful churn of folk coming, going, returning and visiting. The loose structure
+is the whole point, and it's proven stubbornly hard to kill. We're Edinburgh born and
+Edinburgh proud, and lately we're turning up in a few spots beyond the city too.
+
+Everything you need is on the [home page](/): where and when we meet, how to join, and
 how to keep up with us between sessions.
 
 This site also keeps the **[archive](/archive/)** of the old blog: photos and notes from
