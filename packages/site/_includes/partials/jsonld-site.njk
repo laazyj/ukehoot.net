@@ -31,7 +31,57 @@
       }{% endif %},
       "sameAs": {{ [site.social.facebook, site.social.instagram, site.social.youtube] | compact | dump | safe }}
     }{% for p in site.team %},
-    {{ p | personNode | dump | safe }}{% endfor %}
+    {{ p | personNode | dump | safe }}{% endfor %}{% if site.meet.venue %},
+    {
+      "@type": "Event",
+      "@id": "{{ site.url }}/#jam",
+      "name": "UkeHoot weekly ukulele jam",
+      "description": "Edinburgh's weekly ukulele singalong. All levels welcome, no audition, bring a uke or borrow one.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "isAccessibleForFree": true,
+      "inLanguage": "{{ site.language }}",
+      "organizer": { "@id": "{{ site.author.id }}" },
+      "performer": { "@id": "{{ site.author.id }}" },
+      "location": {
+        "@type": "Place",
+        "name": {{ site.meet.venue | dump | safe }}{% if site.meet.address %},
+        "address": {{ site.meet.address | dump | safe }}{% endif %}
+      },
+      "eventSchedule": {
+        "@type": "Schedule",
+        "byDay": "https://schema.org/Wednesday",
+        "repeatFrequency": "P1W",
+        "startTime": "{{ site.meet.time | time24 }}",
+        "scheduleTimezone": "Europe/London"
+      }
+    }{% endif %}{% if site.gig %},
+    {
+      "@type": "Event",
+      "@id": "{{ site.url }}/#gig",
+      "name": {{ ("UkeHoot live at " + site.gig.venue) | dump | safe }},
+      "description": "UkeHoot's monthly public gig. Come watch, sing along, heckle gently.",
+      "eventStatus": "https://schema.org/EventScheduled",
+      "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
+      "isAccessibleForFree": true,
+      "inLanguage": "{{ site.language }}",
+      "organizer": { "@id": "{{ site.author.id }}" },
+      "performer": { "@id": "{{ site.author.id }}" }{% if site.gig.venue %},
+      "location": {
+        "@type": "Place",
+        "name": {{ site.gig.venue | dump | safe }}{% if site.gig.address %},
+        "address": {{ site.gig.address | dump | safe }}{% endif %}{% if site.gig.url %},
+        "url": {{ site.gig.url | dump | safe }}{% endif %}
+      }{% endif %},
+      "eventSchedule": {
+        "@type": "Schedule",
+        "byDay": "https://schema.org/Saturday",
+        "byMonthWeek": 2,
+        "repeatFrequency": "P1M",
+        "startTime": "{{ site.gig.time | time24 }}",
+        "scheduleTimezone": "Europe/London"
+      }
+    }{% endif %}
   ]
 }
 </script>
