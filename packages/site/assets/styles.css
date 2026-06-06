@@ -1,21 +1,50 @@
 /* ------------------------------------------------------------------
-   Uke hOOt — "Jam Sessions" design system
-   Palette:  paper #fbf6ec  •  ink #2a2422  •  rule #e6dccb
-             muted #6b6357  •  honey #c8842a  •  heather #7a6388
+   UkeHoot — "Marquee" design system
+   A monochrome, gig-poster look built around the black & white logo.
+   Palette:  paper #faf9f6 • ink #141414 • rule #e4e1da • muted #6c6862
    Type:    "Fraunces" for display, "Inter" for UI/body
    ------------------------------------------------------------------ */
 
-@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,700&family=Inter:wght@400;500;600&display=swap");
-
 :root {
-  --paper: #fbf6ec;
-  --ink: #2a2422;
-  --rule: #e6dccb;
-  --muted: #6b6357;
-  --honey: #c8842a;
-  --heather: #7a6388;
-  --measure: 52rem;
-  --measure-narrow: 38rem;
+  --measure: 54rem;
+  --measure-narrow: 40rem;
+}
+:root,
+:root[data-theme="light"] {
+  --paper: #faf9f6;
+  --paper-2: #ffffff;
+  --ink: #141414;
+  --ink-soft: #2c2a28;
+  --rule: #e4e1da;
+  --muted: #6c6862;
+  --logo-invert: 0;
+  color-scheme: light;
+}
+
+/* Dark theme tokens — a literal invert of the monochrome palette.
+   Applied automatically for system dark mode, and explicitly when the
+   user picks a theme (data-theme wins via higher specificity). */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --paper: #15130f;
+    --paper-2: #201d18;
+    --ink: #f3efe7;
+    --ink-soft: #d8d3c9;
+    --rule: #332f28;
+    --muted: #a39c90;
+    --logo-invert: 1;
+    color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --paper: #15130f;
+  --paper-2: #201d18;
+  --ink: #f3efe7;
+  --ink-soft: #d8d3c9;
+  --rule: #332f28;
+  --muted: #a39c90;
+  --logo-invert: 1;
+  color-scheme: dark;
 }
 
 * {
@@ -24,6 +53,7 @@
 
 html {
   font-size: 17px;
+  scroll-behavior: smooth;
 }
 
 body {
@@ -36,12 +66,14 @@ body {
 }
 
 a {
-  color: var(--honey);
-  text-decoration: none;
+  color: var(--ink);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+  text-decoration-color: var(--rule);
 }
 a:hover {
-  text-decoration: underline;
-  text-underline-offset: 3px;
+  text-decoration-color: var(--ink);
 }
 
 img,
@@ -55,72 +87,358 @@ video {
 .wrap {
   max-width: var(--measure);
   margin: 0 auto;
-  padding: 2.5rem 1.25rem 5rem;
+  padding: 2rem 1.25rem 4rem;
 }
 
 /* ------------------------------ Header --------------------------- */
 header.site {
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 1.5rem;
-  padding-bottom: 1.25rem;
-  margin-bottom: 2.5rem;
+  gap: 1rem 1.5rem;
+  padding-bottom: 1rem;
+  margin-bottom: 2rem;
   border-bottom: 1px solid var(--rule);
 }
 
 header.site a.brand {
-  color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
-  font-weight: 700;
-  font-size: 1.4rem;
-  letter-spacing: -0.01em;
-}
-header.site a.brand:hover {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
   text-decoration: none;
 }
-
-.mark {
-  color: var(--ink);
+.brand-logo {
+  height: 40px;
+  width: auto;
 }
-.mark-hoot {
-  color: var(--honey);
+/* Both logos flip to white in dark mode (--logo-invert: 1). */
+.brand-logo,
+.hero-logo {
+  filter: invert(var(--logo-invert));
 }
-
-header.site a.brand em {
-  font-family: "Inter", system-ui, sans-serif;
-  font-style: normal;
+.brand-tagline {
+  font-size: 0.92rem;
   color: var(--muted);
-  font-weight: 400;
-  font-size: 0.95rem;
-}
-
-header.site nav {
-  font-size: 0.85rem;
-  letter-spacing: 0.02em;
-}
-
-header.site nav a {
-  color: var(--muted);
-  margin-left: 1.25rem;
   font-weight: 500;
 }
 
+.site-actions {
+  display: flex;
+  align-items: center;
+  gap: 1.1rem;
+}
+
+header.site nav {
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  line-height: 1;
+  transition:
+    border-color 0.15s ease,
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.theme-toggle:hover {
+  border-color: var(--ink);
+}
+.theme-toggle:active {
+  transform: scale(0.92);
+}
+.theme-toggle:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.theme-toggle svg {
+  width: 1.05rem;
+  height: 1.05rem;
+  display: block;
+}
+/* Show sun in dark mode (to go light), moon in light mode (to go dark) */
+.theme-toggle .icon-sun {
+  display: none;
+}
+:root[data-theme="dark"] .theme-toggle .icon-sun {
+  display: block;
+}
+:root[data-theme="dark"] .theme-toggle .icon-moon {
+  display: none;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+    display: block;
+  }
+  :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+    display: none;
+  }
+}
+header.site nav a {
+  color: var(--muted);
+  margin-left: 1.25rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+header.site nav a:first-child {
+  margin-left: 0;
+}
 header.site nav a:hover,
 header.site nav a.active {
   color: var(--ink);
-  text-decoration: none;
 }
 
-/* ------------------------------ Intro ---------------------------- */
+/* ------------------------------ Hero ----------------------------- */
+.hero {
+  text-align: center;
+  padding: 1rem 0 2.75rem;
+  margin-bottom: 1rem;
+  border-bottom: 1px solid var(--rule);
+}
+.hero-logo {
+  width: min(360px, 74vw);
+  height: auto;
+  margin: 0.5rem auto 1.5rem;
+}
+.hero-tagline {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 4.5vw, 2.1rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  margin: 0 0 0.75rem;
+}
+.hero-sub {
+  color: var(--muted);
+  max-width: 34rem;
+  margin: 0 auto;
+  font-size: 1.05rem;
+}
+
+.marquee {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+  margin: 1.75rem auto 0;
+  padding: 0.6rem 1.25rem;
+  background: var(--ink);
+  color: var(--paper);
+  font-weight: 600;
+  font-size: 0.92rem;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  border-radius: 2px;
+}
+.marquee span {
+  color: #8c8881;
+}
+
+.cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.75rem;
+  margin: 1.75rem 0 0;
+}
+
+/* ------------------------------ Buttons -------------------------- */
+.btn {
+  display: inline-block;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  padding: 0.7rem 1.4rem;
+  border-radius: 2px;
+  border: 1px solid var(--ink);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
+}
+.btn:hover {
+  text-decoration: none;
+}
+.btn--primary {
+  background: var(--ink);
+  color: var(--paper);
+}
+.btn--primary:hover {
+  background: var(--ink-soft);
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--ink);
+}
+.btn--ghost:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ------------------------------ Bands (home sections) ------------ */
+.band {
+  padding: 2.5rem 0;
+  border-bottom: 1px solid var(--rule);
+  scroll-margin-top: 1.5rem;
+}
+.band:last-of-type {
+  border-bottom: 0;
+}
+.band-label {
+  margin: 0;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+.band-song {
+  font-family: "Fraunces", Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.55rem, 4vw, 2.3rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  margin: 0.25rem 0 0;
+}
+.band-body {
+  max-width: var(--measure-narrow);
+  margin-top: 1.25rem;
+  font-size: 1.05rem;
+}
+.band-body p {
+  margin: 0 0 1rem;
+}
+.band-body .lead {
+  font-size: 1.2rem;
+}
+.band-body strong {
+  font-weight: 600;
+}
+.note {
+  color: var(--muted);
+  font-size: 0.95rem;
+  border-left: 2px solid var(--ink);
+  padding-left: 0.9rem;
+}
+
+.join-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.join-list li {
+  padding: 0.85rem 0;
+  border-top: 1px solid var(--rule);
+}
+.join-list li:last-child {
+  border-bottom: 1px solid var(--rule);
+}
+.soon {
+  color: var(--muted);
+  font-style: italic;
+}
+
+.tick-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 0 1rem;
+}
+.tick-list li {
+  position: relative;
+  padding: 0.35rem 0 0.35rem 1.7rem;
+}
+.tick-list li::before {
+  content: "\266A"; /* ♪ */
+  position: absolute;
+  left: 0;
+  top: 0.35rem;
+  color: var(--ink);
+}
+.answer {
+  font-size: 1.15rem;
+}
+
+/* ------------------------------ Photo teaser --------------------- */
+.teaser-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.5rem;
+}
+.teaser-cell {
+  display: block;
+}
+.teaser-cell img,
+.gallery-cell img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  border-radius: 2px;
+  filter: grayscale(1) contrast(1.05);
+  transition:
+    filter 0.3s ease,
+    transform 0.2s ease;
+}
+.teaser-cell:hover img,
+.gallery-cell:hover img {
+  filter: grayscale(0) contrast(1);
+}
+.more-link {
+  margin: 1.25rem 0 0;
+}
+
+/* ------------------------------ Gallery page --------------------- */
+.page-head {
+  padding-bottom: 1.5rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 1px solid var(--rule);
+}
+.page-head .band-song {
+  font-size: clamp(1.8rem, 5vw, 2.6rem);
+}
+.page-intro {
+  color: var(--muted);
+  max-width: var(--measure-narrow);
+  margin: 0.75rem 0 0;
+}
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 0.5rem;
+}
+
+/* ------------------------------ Updates / contact ---------------- */
+.social-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem;
+  margin: 1rem 0;
+}
+.contact-line {
+  color: var(--muted);
+}
+
+/* ------------------------------ Intro (archive pages) ------------ */
 .intro {
   margin: 0 0 2.5rem;
   font-size: 1.05rem;
   color: var(--muted);
   max-width: 38rem;
 }
-
 .intro strong {
   color: var(--ink);
   font-weight: 600;
@@ -136,7 +454,6 @@ header.site nav a.active {
   border-bottom: 1px solid var(--rule);
   font-size: 0.85rem;
 }
-
 .year-nav-label {
   color: var(--muted);
   text-transform: uppercase;
@@ -145,12 +462,15 @@ header.site nav a.active {
   margin-right: 0.5rem;
   align-self: center;
 }
-
 .year-nav a {
   color: var(--ink);
   font-family: "Fraunces", Georgia, serif;
   font-weight: 500;
   font-size: 1rem;
+  text-decoration: none;
+}
+.year-nav a:hover {
+  text-decoration: underline;
 }
 .year-nav a small {
   color: var(--muted);
@@ -163,7 +483,6 @@ header.site nav a.active {
 .year-block {
   margin: 0 0 3.5rem;
 }
-
 h2.year {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 700;
@@ -174,10 +493,10 @@ h2.year {
 }
 h2.year a {
   color: inherit;
+  text-decoration: none;
 }
 h2.year a:hover {
-  color: var(--honey);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* ------------------------------ Post list (cards) ---------------- */
@@ -189,19 +508,18 @@ ul.posts {
   grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
   gap: 1.25rem;
 }
-
 ul.posts li {
   margin: 0;
 }
-
 a.card {
   display: flex;
   flex-direction: column;
-  background: #fff;
+  background: var(--paper-2);
   border: 1px solid var(--rule);
-  border-radius: 6px;
+  border-radius: 4px;
   overflow: hidden;
   height: 100%;
+  text-decoration: none;
   transition:
     transform 120ms ease,
     box-shadow 120ms ease,
@@ -210,11 +528,9 @@ a.card {
 }
 a.card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(42, 36, 34, 0.08);
-  border-color: var(--honey);
-  text-decoration: none;
+  box-shadow: 0 4px 14px rgba(20, 20, 20, 0.1);
+  border-color: var(--ink);
 }
-
 a.card .thumb {
   display: block;
   aspect-ratio: 4 / 3;
@@ -225,22 +541,24 @@ a.card .thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  filter: grayscale(1) contrast(1.05);
+  transition: filter 0.3s ease;
 }
-
+a.card:hover .thumb img {
+  filter: grayscale(0) contrast(1);
+}
 a.card .card-body {
   display: flex;
   flex-direction: column;
   gap: 0.35rem;
   padding: 0.85rem 1rem 1rem;
 }
-
 a.card time {
   color: var(--muted);
   font-size: 0.78rem;
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-
 a.card .title {
   color: var(--ink);
   font-family: "Fraunces", Georgia, serif;
@@ -254,7 +572,6 @@ article.post {
   max-width: var(--measure-narrow);
   margin: 0 auto;
 }
-
 article.post h1 {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 700;
@@ -264,7 +581,6 @@ article.post h1 {
   margin: 0 0 0.5rem;
   color: var(--ink);
 }
-
 article.post .meta {
   font-size: 0.82rem;
   color: var(--muted);
@@ -274,64 +590,56 @@ article.post .meta {
   gap: 0.5rem 0.85rem;
   align-items: center;
 }
-
 article.post .meta time {
   letter-spacing: 0.04em;
   text-transform: uppercase;
 }
-
 .tag {
   display: inline-block;
   font-size: 0.72rem;
   letter-spacing: 0.06em;
   text-transform: lowercase;
-  color: var(--heather);
+  color: var(--muted);
   padding: 0.1rem 0.55rem;
   border: 1px solid var(--rule);
   border-radius: 999px;
 }
-
 article.post .post-body {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 500;
   font-size: 1.05rem;
   line-height: 1.7;
 }
-
 article.post .post-body p {
   margin: 0 0 1.1rem;
 }
-
 article.post .post-body h2 {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 700;
   font-size: 1.4rem;
   margin: 2.25rem 0 0.75rem;
 }
-
 article.post .post-body a {
   color: var(--ink);
   text-decoration: underline;
-  text-decoration-color: var(--honey);
+  text-decoration-color: var(--ink);
   text-underline-offset: 3px;
   text-decoration-thickness: 1px;
 }
-
 article.post .post-body blockquote {
   margin: 1.5rem 0;
   padding: 0.25rem 0 0.25rem 1.15rem;
-  border-left: 2px solid var(--honey);
+  border-left: 2px solid var(--ink);
   color: var(--muted);
   font-style: italic;
 }
-
 article.post .post-body img,
 article.post .post-body video {
   border-radius: 4px;
   margin: 1.25rem 0;
 }
 
-/* ------------------------------ Photo grid ----------------------- */
+/* ------------------------------ Photo grid (post) ---------------- */
 .photos {
   display: grid;
   gap: 0.6rem;
@@ -346,7 +654,6 @@ article.post .post-body video {
   border-radius: 4px;
   display: block;
 }
-
 .photos.photos-1 {
   grid-template-columns: 1fr;
 }
@@ -383,7 +690,7 @@ article.post .post-body video {
   font-family: "Fraunces", Georgia, serif;
   font-size: 1.3rem;
   font-style: italic;
-  border-left: 3px solid var(--heather);
+  border-left: 3px solid var(--ink);
   padding: 0.5rem 0 0.5rem 1.25rem;
   margin: 0 0 1.5rem;
   color: var(--ink);
@@ -419,15 +726,15 @@ footer.site {
   display: flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 0.75rem;
+  gap: 0.75rem 1.5rem;
 }
-
 footer.site a {
   color: var(--muted);
+  text-decoration: none;
 }
 footer.site a:hover {
   color: var(--ink);
-  text-decoration: none;
+  text-decoration: underline;
 }
 
 /* ------------------------------ Consent banner ------------------- */
@@ -439,26 +746,42 @@ footer.site a:hover {
   z-index: 10;
   background: var(--paper);
   color: var(--ink);
-  border-top: 4px solid var(--honey);
+  border-top: 4px solid var(--ink);
   box-shadow: 0 -8px 24px -10px rgba(0, 0, 0, 0.5);
   padding: 1rem 1.5rem;
+  /* Keep clear of the mobile browser chrome / home indicator. */
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+  /* Never taller than the viewport — scroll internally if it would be,
+     so the buttons stay reachable on short/narrow screens. */
+  max-height: 100vh;
+  max-height: 100dvh;
+  overflow-y: auto;
   display: flex;
   flex-wrap: wrap;
   gap: 1rem 1.5rem;
   align-items: center;
   justify-content: space-between;
 }
-
 .consent[hidden] {
   display: none;
 }
-
 @media (min-width: 720px) {
   .consent {
     padding: 1.1rem 2.5rem;
+    padding-bottom: max(1.1rem, env(safe-area-inset-bottom));
   }
 }
-
+/* On narrow screens give the buttons the full width as equal, comfortable
+   tap targets rather than crowding them onto a short row. */
+@media (max-width: 26rem) {
+  .consent-actions {
+    width: 100%;
+  }
+  .consent-btn {
+    flex: 1 1 0;
+    text-align: center;
+  }
+}
 .consent-msg {
   font-family: "Fraunces", Georgia, serif;
   font-weight: 500;
@@ -469,18 +792,15 @@ footer.site a:hover {
   max-width: 42rem;
   flex: 1 1 20rem;
 }
-
 .consent-msg .consent-cta {
   white-space: nowrap;
   color: var(--muted);
 }
-
 .consent-actions {
   display: flex;
   gap: 0.75rem;
   flex-wrap: wrap;
 }
-
 .consent-btn {
   font-family: "Inter", system-ui, sans-serif;
   font-size: 0.9rem;
@@ -494,42 +814,47 @@ footer.site a:hover {
     color 0.15s ease,
     border-color 0.15s ease;
 }
-
 .consent-btn:focus-visible {
-  outline: 2px solid var(--honey);
+  outline: 2px solid var(--ink);
   outline-offset: 2px;
 }
-
 .consent-btn--ghost {
   background: transparent;
   color: var(--ink);
   border: 1px solid var(--ink);
 }
-
 .consent-btn--ghost:hover {
   background: var(--ink);
   color: var(--paper);
 }
-
 .consent-btn--primary {
   background: var(--ink);
   color: var(--paper);
   border: 1px solid var(--ink);
 }
-
 .consent-btn--primary:hover {
-  background: var(--honey);
-  color: var(--ink);
-  border-color: var(--honey);
+  background: var(--ink-soft);
 }
 
 /* ------------------------------ Small screens -------------------- */
+@media (max-width: 40rem) {
+  .brand-tagline {
+    display: none;
+  }
+  .teaser-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 32rem) {
   ul.posts {
     grid-template-columns: 1fr 1fr;
   }
   h2.year {
     font-size: 2rem;
+  }
+  .gallery-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
   .photos.photos-2,
   .photos.photos-3,

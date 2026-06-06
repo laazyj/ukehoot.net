@@ -12,11 +12,19 @@
       "publisher": { "@id": "{{ site.author.id }}" }
     },
     {
-      "@type": "Organization",
+      "@type": ["Organization", "MusicGroup"],
       "@id": "{{ site.author.id }}",
       "name": {{ site.author.name | dump | safe }},
-      "url": "{{ site.url }}/about/"{% if site.author.email %},
-      "email": {{ site.author.email | dump | safe }}{% endif %}
+      "url": "{{ site.url }}/",
+      "description": {{ site.description | dump | safe }},
+      "areaServed": "Edinburgh, Scotland"{% if site.author.email %},
+      "email": {{ site.author.email | dump | safe }}{% endif %}{% if site.meet.venue %},
+      "location": {
+        "@type": "Place",
+        "name": {{ site.meet.venue | dump | safe }}{% if site.meet.address %},
+        "address": {{ site.meet.address | dump | safe }}{% endif %}
+      }{% endif %},
+      "sameAs": {{ [site.social.facebook, site.social.instagram, site.social.youtube] | compact | dump | safe }}
     }
   ]
 }

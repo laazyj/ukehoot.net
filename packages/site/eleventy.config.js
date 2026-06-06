@@ -63,6 +63,13 @@ export default function (eleventyConfig) {
 
   eleventyConfig.addFilter("year", (date) => toDate(date).getFullYear());
 
+  // First n items of an array. Used for the home-page photo teaser.
+  eleventyConfig.addFilter("limit", (arr, n) => (Array.isArray(arr) ? arr.slice(0, n) : arr));
+
+  // Drop falsy entries. Used to build the JSON-LD sameAs list from the
+  // (optionally empty) social links in site.json.
+  eleventyConfig.addFilter("compact", (arr) => (Array.isArray(arr) ? arr.filter(Boolean) : arr));
+
   eleventyConfig.addFilter("readingTime", (input) => {
     if (!input) return 0;
     const text = String(input).replace(/<[^>]+>/g, " ");
@@ -81,23 +88,42 @@ export default function (eleventyConfig) {
     return [...groups.entries()].map(([year, posts]) => ({ year, posts }));
   });
 
-  // The whole-blog feed: every post tagged "post", chronological. The site
-  // taxonomy is by year, but year is derived from each post's date — there
-  // is no per-year directory tag.
-  eleventyConfig.addCollection("posts", (api) =>
+  // Every published post tagged "post", oldest first. Drafts (those with
+  // eleventyExcludeFromCollections) are dropped. Shared by all three
+  // post-derived collections below.
+  const publishedPosts = (api) =>
     api
       .getFilteredByTag("post")
       .filter((item) => !item.data.eleventyExcludeFromCollections)
-      .sort((a, b) => a.date - b.date),
-  );
+      .sort((a, b) => a.date - b.date);
+
+  // The whole-blog feed: every post, chronological. Year is derived from each
+  // post's date — there is no per-year directory tag.
+  eleventyConfig.addCollection("posts", publishedPosts);
+
+  // A flat list of every photo across all posts, newest first. Drives the
+  // self-hosted gallery page and the home-page photo teaser. `src` is the
+  // post-relative media path; apply the `rel` filter at render time.
+  eleventyConfig.addCollection("galleryPhotos", (api) => {
+    const posts = [...publishedPosts(api)].reverse();
+    const photos = [];
+    for (const post of posts) {
+      for (const photo of post.data.photos || []) {
+        photos.push({
+          src: post.url + photo,
+          postUrl: post.url,
+          title: post.data.title || post.data.summary || "",
+          date: post.date,
+        });
+      }
+    }
+    return photos;
+  });
 
   // [{ year, posts[] }], newest year first. Drives both the home page list
   // and the year-archive pagination.
   eleventyConfig.addCollection("postsByYear", (api) => {
-    const posts = api
-      .getFilteredByTag("post")
-      .filter((item) => !item.data.eleventyExcludeFromCollections)
-      .sort((a, b) => a.date - b.date);
+    const posts = publishedPosts(api);
     const groups = new Map();
     for (const p of [...posts].reverse()) {
       const year = new Date(p.date).getFullYear();

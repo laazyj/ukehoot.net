@@ -9,21 +9,20 @@ eleventyExcludeFromCollections: true
 
 # About
 
-**Uke hOOt** is Edinburgh's weekly ukulele jam. We meet every Wednesday evening to play
-through songbooks together — pop, folk, traditional, whatever's in the book. Beginners
+**UkeHoot** is Edinburgh's weekly ukulele jam. We meet every Wednesday evening to play
+through songbooks together — pop, folk, rock'n'roll, whatever's in the book. Beginners
 welcome, advanced players welcome, no audition. Bring a uke or borrow one.
 
-This site is the archive of the jam. Photos and notes go up after most sessions, so if
-you missed a week you can see what you missed (and pick up the song list for next time).
+Everything you need is on the [home page](/) — where and when we meet, how to join, and
+how to keep up with us between sessions.
 
-The blog ran on Tumblr from 2014 onwards at
-[ukehoot.tumblr.com](https://ukehoot.tumblr.com/) and was migrated here in 2026. Old
-Tumblr post URLs redirect to their archived counterparts on this site.
+This site also keeps the **[archive](/archive/)** of the old blog: photos and notes from
+the sessions, which ran on Tumblr from 2012 and were migrated here in 2026. Old Tumblr
+post URLs redirect to their archived counterparts on this site.
 
 ## Get in touch
 
-Email [uke.hoot@gmail.com](mailto:uke.hoot@gmail.com) for venue/time questions, or just
-turn up — the venue is announced on the home page when it changes (festival season
-sometimes shifts us).
+Email [{{ site.author.email }}](mailto:{{ site.author.email }}) for bookings, questions,
+or just to say hello.
 
 </article>

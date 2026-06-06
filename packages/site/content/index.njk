@@ -3,13 +3,142 @@ layout: layouts/base.njk
 title: ""
 eleventyExcludeFromCollections: true
 ---
-<p class="intro">
-  <strong>Uke hOOt</strong> is Edinburgh's weekly ukulele jam — every Wednesday evening,
-  a roomful of friendly people, songbooks open, no audition required.
-  These are the photos and notes from the sessions.
-</p>
+{% from "partials/photo-cell.njk" import photoCell %}
+{% set m = site.meet %}
+{% set s = site.social %}
 
-{% include "partials/year-nav.njk" %}
+<section class="hero">
+  <img class="hero-logo" src="{{ '/logo.svg' | rel }}" alt="UkeHoot" />
+  <p class="hero-tagline">{{ site.tagline }}</p>
+  <p class="hero-sub">
+    A roomful of friendly people, songbooks open, no audition required.
+    Bring a uke — or borrow one — and have a hoot.
+  </p>
 
-{% set posts = collections.posts %}
-{% include "partials/post-list.njk" %}
+  <p class="marquee" aria-label="When and where we meet">
+    <span>★</span> {{ m.day }} <span>·</span> {{ m.time }} <span>·</span> {{ m.venue }} <span>★</span>
+  </p>
+
+  <p class="cta-row">
+    <a class="btn btn--primary" href="#visit">Come along</a>
+    <a class="btn btn--ghost" href="#updates">Get updates</a>
+  </p>
+</section>
+
+<section class="band" id="about">
+  <header class="band-head">
+    <p class="band-label">What we are</p>
+    <h2 class="band-song">&ldquo;Come Together&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <p>
+      <strong>UkeHoot</strong> is a weekly ukulele singalong in Edinburgh. We've been
+      meeting to play through songbooks together since 2012 — pop, folk, a bit of
+      rock&rsquo;n&rsquo;roll and the odd questionable novelty number.
+    </p>
+    <p>
+      Complete beginner or you've worn the frets off three ukes, it makes no odds:
+      there's a seat and a songsheet waiting. No audition, no pressure — just strumming,
+      singing and good company.
+    </p>
+  </div>
+</section>
+
+<section class="band" id="visit">
+  <header class="band-head">
+    <p class="band-label">Where &amp; when</p>
+    <h2 class="band-song">&ldquo;Anticipation&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <p class="lead">
+      We play every <strong>{{ m.day | lower }}</strong> from <strong>{{ m.time }}</strong>.
+    </p>
+    <p class="venue-line">
+      {{ m.venue }}{% if m.address %} — {{ m.address }}{% endif %}.
+      {% if m.mapUrl %}<a href="{{ m.mapUrl }}" rel="external">Find us on the map →</a>{% endif %}
+    </p>
+    <p class="note">
+      Festival season can move us around. Check
+      {% if s.whatsapp %}<a href="{{ s.whatsapp }}" rel="external">WhatsApp</a>{% else %}WhatsApp{% endif %}
+      or
+      {% if s.facebook %}<a href="{{ s.facebook }}" rel="external">Facebook</a>{% else %}Facebook{% endif %}
+      for the week's venue before you head out.
+    </p>
+  </div>
+</section>
+
+<section class="band" id="join">
+  <header class="band-head">
+    <p class="band-label">How to join</p>
+    <h2 class="band-song">&ldquo;With a Little Help From My Friends&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <p>There's nothing to sign and no fee to pay — just turn up. To get in the loop:</p>
+    <ul class="join-list">
+      <li>
+        <strong>WhatsApp</strong> is where it all happens — who's coming, what we're
+        playing, gear chat and new-song suggestions.
+        {% if s.whatsapp %}<a href="{{ s.whatsapp }}" rel="external">Join the WhatsApp →</a>{% endif %}
+      </li>
+      <li>
+        Prefer the occasional headline?
+        {% if s.facebook %}<a href="{{ s.facebook }}" rel="external">Follow us on Facebook →</a>{% else %}Follow us on Facebook.{% endif %}
+      </li>
+      <li>
+        New and want a flick through first?
+        {% if site.songbookUrl %}<a href="{{ site.songbookUrl }}" rel="external">Download the songbook →</a>{% else %}<span class="soon">Songbook download — coming soon.</span>{% endif %}
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section class="band" id="bring">
+  <header class="band-head">
+    <p class="band-label">What to bring &amp; how it works</p>
+    <h2 class="band-song">&ldquo;Should I Stay or Should I Go&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <ul class="tick-list">
+      <li>A ukulele, if you have one — we can usually lend you a spare if you don't.</li>
+      <li>Nothing else required. Songbooks are shared on the night.</li>
+      <li>All levels welcome — we play at a friendly, follow-along pace.</li>
+      <li>Family-friendly, in a proper Edinburgh pub. Come for a tune, stay for a pint.</li>
+    </ul>
+    <p class="answer">So — should you stay or should you go? <strong>Stay.</strong></p>
+  </div>
+</section>
+
+{% if collections.galleryPhotos.length > 0 %}
+<section class="band band--photos" id="photos">
+  <header class="band-head">
+    <p class="band-label">From the sessions</p>
+    <h2 class="band-song">&ldquo;Pictures of You&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <div class="teaser-grid">
+      {% for photo in collections.galleryPhotos | limit(8) %}{{ photoCell(photo, "teaser-cell", true) }}{% endfor %}
+    </div>
+    <p class="more-link"><a href="{{ '/gallery/' | rel }}">See the whole gallery →</a></p>
+  </div>
+</section>
+{% endif %}
+
+<section class="band" id="updates">
+  <header class="band-head">
+    <p class="band-label">Stay in the loop</p>
+    <h2 class="band-song">&ldquo;Hello, Goodbye&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <p>Timely stuff lives on social — that's where venue changes and one-off gigs get announced.</p>
+    <p class="social-row">
+      {% if s.whatsapp %}<a class="btn btn--primary" href="{{ s.whatsapp }}" rel="external">WhatsApp</a>{% endif %}
+      {% if s.facebook %}<a class="btn btn--ghost" href="{{ s.facebook }}" rel="external">Facebook</a>{% endif %}
+      {% if s.instagram %}<a class="btn btn--ghost" href="{{ s.instagram }}" rel="external">Instagram</a>{% endif %}
+      {% if s.youtube %}<a class="btn btn--ghost" href="{{ s.youtube }}" rel="external">YouTube</a>{% endif %}
+    </p>
+    <p class="contact-line">
+      Bookings, questions, or just saying hello —
+      <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>.
+    </p>
+  </div>
+</section>

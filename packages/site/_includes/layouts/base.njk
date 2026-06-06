@@ -3,6 +3,16 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#141414" />
+  <script>
+    // Apply the saved theme before paint to avoid a flash of the wrong mode.
+    (function () {
+      try {
+        var t = localStorage.getItem("ukehoot-theme");
+        if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+      } catch (e) {}
+    })();
+  </script>
   <title>{% if title %}{{ title }} — {{ site.title }}{% else %}{{ site.title }} — {{ site.tagline }}{% endif %}</title>
   <meta name="description" content="{{ summary or site.description }}" />
   <meta name="author" content="{{ site.author.name }}" />
@@ -12,6 +22,9 @@
   <link rel="icon" href="{{ '/favicon.svg' | rel }}" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="{{ '/apple-touch-icon.png' | rel }}" />
   <link rel="manifest" href="{{ '/site.webmanifest' | rel }}" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap" />
   <link rel="stylesheet" href="{{ '/assets/styles.css' | rel }}" />
   <link rel="alternate" type="application/rss+xml" href="{{ '/feed.xml' | rel }}" title="{{ site.title }}" />
   <meta property="og:title" content="{% if title %}{{ title }}{% else %}{{ site.title }}{% endif %}" />
@@ -44,29 +57,71 @@
   <div class="wrap">
 
     <header class="site">
-      <a class="brand" href="{{ '/' | rel }}">
-        <span class="mark">Uke <span class="mark-hoot">hOOt</span></span>
-        <em>— {{ site.tagline }}</em>
+      <a class="brand" href="{{ '/' | rel }}" aria-label="UkeHoot — home">
+        <img class="brand-logo" src="{{ '/logo.svg' | rel }}" alt="UkeHoot" />
+        <span class="brand-tagline">{{ site.tagline }}</span>
       </a>
-      <nav>
-        <a href="{{ '/' | rel }}" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
-        <a href="{{ '/archive/' | rel }}" {% if page.url and page.url.startsWith and page.url.startsWith('/archive') %}class="active"{% endif %}>Archive</a>
-        <a href="{{ '/about/' | rel }}" {% if page.url == "/about/" %}class="active"{% endif %}>About</a>
-      </nav>
+      <div class="site-actions">
+        <nav>
+          <a href="{{ '/' | rel }}" {% if page.url == "/" %}class="active"{% endif %}>Home</a>
+          <a href="{{ '/gallery/' | rel }}" {% if page.url and page.url.startsWith and page.url.startsWith('/gallery') %}class="active"{% endif %}>Photos</a>
+          <a href="{{ '/archive/' | rel }}" {% if page.url and page.url.startsWith and page.url.startsWith('/archive') %}class="active"{% endif %}>Archive</a>
+        </nav>
+        <button class="theme-toggle" type="button" data-theme-toggle aria-label="Switch colour theme">
+          <svg class="icon-moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/></svg>
+        </button>
+      </div>
     </header>
 
     {{ content | safe }}
 
     <footer class="site">
-      <span>&copy; {{ currentYear }} {{ site.author.name }}</span>
-      <span>
-        <a href="{{ '/feed.xml' | rel }}">RSS</a>
-        · <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+      <span>&copy; {{ currentYear }} {{ site.author.name }} · Edinburgh</span>
+      <span class="footer-links">
+        {% if site.social.whatsapp %}<a href="{{ site.social.whatsapp }}" rel="external">WhatsApp</a> · {% endif %}
+        {% if site.social.facebook %}<a href="{{ site.social.facebook }}" rel="external">Facebook</a> · {% endif %}
+        {% if site.social.instagram %}<a href="{{ site.social.instagram }}" rel="external">Instagram</a> · {% endif %}
+        {% if site.social.youtube %}<a href="{{ site.social.youtube }}" rel="external">YouTube</a> · {% endif %}
+        <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+        · <a href="{{ '/feed.xml' | rel }}">RSS</a>
         {% if analytics.measurementId %}· <a href="#" data-consent-reopen>cookies</a>{% endif %}
       </span>
     </footer>
 
   </div>
   {% include "partials/consent-banner.njk" %}
+  <script>
+    // Colour-theme toggle. Default follows the system; clicking sets an
+    // explicit choice that persists and overrides the system preference.
+    (function () {
+      var root = document.documentElement;
+      var btn = document.querySelector("[data-theme-toggle]");
+      if (!btn) return;
+      var meta = document.querySelector('meta[name="theme-color"]');
+      function effective() {
+        var t = root.getAttribute("data-theme");
+        if (t === "light" || t === "dark") return t;
+        return window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+      }
+      function sync() {
+        var e = effective();
+        btn.setAttribute("aria-label", e === "dark" ? "Switch to light mode" : "Switch to dark mode");
+        if (meta) {
+          var paper = getComputedStyle(root).getPropertyValue("--paper").trim();
+          if (paper) meta.setAttribute("content", paper);
+        }
+      }
+      btn.addEventListener("click", function () {
+        var next = effective() === "dark" ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try {
+          localStorage.setItem("ukehoot-theme", next);
+        } catch (e) {}
+        sync();
+      });
+      sync();
+    })();
+  </script>
 </body>
 </html>
