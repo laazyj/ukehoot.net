@@ -84,7 +84,7 @@
         {% if site.social.facebook %}<a href="{{ site.social.facebook }}" rel="external">Facebook</a> · {% endif %}
         {% if site.social.instagram %}<a href="{{ site.social.instagram }}" rel="external">Instagram</a> · {% endif %}
         {% if site.social.youtube %}<a href="{{ site.social.youtube }}" rel="external">YouTube</a> · {% endif %}
-        <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>
+        {% include "partials/email-link.njk" %}
         · <a href="{{ '/feed.xml' | rel }}">RSS</a>
         {% if analytics.measurementId %}· <a href="#" data-consent-reopen>cookies</a>{% endif %}
       </span>
@@ -92,6 +92,21 @@
 
   </div>
   {% include "partials/consent-banner.njk" %}
+  <script>
+    // Reveal obfuscated email links: the address ships base64-encoded in a
+    // data attribute (never scrapeable plaintext) and becomes a real mailto
+    // only after this runs.
+    (function () {
+      var links = document.querySelectorAll("a.email-link[data-email]");
+      for (var i = 0; i < links.length; i++) {
+        try {
+          var addr = atob(links[i].getAttribute("data-email"));
+          links[i].setAttribute("href", "mailto:" + addr);
+          links[i].textContent = addr;
+        } catch (e) {}
+      }
+    })();
+  </script>
   <script>
     // Colour-theme toggle. Default follows the system; clicking sets an
     // explicit choice that persists and overrides the system preference.

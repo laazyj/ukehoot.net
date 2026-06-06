@@ -1,3 +1,4 @@
+import { Buffer } from "node:buffer";
 import fs from "node:fs";
 import path from "node:path";
 import process from "node:process";
@@ -87,6 +88,11 @@ export default function (eleventyConfig) {
     if (p.sameAs && p.sameAs.length) node.sameAs = p.sameAs;
     return node;
   });
+
+  // Base64-encode a string. Used to keep the contact email out of the page
+  // source as scrapeable plaintext — the email-link partial ships the encoded
+  // address and the decoder in base.njk turns it back into a mailto client-side.
+  eleventyConfig.addFilter("base64", (s) => Buffer.from(String(s), "utf8").toString("base64"));
 
   eleventyConfig.addFilter("readingTime", (input) => {
     if (!input) return 0;

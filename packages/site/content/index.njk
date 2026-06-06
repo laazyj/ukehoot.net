@@ -138,7 +138,7 @@ eleventyExcludeFromCollections: true
     </p>
     <p class="contact-line">
       Bookings, questions, or just saying hello —
-      <a href="mailto:{{ site.author.email }}">{{ site.author.email }}</a>.
+      {% include "partials/email-link.njk" %}.
     </p>
   </div>
 </section>

@@ -22,8 +22,7 @@
       "name": {{ site.author.name | dump | safe }},
       "url": "{{ site.url }}/",
       "description": {{ site.description | dump | safe }},
-      "areaServed": "Edinburgh, Scotland"{% if site.author.email %},
-      "email": {{ site.author.email | dump | safe }}{% endif %}{% if founders.length %},
+      "areaServed": "Edinburgh, Scotland"{% if founders.length %},
       "founder": {{ founders | idRefs | dump | safe }}{% endif %}{% if site.meet.venue %},
       "location": {
         "@type": "Place",
