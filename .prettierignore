@@ -6,6 +6,7 @@ package-lock.json
 .nx
 .vscode
 .playwright-mcp
+gallery-staging
 packages/site/content/posts
 # Pinned: any reformat churns the BucketDeployment asset hash and the site-stack snapshot.
 packages/cdk/test/fixtures/
