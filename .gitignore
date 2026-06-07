@@ -147,3 +147,9 @@ cdk.out/
 
 # Playwright
 .playwright-mcp
+
+# Facebook photo curation (issue #40) — sensitive (identifiable people), not for commit
+/gallery-staging/
+
+# macOS
+.DS_Store
