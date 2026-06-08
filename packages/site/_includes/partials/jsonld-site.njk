@@ -1,6 +1,9 @@
 {% set founders = site.team | withRole("co-founder") %}
 {% set builders = site.team | withRole("builder") %}
 {% set maintainers = site.team | withRole("maintainer") %}
+{% set jamWhen = site.meet.time | nextWeekly("Wednesday") %}
+{% set gigWhen = site.gig.time | nextMonthly("Saturday", 3) %}
+{% set eventImage = site.url + site.defaultOgImage %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -36,13 +39,24 @@
       "@type": "Event",
       "@id": "{{ site.url }}/#jam",
       "name": "UkeHoot weekly ukulele jam",
-      "description": "Edinburgh's weekly ukulele singalong. All levels welcome, no audition, bring a uke or borrow one.",
+      "description": "Edinburgh's weekly ukulele singalong. All levels welcome, no audition, bring a uke or borrow one.",{% if jamWhen %}
+      "startDate": "{{ jamWhen.start }}",
+      "endDate": "{{ jamWhen.end }}",{% endif %}
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "isAccessibleForFree": true,
+      "image": [{{ eventImage | dump | safe }}],
       "inLanguage": "{{ site.language }}",
       "organizer": { "@id": "{{ site.author.id }}" },
       "performer": { "@id": "{{ site.author.id }}" },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP",
+        "availability": "https://schema.org/InStock",
+        "url": "{{ site.url }}/"{% if jamWhen %},
+        "validFrom": "{{ jamWhen.start }}"{% endif %}
+      },
       "location": {
         "@type": "Place",
         "name": {{ site.meet.venue | dump | safe }}{% if site.meet.address %},
@@ -60,13 +74,24 @@
       "@type": "Event",
       "@id": "{{ site.url }}/#gig",
       "name": {{ ("UkeHoot live at " + site.gig.venue) | dump | safe }},
-      "description": "UkeHoot's monthly public gig. Come watch, sing along, heckle gently.",
+      "description": "UkeHoot's monthly public gig. Come watch, sing along, heckle gently.",{% if gigWhen %}
+      "startDate": "{{ gigWhen.start }}",
+      "endDate": "{{ gigWhen.end }}",{% endif %}
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "isAccessibleForFree": true,
+      "image": [{{ eventImage | dump | safe }}],
       "inLanguage": "{{ site.language }}",
       "organizer": { "@id": "{{ site.author.id }}" },
-      "performer": { "@id": "{{ site.author.id }}" }{% if site.gig.venue %},
+      "performer": { "@id": "{{ site.author.id }}" },
+      "offers": {
+        "@type": "Offer",
+        "price": "0",
+        "priceCurrency": "GBP",
+        "availability": "https://schema.org/InStock",
+        "url": {{ (site.gig.url or (site.url + "/")) | dump | safe }}{% if gigWhen %},
+        "validFrom": "{{ gigWhen.start }}"{% endif %}
+      }{% if site.gig.venue %},
       "location": {
         "@type": "Place",
         "name": {{ site.gig.venue | dump | safe }}{% if site.gig.address %},
