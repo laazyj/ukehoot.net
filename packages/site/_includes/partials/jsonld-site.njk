@@ -1,6 +1,7 @@
 {% set founders = site.team | withRole("co-founder") %}
 {% set builders = site.team | withRole("builder") %}
 {% set maintainers = site.team | withRole("maintainer") %}
+{% set eventImage = site.url + site.defaultOgImage %}
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -40,6 +41,7 @@
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "isAccessibleForFree": true,
+      "image": [{{ eventImage | dump | safe }}],
       "inLanguage": "{{ site.language }}",
       "organizer": { "@id": "{{ site.author.id }}" },
       "performer": { "@id": "{{ site.author.id }}" },
@@ -64,6 +66,7 @@
       "eventStatus": "https://schema.org/EventScheduled",
       "eventAttendanceMode": "https://schema.org/OfflineEventAttendanceMode",
       "isAccessibleForFree": true,
+      "image": [{{ eventImage | dump | safe }}],
       "inLanguage": "{{ site.language }}",
       "organizer": { "@id": "{{ site.author.id }}" },
       "performer": { "@id": "{{ site.author.id }}" }{% if site.gig.venue %},
