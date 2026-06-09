@@ -3,6 +3,6 @@
   "compilerOptions": {
     "types": ["node"]
   },
-  "include": ["src", "test", "scripts"],
+  "include": ["src", "test", "scripts", "vitest.config.ts", "vitest.setup.ts"],
   "exclude": ["node_modules", "dist", "cdk.out"]
 }
