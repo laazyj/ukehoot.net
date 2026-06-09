@@ -1,0 +1,331 @@
+{
+  "Description": "CloudWatch alarms for site metrics that AWS only emits in us-east-1.",
+  "Parameters": {
+    "BootstrapVersion": {
+      "Default": "/cdk-bootstrap/hnb659fds/version",
+      "Description": "Version of the CDK Bootstrap resources in this environment, automatically retrieved from SSM Parameter Store. [cdk:skip]",
+      "Type": "AWS::SSM::Parameter::Value<String>",
+    },
+  },
+  "Resources": {
+    "CustomCrossRegionExportReaderCustomResourceProviderHandler46647B68": {
+      "DependsOn": [
+        "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD",
+      ],
+      "Properties": {
+        "Code": {
+          "S3Bucket": "cdk-hnb659fds-assets-111111111111-us-east-1",
+          "S3Key": "<asset-hash>.zip",
+        },
+        "Handler": "__entrypoint__.handler",
+        "MemorySize": 128,
+        "Role": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD",
+            "Arn",
+          ],
+        },
+        "Runtime": "nodejs22.x",
+        "Timeout": 900,
+      },
+      "Type": "AWS::Lambda::Function",
+    },
+    "CustomCrossRegionExportReaderCustomResourceProviderRole10531BBD": {
+      "Properties": {
+        "AssumeRolePolicyDocument": {
+          "Statement": [
+            {
+              "Action": "sts:AssumeRole",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "lambda.amazonaws.com",
+              },
+            },
+          ],
+          "Version": "2012-10-17",
+        },
+        "ManagedPolicyArns": [
+          {
+            "Fn::Sub": "arn:${AWS::Partition}:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+          },
+        ],
+        "Policies": [
+          {
+            "PolicyDocument": {
+              "Statement": [
+                {
+                  "Action": [
+                    "ssm:AddTagsToResource",
+                    "ssm:RemoveTagsFromResource",
+                    "ssm:GetParameters",
+                  ],
+                  "Effect": "Allow",
+                  "Resource": {
+                    "Fn::Join": [
+                      "",
+                      [
+                        "arn:",
+                        {
+                          "Ref": "AWS::Partition",
+                        },
+                        ":ssm:us-east-1:111111111111:parameter/cdk/exports/UkehootNetCdnAlarmsStack/*",
+                      ],
+                    ],
+                  },
+                },
+              ],
+              "Version": "2012-10-17",
+            },
+            "PolicyName": "Inline",
+          },
+        ],
+      },
+      "Type": "AWS::IAM::Role",
+    },
+    "ExportsReader8B249524": {
+      "DeletionPolicy": "Delete",
+      "Properties": {
+        "ReaderProps": {
+          "imports": {
+            "/cdk/exports/UkehootNetCdnAlarmsStack/UkehootNetSiteStackeuwest2Refukehootnetcdn7E922C0029283837": "{{resolve:ssm:/cdk/exports/UkehootNetCdnAlarmsStack/UkehootNetSiteStackeuwest2Refukehootnetcdn7E922C0029283837}}",
+            "/cdk/exports/UkehootNetCdnAlarmsStack/UkehootNetSiteStackeuwest2RefukehootnethealthCheck631C7BA575E94913": "{{resolve:ssm:/cdk/exports/UkehootNetCdnAlarmsStack/UkehootNetSiteStackeuwest2RefukehootnethealthCheck631C7BA575E94913}}",
+          },
+          "prefix": "UkehootNetCdnAlarmsStack",
+          "region": "us-east-1",
+        },
+        "ServiceToken": {
+          "Fn::GetAtt": [
+            "CustomCrossRegionExportReaderCustomResourceProviderHandler46647B68",
+            "Arn",
+          ],
+        },
+      },
+      "Type": "Custom::CrossRegionExportReader",
+      "UpdateReplacePolicy": "Delete",
+    },
+    "ukehootnetcdnAlarmsDefaultBehaviorViewerRequestExecutionErrorsAlarm0BC55689": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C",
+          },
+        ],
+        "AlarmDescription": "CloudFront Function on default behavior (viewer-request) is raising execution errors. Threshold: > 0 errors in 1 minute.",
+        "AlarmName": "ukehoot-net-cdn-alarms-stack/ukehoot-net/cdn-alarms/default-behavior-viewer-request-execution-errors",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": "UkehootNetSiteStack-redirect",
+          },
+          {
+            "Name": "Region",
+            "Value": "Global",
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "FunctionExecutionErrors",
+        "Namespace": "AWS/CloudFront",
+        "Period": 60,
+        "Statistic": "Sum",
+        "Threshold": 0,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ukehootnetcdnAlarmsDefaultBehaviorViewerRequestThrottlesAlarm97821F32": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C",
+          },
+        ],
+        "AlarmDescription": "CloudFront Function on default behavior (viewer-request) is being throttled — likely exceeding its 1ms compute budget. Threshold: > 0 throttles in 1 minute.",
+        "AlarmName": "ukehoot-net-cdn-alarms-stack/ukehoot-net/cdn-alarms/default-behavior-viewer-request-throttles",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": "UkehootNetSiteStack-redirect",
+          },
+          {
+            "Name": "Region",
+            "Value": "Global",
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "FunctionThrottles",
+        "Namespace": "AWS/CloudFront",
+        "Period": 60,
+        "Statistic": "Sum",
+        "Threshold": 0,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ukehootnetcdnAlarmsDefaultBehaviorViewerRequestValidationErrorsAlarm858F565B": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C",
+          },
+        ],
+        "AlarmDescription": "CloudFront Function on default behavior (viewer-request) is producing validation errors. Threshold: > 0 errors in 1 minute.",
+        "AlarmName": "ukehoot-net-cdn-alarms-stack/ukehoot-net/cdn-alarms/default-behavior-viewer-request-validation-errors",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "FunctionName",
+            "Value": "UkehootNetSiteStack-redirect",
+          },
+          {
+            "Name": "Region",
+            "Value": "Global",
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "FunctionValidationErrors",
+        "Namespace": "AWS/CloudFront",
+        "Period": 60,
+        "Statistic": "Sum",
+        "Threshold": 0,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ukehootnetcdnAlarmsErrorRateAlarm778D024B": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C",
+          },
+        ],
+        "AlarmDescription": "CloudFront distribution 5xx error rate is elevated. Threshold: > 5% in 1 minute.",
+        "AlarmName": "ukehoot-net-cdn-alarms-stack/ukehoot-net/cdn-alarms/error-rate",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "DatapointsToAlarm": 5,
+        "Dimensions": [
+          {
+            "Name": "DistributionId",
+            "Value": {
+              "Fn::GetAtt": [
+                "ExportsReader8B249524",
+                "/cdk/exports/UkehootNetCdnAlarmsStack/UkehootNetSiteStackeuwest2Refukehootnetcdn7E922C0029283837",
+              ],
+            },
+          },
+          {
+            "Name": "Region",
+            "Value": "Global",
+          },
+        ],
+        "EvaluationPeriods": 5,
+        "MetricName": "5xxErrorRate",
+        "Namespace": "AWS/CloudFront",
+        "Period": 60,
+        "Statistic": "Average",
+        "Threshold": 5,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ukehootnetcdnAlarmsOriginLatencyAlarm850E3ADF": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C",
+          },
+        ],
+        "AlarmDescription": "CloudFront origin latency is elevated. Threshold: > 5000ms p90 in 1 minute.",
+        "AlarmName": "ukehoot-net-cdn-alarms-stack/ukehoot-net/cdn-alarms/origin-latency",
+        "ComparisonOperator": "GreaterThanThreshold",
+        "DatapointsToAlarm": 5,
+        "Dimensions": [
+          {
+            "Name": "DistributionId",
+            "Value": {
+              "Fn::GetAtt": [
+                "ExportsReader8B249524",
+                "/cdk/exports/UkehootNetCdnAlarmsStack/UkehootNetSiteStackeuwest2Refukehootnetcdn7E922C0029283837",
+              ],
+            },
+          },
+          {
+            "Name": "Region",
+            "Value": "Global",
+          },
+        ],
+        "EvaluationPeriods": 5,
+        "ExtendedStatistic": "p90",
+        "MetricName": "OriginLatency",
+        "Namespace": "AWS/CloudFront",
+        "Period": 60,
+        "Threshold": 5000,
+        "TreatMissingData": "notBreaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+    "ukehootnethealthCheckAlarmsHealthCheckStatusAlarm7D6D8B8E": {
+      "Properties": {
+        "AlarmActions": [
+          {
+            "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C",
+          },
+        ],
+        "AlarmDescription": "Route 53 health check is reporting unhealthy. Threshold: HealthCheckStatus < 1 (Minimum, 1 minute).",
+        "AlarmName": "ukehoot-net-cdn-alarms-stack/ukehoot-net/health-check-alarms/health-check-status",
+        "ComparisonOperator": "LessThanThreshold",
+        "DatapointsToAlarm": 1,
+        "Dimensions": [
+          {
+            "Name": "HealthCheckId",
+            "Value": {
+              "Fn::GetAtt": [
+                "ExportsReader8B249524",
+                "/cdk/exports/UkehootNetCdnAlarmsStack/UkehootNetSiteStackeuwest2RefukehootnethealthCheck631C7BA575E94913",
+              ],
+            },
+          },
+        ],
+        "EvaluationPeriods": 1,
+        "MetricName": "HealthCheckStatus",
+        "Namespace": "AWS/Route53",
+        "Period": 60,
+        "Statistic": "Minimum",
+        "Threshold": 1,
+        "TreatMissingData": "breaching",
+      },
+      "Type": "AWS::CloudWatch::Alarm",
+    },
+  },
+  "Rules": {
+    "CheckBootstrapVersion": {
+      "Assertions": [
+        {
+          "Assert": {
+            "Fn::Not": [
+              {
+                "Fn::Contains": [
+                  [
+                    "1",
+                    "2",
+                    "3",
+                    "4",
+                    "5",
+                  ],
+                  {
+                    "Ref": "BootstrapVersion",
+                  },
+                ],
+              },
+            ],
+          },
+          "AssertDescription": "CDK bootstrap stack version 6 required. Please run 'cdk bootstrap' with a recent version of the CDK CLI.",
+        },
+      ],
+    },
+  },
+}

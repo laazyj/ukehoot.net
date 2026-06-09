@@ -34,10 +34,11 @@ describe("app synthesis", () => {
 
   // One snapshot file per stack — keeps PR diffs scoped to the stacks that
   // actually changed instead of bundling all five into a single .snap file.
+  // The template object is handed to the matcher directly so vitest's snapshot
+  // serializer pipeline runs; CDK asset hashes are normalised to a stable
+  // placeholder there (see vitest.setup.ts).
   it.each(STACK_NAMES)("%s matches snapshot", async (name) => {
-    await expect(JSON.stringify(templates[name], null, 2)).toMatchFileSnapshot(
-      `./__snapshots__/${name}.json`,
-    );
+    await expect(templates[name]).toMatchFileSnapshot(`./__snapshots__/${name}.snap`);
   });
 
   // Functional assertions sit alongside the snapshots for two reasons. (1) A
