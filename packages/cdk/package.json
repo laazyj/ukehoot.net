@@ -9,6 +9,7 @@
     "build": "tsc -p tsconfig.build.json",
     "typecheck": "tsc --noEmit",
     "test": "vitest run --passWithNoTests",
+    "test:update": "vitest run -u --passWithNoTests",
     "test:watch": "vitest",
     "cdk": "cdk",
     "synth": "cdk synth",
