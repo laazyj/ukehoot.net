@@ -10,7 +10,7 @@
     "format:check": "prettier --check .",
     "typecheck": "nx run-many -t typecheck",
     "test": "nx run-many -t test",
-    "test:update": "nx run-many -t test -- -u",
+    "test:update": "nx run-many -t test:update",
     "build": "nx run-many -t build",
     "clean": "nx run-many -t clean",
     "cdk:synth": "nx run @ukehoot-net/cdk:synth",
