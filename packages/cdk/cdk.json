@@ -5,6 +5,7 @@
     "exclude": ["node_modules", "dist", "cdk.out"]
   },
   "context": {
-    "@aws-cdk/core:newStyleStackSynthesis": true
+    "@aws-cdk/core:newStyleStackSynthesis": true,
+    "@aws-cdk/core:crossStackReferencesDefaultStrong": true
   }
 }
