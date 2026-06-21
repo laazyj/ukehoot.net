@@ -1,0 +1,411 @@
+<!doctype html>
+<html lang="en-GB">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#141414" />
+    <!-- Unlisted review page: keep it out of search results. Not linked from
+         the site, sitemap, or feed; share the URL directly. -->
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Uke O Ono Back Pages</title>
+    <script>
+      // Apply saved theme before paint to avoid a flash of the wrong mode.
+      (function () {
+        try {
+          var t = localStorage.getItem("setlist-theme");
+          if (t === "light" || t === "dark") document.documentElement.setAttribute("data-theme", t);
+        } catch (e) {}
+      })();
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,500;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700&display=swap"
+    />
+
+    <style>
+      /* ----------------------------------------------------------------
+         Set List — monochrome gig-poster look.
+         Fraunces for display, Inter for UI.
+         ---------------------------------------------------------------- */
+      :root {
+        --measure: 56rem;
+      }
+      :root,
+      :root[data-theme="light"] {
+        --paper: #faf9f6;
+        --paper-2: #ffffff;
+        --ink: #141414;
+        --ink-soft: #2c2a28;
+        --rule: #e4e1da;
+        --muted: #6c6862;
+        color-scheme: light;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #15130f;
+          --paper-2: #201d18;
+          --ink: #f3efe7;
+          --ink-soft: #d8d3c9;
+          --rule: #332f28;
+          --muted: #a39c90;
+          color-scheme: dark;
+        }
+      }
+      :root[data-theme="dark"] {
+        --paper: #15130f;
+        --paper-2: #201d18;
+        --ink: #f3efe7;
+        --ink-soft: #d8d3c9;
+        --rule: #332f28;
+        --muted: #a39c90;
+        color-scheme: dark;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        font-size: 17px;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: "Inter", system-ui, sans-serif;
+        line-height: 1.6;
+        -webkit-font-smoothing: antialiased;
+      }
+
+      .wrap {
+        max-width: var(--measure);
+        margin: 0 auto;
+        padding: 2rem 1.25rem 4rem;
+      }
+
+      /* ------------------------------ Top bar ------------------------ */
+      .topbar {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 1rem;
+        padding-bottom: 1.25rem;
+        margin-bottom: 1.75rem;
+        border-bottom: 1px solid var(--rule);
+      }
+      h1.page-title {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 700;
+        font-size: clamp(1.7rem, 5vw, 2.6rem);
+        line-height: 1.1;
+        letter-spacing: -0.02em;
+        margin: 0;
+      }
+      .theme-toggle {
+        flex: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 2rem;
+        height: 2rem;
+        padding: 0;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--ink);
+        cursor: pointer;
+        line-height: 1;
+        transition:
+          border-color 0.15s ease,
+          transform 0.15s ease;
+      }
+      .theme-toggle:hover {
+        border-color: var(--ink);
+      }
+      .theme-toggle:active {
+        transform: scale(0.92);
+      }
+      .theme-toggle svg {
+        width: 1.05rem;
+        height: 1.05rem;
+        display: block;
+      }
+      .theme-toggle .icon-sun {
+        display: none;
+      }
+      :root[data-theme="dark"] .theme-toggle .icon-sun {
+        display: block;
+      }
+      :root[data-theme="dark"] .theme-toggle .icon-moon {
+        display: none;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root:not([data-theme="light"]) .theme-toggle .icon-sun {
+          display: block;
+        }
+        :root:not([data-theme="light"]) .theme-toggle .icon-moon {
+          display: none;
+        }
+      }
+
+      /* ------------------------------ Song table --------------------- */
+      table.songs {
+        width: 100%;
+        border-collapse: collapse;
+      }
+      table.songs thead th {
+        text-align: left;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.68rem;
+        font-weight: 600;
+        color: var(--muted);
+        padding: 0 0 0.75rem;
+        border-bottom: 1px solid var(--rule);
+      }
+      table.songs td {
+        padding: 0.7rem 0;
+        border-bottom: 1px solid var(--rule);
+        vertical-align: baseline;
+      }
+      .col-num {
+        width: 2.5rem;
+        font-family: "Fraunces", Georgia, serif;
+        font-size: 0.95rem;
+        color: var(--muted);
+        text-align: right;
+        padding-right: 1rem !important;
+      }
+      .col-title .song-title {
+        font-family: "Fraunces", Georgia, serif;
+        font-weight: 500;
+        font-size: 1.15rem;
+        line-height: 1.3;
+      }
+      .col-artist {
+        color: var(--muted);
+        font-size: 0.95rem;
+        white-space: nowrap;
+      }
+      .col-show {
+        text-align: right;
+        white-space: nowrap;
+      }
+      .show-tag {
+        display: inline-block;
+        font-size: 0.72rem;
+        letter-spacing: 0.04em;
+        color: var(--muted);
+        padding: 0.1rem 0.6rem;
+        border: 1px solid var(--rule);
+        border-radius: 999px;
+      }
+
+      /* On narrow screens, stack artist + show under the title. */
+      @media (max-width: 36rem) {
+        table.songs,
+        table.songs tbody,
+        table.songs tr,
+        table.songs td {
+          display: block;
+        }
+        table.songs thead {
+          display: none;
+        }
+        table.songs tr {
+          position: relative;
+          padding: 0.8rem 0 0.8rem 2.6rem;
+          border-bottom: 1px solid var(--rule);
+        }
+        table.songs td {
+          padding: 0;
+          border: 0;
+        }
+        .col-num {
+          position: absolute;
+          left: 0;
+          top: 0.8rem;
+          width: auto;
+          padding-right: 0 !important;
+        }
+        .col-artist,
+        .col-show {
+          display: inline;
+          text-align: left;
+        }
+        .col-show {
+          margin-left: 0.6rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <div class="topbar">
+        <h1 class="page-title">Uke O Ono Back Pages</h1>
+        <button
+          class="theme-toggle"
+          type="button"
+          data-theme-toggle
+          aria-label="Switch colour theme"
+        >
+          <svg
+            class="icon-moon"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" />
+          </svg>
+          <svg
+            class="icon-sun"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
+            <circle cx="12" cy="12" r="4" />
+            <path
+              d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <table class="songs">
+        <thead>
+          <tr>
+            <th class="col-num">#</th>
+            <th>Song</th>
+            <th>Artist</th>
+            <th class="col-show">Show</th>
+          </tr>
+        </thead>
+        <tbody id="rows"></tbody>
+      </table>
+    </div>
+
+    <script>
+      /* ==================================================================
+         SONGS — edit me
+         ------------------------------------------------------------------
+         One row per song:  ["Song title", "Artist", "Show"]
+         Rows render top to bottom in the order listed here.
+         ================================================================== */
+      const SONGS = [
+        // ---- Fringe 2026 ----
+        ["Kiss Me", "Sixpence None the Richer", "Fringe 2026"],
+        ["Oxford Comma", "Vampire Weekend", "Fringe 2026"],
+        ["I Will Wait", "Mumford & Sons", "Fringe 2026"],
+        ["Fisherman's Blues", "The Waterboys", "Fringe 2026"],
+        ["I Gotta Feeling", "The Black Eyed Peas", "Fringe 2026"],
+        ["Many of Horror", "Biffy Clyro", "Fringe 2026"],
+        ["I Saw Her Standing There", "The Beatles", "Fringe 2026"],
+        ["Blinding Lights", "The Weeknd", "Fringe 2026"],
+        ["Boys Don't Cry", "The Cure", "Fringe 2026"],
+        ["A Pair of Brown Eyes", "The Pogues", "Fringe 2026"],
+        ["Take Me Out", "Franz Ferdinand", "Fringe 2026"],
+        ["Starlight", "Muse", "Fringe 2026"],
+
+        // ---- Fringe 2025 · Routes & Rhythms ----
+        ["I'll Be Your Baby Tonight", "Bob Dylan", "Fringe 2025"],
+        ["Dreaming of You", "The Coral", "Fringe 2025"],
+        ["A Whiter Shade of Pale", "Procol Harum", "Fringe 2025"],
+        ["Route 66 / Kansas City", "Mash-up", "Fringe 2025"],
+        ["This Is the Life", "Amy Macdonald", "Fringe 2025"],
+        ["Don't Let Me Down", "The Beatles", "Fringe 2025"],
+        ["In Hell I'll Be in Good Company", "The Dead South", "Fringe 2025"],
+        ["A Message to You Rudy", "The Specials", "Fringe 2025"],
+        ["Africa", "Toto", "Fringe 2025"],
+        ["Why Does It Always Rain on Me?", "Travis", "Fringe 2025"],
+        ["One Love", "Bob Marley", "Fringe 2025"],
+        ["Shake It Off", "Taylor Swift", "Fringe 2025"],
+
+        // ---- Beatles Marathon 2024 · Uke-O-Ono ----
+        ["Beatles Medley", "The Beatles", "Beatles 2024"],
+        ["With a Little Help from My Friends", "The Beatles", "Beatles 2024"],
+        ["Here Comes the Sun", "The Beatles", "Beatles 2024"],
+        ["Don't Let Me Down", "The Beatles", "Beatles 2024"],
+        ["Got My Mind Set on You", "George Harrison", "Beatles 2024"],
+        ["Day Tripper", "The Beatles", "Beatles 2024"],
+        ["Come Together", "The Beatles", "Beatles 2024"],
+        ["Eleanor Rigby", "The Beatles", "Beatles 2024"],
+        ["I Feel Fine", "The Beatles", "Beatles 2024"],
+        ["Something", "The Beatles", "Beatles 2024"],
+        ["Eight Days a Week", "The Beatles", "Beatles 2024"],
+        ["Can't Buy Me Love", "The Beatles", "Beatles 2024"],
+        ["Lady Madonna", "The Beatles", "Beatles 2024"],
+        ["Hey Jude", "The Beatles", "Beatles 2024"],
+
+        // ---- Fringe 2024 ----
+        ["Somewhere in My Heart", "Aztec Camera", "Fringe 2024"],
+        ["It Must Be Love", "Madness", "Fringe 2024"],
+        ["Big Yellow Taxi", "Joni Mitchell", "Fringe 2024"],
+        ["Take on Me", "a-ha", "Fringe 2024"],
+        ["Don't Worry, Be Happy", "Bobby McFerrin", "Fringe 2024"],
+        ["Riptide", "Vance Joy", "Fringe 2024"],
+        ["Summer of '69", "Bryan Adams", "Fringe 2024"],
+        ["Be My Baby", "The Ronettes", "Fringe 2024"],
+        ["Psycho Killer", "Talking Heads", "Fringe 2024"],
+        ["Dreams", "Fleetwood Mac", "Fringe 2024"],
+        ["Dreams", "The Cranberries", "Fringe 2024"],
+        ["I'm a Believer", "The Monkees", "Fringe 2024"],
+        ["Weather with You", "Crowded House", "Fringe 2024"],
+        ["Mr Brightside", "The Killers", "Fringe 2024"],
+
+        // ---- Fringe 2023 · Ukulele Nights ----
+        ["With a Little Help from My Friends", "The Beatles", "Fringe 2023"],
+        ["Folsom Prison Blues", "Johnny Cash", "Fringe 2023"],
+        ["Sunny Afternoon", "The Kinks", "Fringe 2023"],
+        ["My Girl", "The Temptations", "Fringe 2023"],
+        ["Make Me Smile (Come Up and See Me)", "Steve Harley & Cockney Rebel", "Fringe 2023"],
+        ["Time After Time", "Cyndi Lauper", "Fringe 2023"],
+        ["Friday I'm in Love", "The Cure", "Fringe 2023"],
+        ["Faith", "George Michael", "Fringe 2023"],
+        ["Will You Still Love Me Tomorrow?", "The Shirelles", "Fringe 2023"],
+        ["Watermelon Sugar", "Harry Styles", "Fringe 2023"],
+        ["Dancing in the Dark", "Bruce Springsteen", "Fringe 2023"],
+        ["Lady Madonna", "The Beatles", "Fringe 2023"],
+      ];
+
+      /* ----------------------------- Render ----------------------------- */
+      const esc = (s) =>
+        String(s).replace(
+          /[&<>"]/g,
+          (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" })[c],
+        );
+
+      document.getElementById("rows").innerHTML = SONGS.map((song, i) => {
+        const [title, artist = "", show = ""] = song;
+        return `<tr>
+            <td class="col-num">${i + 1}</td>
+            <td class="col-title"><span class="song-title">${esc(title)}</span></td>
+            <td class="col-artist">${esc(artist)}</td>
+            <td class="col-show">${show ? `<span class="show-tag">${esc(show)}</span>` : ""}</td>
+          </tr>`;
+      }).join("");
+
+      /* ----------------------------- Theme ------------------------------ */
+      document.querySelector("[data-theme-toggle]").addEventListener("click", () => {
+        const root = document.documentElement;
+        const isDark =
+          root.getAttribute("data-theme") === "dark" ||
+          (!root.getAttribute("data-theme") &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
+        const next = isDark ? "light" : "dark";
+        root.setAttribute("data-theme", next);
+        try {
+          localStorage.setItem("setlist-theme", next);
+        } catch (e) {}
+      });
+    </script>
+  </body>
+</html>
