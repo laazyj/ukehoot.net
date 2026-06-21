@@ -33,14 +33,18 @@
   ],
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@nx/js": "22.7.5",
+    "@nx/js": "^23.0.0",
     "@types/node": "^26.0.0",
     "eslint": "^10.5.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
-    "nx": "22.7.5",
+    "nx": "^23.0.0",
     "prettier": "^3.8.4",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1"
+  },
+  "overrides": {
+    "form-data": "^4.0.6",
+    "tmp": "^0.2.7"
   }
 }
