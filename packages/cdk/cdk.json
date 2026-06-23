@@ -6,6 +6,6 @@
   },
   "context": {
     "@aws-cdk/core:newStyleStackSynthesis": true,
-    "@aws-cdk/core:crossStackReferencesDefaultStrong": true
+    "@aws-cdk/core:defaultCrossStackReferences": "strong"
   }
 }
