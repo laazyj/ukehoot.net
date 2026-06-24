@@ -4,6 +4,8 @@
 [![Code: MIT](https://img.shields.io/badge/code-MIT-blue.svg)](LICENSE)
 [![Content: contributors](https://img.shields.io/badge/content-%C2%A9%20contributors-lightgrey.svg)](LICENSE-content.md)
 
+[![ukehoot.net](packages/site/static/og-image.png)](https://ukehoot.net/)
+
 Monorepo for [ukehoot.net](https://ukehoot.net/) — the website for
 **Uke hOOt**, Edinburgh's weekly ukulele jam, plus the AWS infrastructure
 that hosts it.
