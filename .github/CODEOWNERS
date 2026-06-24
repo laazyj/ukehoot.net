@@ -1,0 +1,11 @@
+# Code owners for ukehoot.net
+#
+# Owners listed here are automatically requested to review any PR that
+# changes a matching path. Requiring an owner's approval before merge is
+# controlled separately by the branch ruleset on `main`; this file on its
+# own only requests the review.
+#
+# Last matching pattern wins.
+
+# Default owner for the whole repo.
+* @laazyj
