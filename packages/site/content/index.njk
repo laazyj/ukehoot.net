@@ -136,6 +136,23 @@ eleventyExcludeFromCollections: true
   </div>
 </section>
 
+{% if site.featuredVideo %}
+<section class="band" id="watch">
+  <header class="band-head">
+    <p class="band-label">See us in action</p>
+    <h2 class="band-song">&ldquo;Video Killed the Radio Star&rdquo;</h2>
+  </header>
+  <div class="band-body">
+    <p>
+      Can&rsquo;t make it along just yet? Here&rsquo;s what a roomful of ukuleles
+      actually sounds like. Press play, mind the neighbours.
+    </p>
+    {% youtube site.featuredVideo, "UkeHoot live" %}
+    {% if s.youtube %}<p class="more-link"><a href="{{ s.youtube }}" rel="external">More on our YouTube &rarr;</a></p>{% endif %}
+  </div>
+</section>
+{% endif %}
+
 {% if collections.galleryPhotos.length > 0 %}
 <section class="band band--photos" id="photos">
   <header class="band-head">

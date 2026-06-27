@@ -744,6 +744,70 @@ article.post .post-body video {
   background: #000;
 }
 
+/* Click-to-load YouTube facade (see the `youtube` shortcode + base.njk). The
+   thumbnail and play button show on load; the real player iframe is swapped in
+   on click, so no third-party cookies fire until the visitor presses play. */
+.yt-embed {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  margin: 0 0 1.5rem;
+  border-radius: 4px;
+  overflow: hidden;
+  background: #000;
+}
+.yt-embed iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.yt-embed-btn {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+}
+.yt-embed-btn:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.yt-embed-thumb {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.yt-embed-play {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 4.4rem;
+  height: 3rem;
+  transform: translate(-50%, -50%);
+  border-radius: 0.6rem;
+  background: var(--ink);
+  opacity: 0.82;
+  transition: opacity 0.15s ease;
+}
+.yt-embed-play::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-40%, -50%);
+  border-style: solid;
+  border-width: 0.6rem 0 0.6rem 1rem;
+  border-color: transparent transparent transparent var(--paper);
+}
+.yt-embed-btn:hover .yt-embed-play,
+.yt-embed-btn:focus-visible .yt-embed-play {
+  opacity: 1;
+}
+
 .external-link {
   font-size: 1.1rem;
   font-family: "Fraunces", Georgia, serif;
