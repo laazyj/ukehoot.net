@@ -109,6 +109,12 @@ eleventyExcludeFromCollections: true
       <li>
         New and want a flick through first?
         {% if site.songbookUrl %}<a href="{{ site.songbookUrl }}" rel="external">Download the songbook →</a>{% elif s.whatsapp %}Our songbook lives in the WhatsApp community. <a href="{{ s.whatsapp }}" rel="external">Join and it&rsquo;s yours →</a>{% else %}<span class="soon">Songbook — coming soon.</span>{% endif %}
+        {% if site.songbookSpotifyUrl %}
+        <p class="songbook-listen">
+          Fancy a listen before you strum along? The current songbook is a playlist.
+          {% include "partials/spotify-link.njk" %}
+        </p>
+        {% endif %}
       </li>
     </ul>
   </div>

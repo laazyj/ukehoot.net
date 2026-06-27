@@ -353,6 +353,51 @@ header.site nav a.active {
   font-style: italic;
 }
 
+/* ------------------------------ Spotify link --------------------- */
+/* Songbook playlist call-to-action. Spotify-green pill with the official
+   black mark, sat on UkeHoot's 2px button radius so it reads as one of our
+   buttons in Spotify livery. The green is constant across light/dark so it
+   stays recognisably Spotify either way. */
+.songbook-listen {
+  margin: 0.75rem 0 0;
+  color: var(--muted);
+  font-size: 0.97rem;
+}
+.spotify-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+  padding: 0.55rem 1.15rem;
+  border-radius: 2px;
+  background: #1ed760;
+  color: #0a0a0a;
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    transform 0.15s ease;
+}
+.spotify-link:hover {
+  background: #1fdf64;
+  text-decoration: none;
+}
+.spotify-link:active {
+  transform: scale(0.98);
+}
+.spotify-link:focus-visible {
+  outline: 2px solid var(--ink);
+  outline-offset: 2px;
+}
+.spotify-mark {
+  width: 1.2rem;
+  height: 1.2rem;
+  flex: none;
+}
+
 .tick-list {
   list-style: none;
   padding: 0;
