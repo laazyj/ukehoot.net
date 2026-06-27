@@ -39,6 +39,24 @@ export default function (eleventyConfig) {
     fs.readFileSync(path.join(__dirname, relPath), "utf8"),
   );
 
+  // A click-to-load YouTube facade. Ships a thumbnail plus play button and only
+  // loads the cookie-setting player (via youtube-nocookie.com) when clicked, so
+  // no third-party cookies fire on page load. The thumbnail is a cookieless
+  // image from i.ytimg.com unless a local `poster` path is given. The click
+  // handler that swaps in the real iframe lives in base.njk. Used by the home
+  // "Watch" band and available in any post body as {% youtube "id", "title" %}.
+  eleventyConfig.addShortcode("youtube", (id, title, poster) => {
+    const label = title ? `Play video: ${title}` : "Play video";
+    const thumb = poster || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
+    return (
+      `<div class="yt-embed"><button type="button" class="yt-embed-btn" ` +
+      `data-yt-id="${id}" aria-label="${label}">` +
+      `<img class="yt-embed-thumb" src="${thumb}" alt="" loading="lazy" ` +
+      `width="480" height="360" />` +
+      `<span class="yt-embed-play" aria-hidden="true"></span></button></div>`
+    );
+  });
+
   // Convert a root-absolute path ("/assets/x.css") into a path relative to
   // the current page. Lets the site render under any URL prefix without a
   // build-time pathPrefix flag.
