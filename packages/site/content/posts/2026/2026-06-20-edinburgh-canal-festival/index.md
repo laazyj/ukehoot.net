@@ -16,4 +16,4 @@ No stage, no fuss, just the collective strung out along the towpath with ukes, a
 
 Thanks to the [Edinburgh Canal Festival](https://edinburghcanalfestival.org.uk) folk for having us, and to everyone who stopped on the path for a tune in the sunshine.
 
-<div class="video-embed"><iframe width="500" height="281" id="youtube_iframe" src="https://www.youtube.com/embed/qO6v1r4beHs?enablejsapi=1" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen title="Here Comes the Sun at the Edinburgh Canal Festival"></iframe></div>
+{% youtube "qO6v1r4beHs", "Here Comes the Sun at the Edinburgh Canal Festival" %}
