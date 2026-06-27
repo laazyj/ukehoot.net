@@ -48,13 +48,7 @@ export default function (eleventyConfig) {
   eleventyConfig.addShortcode("youtube", (id, title, poster) => {
     const label = title ? `Play video: ${title}` : "Play video";
     const thumb = poster || `https://i.ytimg.com/vi/${id}/hqdefault.jpg`;
-    return (
-      `<div class="yt-embed"><button type="button" class="yt-embed-btn" ` +
-      `data-yt-id="${id}" aria-label="${label}">` +
-      `<img class="yt-embed-thumb" src="${thumb}" alt="" loading="lazy" ` +
-      `width="480" height="360" />` +
-      `<span class="yt-embed-play" aria-hidden="true"></span></button></div>`
-    );
+    return `<div class="yt-embed"><button type="button" class="yt-embed-btn" data-yt-id="${id}" aria-label="${label}"><img class="yt-embed-thumb" src="${thumb}" alt="" loading="lazy" width="480" height="360" /><span class="yt-embed-play" aria-hidden="true"></span></button></div>`;
   });
 
   // Convert a root-absolute path ("/assets/x.css") into a path relative to
