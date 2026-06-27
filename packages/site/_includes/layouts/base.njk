@@ -149,12 +149,14 @@
         var btn = e.target.closest(".yt-embed-btn");
         if (!btn) return;
         var wrap = btn.closest(".yt-embed");
-        var id = btn.getAttribute("data-yt-id");
-        // Only ever an 11-char YouTube id (sourced from site.json), but validate
-        // before building the URL so untrusted DOM text can't reach iframe.src.
-        if (!wrap || !id || !/^[\w-]{11}$/.test(id)) return;
+        // Only ever an 11-char YouTube id (sourced from site.json), but extract
+        // it via a strict charset match so the value reaching iframe.src is the
+        // matched substring, never raw DOM text.
+        var id = (btn.getAttribute("data-yt-id") || "").match(/^[\w-]{11}$/);
+        if (!wrap || !id) return;
         var iframe = document.createElement("iframe");
-        iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1";
+        iframe.src =
+          "https://www.youtube-nocookie.com/embed/" + id[0] + "?autoplay=1";
         iframe.title = btn.getAttribute("aria-label") || "YouTube video";
         iframe.allow =
           "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
