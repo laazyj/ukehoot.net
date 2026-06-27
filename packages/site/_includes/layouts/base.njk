@@ -150,7 +150,9 @@
         if (!btn) return;
         var wrap = btn.closest(".yt-embed");
         var id = btn.getAttribute("data-yt-id");
-        if (!wrap || !id) return;
+        // Only ever an 11-char YouTube id (sourced from site.json), but validate
+        // before building the URL so untrusted DOM text can't reach iframe.src.
+        if (!wrap || !id || !/^[\w-]{11}$/.test(id)) return;
         var iframe = document.createElement("iframe");
         iframe.src = "https://www.youtube-nocookie.com/embed/" + id + "?autoplay=1";
         iframe.title = btn.getAttribute("aria-label") || "YouTube video";
