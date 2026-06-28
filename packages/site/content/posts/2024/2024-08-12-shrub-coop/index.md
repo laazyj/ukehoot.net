@@ -11,3 +11,7 @@ photos:
 ---
 
 Shrub Co-op, August 2024. A small, close shop session with the audience an arm's length away. In black and white.
+
+And the sound to go with the stills: a-ha's "Take On Me", arranged for a ukulele mob, from our second year at the Fringe.
+
+{% youtube "fgGR71ik87w", "Take On Me at the Shrub Coop, Fringe 2024" %}
