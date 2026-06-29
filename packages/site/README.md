@@ -59,6 +59,10 @@ Prettier owns whitespace/formatting; stylelint focuses on CSS correctness and
 modern syntax, so the two don't overlap. The standard kebab-case naming check is
 widened to allow BEM `__element` / `--modifier` class names.
 
+`<style>` blocks in `.html` files (e.g. the standalone
+[`static/uke-o-ono/`](./static/uke-o-ono/index.html) page) are linted too, via
+the `postcss-html` custom syntax.
+
 ## Adding a post
 
 1. Create `content/posts/<YYYY>/<YYYY-MM-DD>-<slug>/index.md`.
