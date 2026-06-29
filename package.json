@@ -4,8 +4,10 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint .",
-    "lint:fix": "eslint --fix .",
+    "lint": "eslint . && stylelint \"**/*.{css,html}\"",
+    "lint:fix": "eslint --fix . && stylelint --fix \"**/*.{css,html}\"",
+    "lint:css": "stylelint \"**/*.{css,html}\"",
+    "lint:css:fix": "stylelint --fix \"**/*.{css,html}\"",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "nx run-many -t typecheck",
@@ -39,7 +41,10 @@
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "nx": "^23.0.0",
+    "postcss-html": "^1.8.1",
     "prettier": "^3.8.4",
+    "stylelint": "^17.14.0",
+    "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.61.1"
   },

@@ -12,7 +12,7 @@
 :root,
 :root[data-theme="light"] {
   --paper: #faf9f6;
-  --paper-2: #ffffff;
+  --paper-2: #fff;
   --ink: #141414;
   --ink-soft: #2c2a28;
   --rule: #e4e1da;
@@ -60,7 +60,7 @@ body {
   margin: 0;
   background: var(--paper);
   color: var(--ink);
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
 }
@@ -213,7 +213,7 @@ header.site nav a.active {
   margin: 0.5rem auto 1.5rem;
 }
 .hero-tagline {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 700;
   font-size: clamp(1.5rem, 4.5vw, 2.1rem);
   line-height: 1.15;
@@ -258,7 +258,7 @@ header.site nav a.active {
 /* ------------------------------ Buttons -------------------------- */
 .btn {
   display: inline-block;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.03em;
@@ -308,7 +308,7 @@ header.site nav a.active {
   color: var(--muted);
 }
 .band-song {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 700;
   font-size: clamp(1.55rem, 4vw, 2.3rem);
   line-height: 1.12;
@@ -372,7 +372,7 @@ header.site nav a.active {
   border-radius: 2px;
   background: #1ed760;
   color: #0a0a0a;
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 0.9rem;
   font-weight: 600;
   letter-spacing: 0.02em;
@@ -528,7 +528,7 @@ header.site nav a.active {
 }
 .year-nav a {
   color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 500;
   font-size: 1rem;
   text-decoration: none;
@@ -538,7 +538,7 @@ header.site nav a.active {
 }
 .year-nav a small {
   color: var(--muted);
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 0.78rem;
   font-weight: 400;
 }
@@ -548,7 +548,7 @@ header.site nav a.active {
   margin: 0 0 3.5rem;
 }
 h2.year {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 700;
   font-size: 2.5rem;
   letter-spacing: -0.02em;
@@ -592,7 +592,7 @@ a.card {
 }
 a.card:hover {
   transform: translateY(-2px);
-  box-shadow: 0 4px 14px rgba(20, 20, 20, 0.1);
+  box-shadow: 0 4px 14px rgb(20 20 20 / 10%);
   border-color: var(--ink);
 }
 a.card .thumb {
@@ -625,7 +625,7 @@ a.card time {
 }
 a.card .title {
   color: var(--ink);
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 500;
   font-size: 1.02rem;
   line-height: 1.35;
@@ -637,7 +637,7 @@ article.post {
   margin: 0 auto;
 }
 article.post h1 {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 700;
   font-size: 2.1rem;
   line-height: 1.15;
@@ -669,7 +669,7 @@ article.post .meta time {
   border-radius: 999px;
 }
 article.post .post-body {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 500;
   font-size: 1.05rem;
   line-height: 1.7;
@@ -678,7 +678,7 @@ article.post .post-body p {
   margin: 0 0 1.1rem;
 }
 article.post .post-body h2 {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 700;
   font-size: 1.4rem;
   margin: 2.25rem 0 0.75rem;
@@ -810,12 +810,12 @@ article.post .post-body video {
 
 .external-link {
   font-size: 1.1rem;
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   margin: 0 0 1.5rem;
 }
 
 .big-quote {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-size: 1.3rem;
   font-style: italic;
   border-left: 3px solid var(--ink);
@@ -875,7 +875,7 @@ footer.site a:hover {
   background: var(--paper);
   color: var(--ink);
   border-top: 4px solid var(--ink);
-  box-shadow: 0 -8px 24px -10px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 -8px 24px -10px rgb(0 0 0 / 50%);
   padding: 1rem 1.5rem;
   /* Keep clear of the mobile browser chrome / home indicator. */
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
@@ -893,7 +893,7 @@ footer.site a:hover {
 .consent[hidden] {
   display: none;
 }
-@media (min-width: 720px) {
+@media (width >= 720px) {
   .consent {
     padding: 1.1rem 2.5rem;
     padding-bottom: max(1.1rem, env(safe-area-inset-bottom));
@@ -901,7 +901,7 @@ footer.site a:hover {
 }
 /* On narrow screens give the buttons the full width as equal, comfortable
    tap targets rather than crowding them onto a short row. */
-@media (max-width: 26rem) {
+@media (width <= 26rem) {
   .consent-actions {
     width: 100%;
   }
@@ -911,7 +911,7 @@ footer.site a:hover {
   }
 }
 .consent-msg {
-  font-family: "Fraunces", Georgia, serif;
+  font-family: Fraunces, Georgia, serif;
   font-weight: 500;
   font-size: clamp(1.05rem, 2.4vw, 1.2rem);
   line-height: 1.35;
@@ -930,7 +930,7 @@ footer.site a:hover {
   flex-wrap: wrap;
 }
 .consent-btn {
-  font-family: "Inter", system-ui, sans-serif;
+  font-family: Inter, system-ui, sans-serif;
   font-size: 0.9rem;
   font-weight: 500;
   letter-spacing: 0.02em;
@@ -965,7 +965,7 @@ footer.site a:hover {
 }
 
 /* ------------------------------ Small screens -------------------- */
-@media (max-width: 40rem) {
+@media (width <= 40rem) {
   .brand-tagline {
     display: none;
   }
@@ -974,7 +974,7 @@ footer.site a:hover {
   }
 }
 
-@media (max-width: 32rem) {
+@media (width <= 32rem) {
   ul.posts {
     grid-template-columns: 1fr 1fr;
   }

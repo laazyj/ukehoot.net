@@ -38,6 +38,31 @@ Optional environment variables (see [`.env.example`](./.env.example)):
 - `GITHUB_SHA` — baked into a `<meta name="build-sha">` tag and asserted by
   the post-deploy smoke test. CI sets this automatically; locally it's optional.
 
+## Styling
+
+There is a single stylesheet, [`assets/styles.css`](./assets/styles.css). The
+`inlineFile` shortcode inlines it into every page's `<style>` (one fewer request,
+instant first paint), and it is also passed through to `/assets/styles.css`.
+
+CSS is linted with [stylelint](https://stylelint.org/)
+(`stylelint-config-standard`); config lives in
+[`.stylelintrc.json`](../../.stylelintrc.json) at the repo root. As with ESLint
+and Prettier, it runs across the whole monorepo from the root and is part of
+`npm run lint` / `npm run verify`:
+
+```sh
+npm run lint:css        # check only CSS
+npm run lint:css:fix    # auto-fix
+```
+
+Prettier owns whitespace/formatting; stylelint focuses on CSS correctness and
+modern syntax, so the two don't overlap. The standard kebab-case naming check is
+widened to allow BEM `__element` / `--modifier` class names.
+
+`<style>` blocks in `.html` files (e.g. the standalone
+[`static/uke-o-ono/`](./static/uke-o-ono/index.html) page) are linted too, via
+the `postcss-html` custom syntax.
+
 ## Adding a post
 
 1. Create `content/posts/<YYYY>/<YYYY-MM-DD>-<slug>/index.md`.
