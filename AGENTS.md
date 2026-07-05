@@ -18,10 +18,10 @@ The husky `pre-commit` hook runs a gitleaks secret scan (see the README's
 standalone binary that is deliberately not an npm dependency, so it is absent
 on fresh clones, CI runners, and cloud agent containers.
 
-If gitleaks is on `PATH`, just commit: the scan runs and passes for
-secret-free changes. If it is absent the hook prints "gitleaks not found in
-PATH" and exits non-zero; that is expected, not a failure to investigate, so
-don't install gitleaks, debug husky, or retry. Bypass it instead:
+Always start by presuming gitleaks is available on `PATH`: the pre-commit scan
+should run and pass for secret-free changes. If it is absent the hook prints
+"gitleaks not found in PATH" and exits non-zero; that is expected, not a failure
+to investigate, so don't install gitleaks, debug husky, or retry. Bypass it instead:
 
 ```sh
 git commit --no-verify -m "..."
@@ -31,6 +31,9 @@ GitHub's server-side secret scanning and push protection are the backstop once
 the branch is pushed, so skipping the local scan is safe for secret-free
 changes. If you are committing something that might be a secret, stop and flag
 it rather than bypassing.
+
+**IMPORTANT**: gitleaks is unique in its optionality. There are no other analyser tools
+that can be bypassed.
 
 ## Build system
 
