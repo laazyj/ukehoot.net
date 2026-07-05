@@ -1,0 +1,21 @@
+{#
+  Site-wide notice, rendered as a bold gig-poster billboard at the top of the
+  page content. Data lives in site.json under `notice`:
+
+    active    — master on/off switch (see base.njk)
+    label     — short kicker, e.g. "Fringe 2026"
+    message   — the sentence shown to visitors (doubles as the headline)
+    linkText  — call-to-action text (optional)
+    linkUrl   — root-absolute link, run through `rel` (optional)
+
+  Deliberately not dismissible: the notice carries critical information (e.g.
+  the Wednesday sessions being off), so every visit should see it. Reusable for
+  the annual Fringe pause, venue moves, one-off events, etc. Flip `active` to
+  switch it on and off.
+#}
+{% set n = site.notice %}
+<aside class="notice-poster" aria-label="Site notice">
+  {% if n.label %}<p class="notice-poster__kicker">&#9733;&ensp;{{ n.label }}&ensp;&#9733;</p>{% endif %}
+  <p class="notice-poster__msg">{{ n.message }}</p>
+  {% if n.linkText and n.linkUrl %}<a class="btn btn--primary notice-poster__cta" href="{{ n.linkUrl | rel }}">{{ n.linkText }} &rarr;</a>{% endif %}
+</aside>
