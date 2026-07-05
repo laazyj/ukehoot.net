@@ -76,6 +76,8 @@
       </div>
     </header>
 
+    {% if site.notice.active %}{% include "partials/notice.njk" %}{% endif %}
+
     {{ content | safe }}
 
     <footer class="site">

@@ -702,6 +702,39 @@ article.post .post-body video {
   border-radius: 4px;
   margin: 1.25rem 0;
 }
+/* Tabular content (e.g. the Fringe gig listings). Inter for the data, hairline
+   rules in keeping with the archive/year tables elsewhere. */
+article.post .post-body table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.25rem 0 1.75rem;
+  font-family: Inter, system-ui, sans-serif;
+  font-size: 0.92rem;
+}
+article.post .post-body th,
+article.post .post-body td {
+  text-align: left;
+  padding: 0.55rem 0.8rem;
+  border-bottom: 1px solid var(--rule);
+}
+article.post .post-body thead th {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  border-bottom: 2px solid var(--ink);
+}
+article.post .post-body tbody tr:last-child td {
+  border-bottom: 0;
+}
+@media (width <= 32rem) {
+  /* Let a wide gig table scroll on its own rather than break the layout. */
+  article.post .post-body table {
+    display: block;
+    overflow-x: auto;
+  }
+}
 
 /* ------------------------------ Photo grid (post) ---------------- */
 .photos {
@@ -962,6 +995,55 @@ footer.site a:hover {
 }
 .consent-btn--primary:hover {
   background: var(--ink-soft);
+}
+
+/* ------------------------------ Notice --------------------------- */
+/* One data-driven site notice (see site.json `notice` + partials/notice.njk),
+   rendered as a bold gig-poster billboard at the top of the page content. It
+   sits on the same monochrome palette so it reads as UkeHoot, not a bolt-on;
+   like the marquee, the ink/paper pair inverts under dark mode by design. */
+.notice-poster {
+  position: relative;
+  margin: 0 0 2.5rem;
+  padding: 2.1rem 1.75rem;
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: 3px;
+  text-align: center;
+  overflow: hidden;
+}
+.notice-poster::before {
+  content: "";
+  position: absolute;
+  inset: 0.6rem;
+  border: 1px solid color-mix(in srgb, var(--paper) 45%, transparent);
+  border-radius: 2px;
+  pointer-events: none;
+}
+.notice-poster__kicker {
+  margin: 0 0 0.7rem;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.24em;
+  color: color-mix(in srgb, var(--paper) 78%, transparent);
+}
+.notice-poster__msg {
+  max-width: 30rem;
+  margin: 0 auto 1.4rem;
+  font-family: Fraunces, Georgia, serif;
+  font-weight: 700;
+  font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+}
+.notice-poster__cta.btn--primary {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+.notice-poster__cta.btn--primary:hover {
+  background: color-mix(in srgb, var(--paper) 88%, var(--ink));
 }
 
 /* ------------------------------ Small screens -------------------- */
