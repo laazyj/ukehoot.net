@@ -14,6 +14,7 @@
     "day": "Wednesdays",
     "time": "7:30pm",
     "venue": "The Strathmore Bar",
+    "room": "back room",
     "address": "17 Iona Street, Edinburgh EH6 8SG",
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=The+Strathmore+Bar+17+Iona+Street+Edinburgh+EH6+8SG"
   },

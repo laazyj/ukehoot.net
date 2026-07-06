@@ -16,7 +16,7 @@ eleventyExcludeFromCollections: true
   </p>
 
   <p class="marquee" aria-label="When and where we meet">
-    <span>★</span> {{ m.day }} <span>·</span> {{ m.time }} <span>·</span> {{ m.venue }} <span>★</span>
+    <span>★</span> {{ m.day }} <span>·</span> {{ m.time }} <span>·</span> {{ m.venue }} <span class="marquee-tail">{% if m.room %}({{ m.room }}) {% endif %}<span>★</span></span>
   </p>
 
   <p class="cta-row">
@@ -57,6 +57,11 @@ eleventyExcludeFromCollections: true
     <p class="venue-line">
       {{ m.venue }}{% if m.address %}, {{ m.address }}{% endif %}.
       {% if m.mapUrl %}<a href="{{ m.mapUrl }}" rel="external">Find us on the map →</a>{% endif %}
+    </p>
+    <p>
+      <strong>We're in the back room.</strong> If you're standing in the bar
+      wondering where the ukuleles are, you're nearly there. Head straight
+      through, follow the strumming.
     </p>
     <p class="note">
       Festival season is Edinburgh's silly season and it can shuffle us about, and
@@ -130,7 +135,7 @@ eleventyExcludeFromCollections: true
       <li>A ukulele, if you've got one. If not, we can usually lend you a spare.</li>
       <li>That's it. Songbooks are shared on the night.</li>
       <li>All levels welcome. We play at a friendly, follow-along pace and nobody's marking your chord shapes.</li>
-      <li>It all happens in a proper Edinburgh pub, so come for a tune and stay for a pint.</li>
+      <li>It all happens in the back room of a proper Edinburgh pub, so come for a tune and stay for a pint.</li>
     </ul>
     <p class="answer">So, should you stay or should you go? <strong>Stay.</strong></p>
   </div>
