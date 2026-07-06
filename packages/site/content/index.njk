@@ -16,7 +16,7 @@ eleventyExcludeFromCollections: true
   </p>
 
   <p class="marquee" aria-label="When and where we meet">
-    <span>★</span> {{ m.day }} <span>·</span> {{ m.time }} <span>·</span> {{ m.venue }}{% if m.room %} ({{ m.room }}){% endif %} <span>★</span>
+    <span>★</span> {{ m.day }} <span>·</span> {{ m.time }} <span>·</span> {{ m.venue }} <span class="marquee-tail">{% if m.room %}({{ m.room }}) {% endif %}<span>★</span></span>
   </p>
 
   <p class="cta-row">

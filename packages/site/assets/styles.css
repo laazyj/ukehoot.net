@@ -246,6 +246,12 @@ header.site nav a.active {
 .marquee span {
   color: #8c8881;
 }
+/* Keep "(back room)" and the closing star together so narrow screens
+   never strand the star on a line of its own. */
+.marquee .marquee-tail {
+  color: inherit;
+  white-space: nowrap;
+}
 
 .cta-row {
   display: flex;
