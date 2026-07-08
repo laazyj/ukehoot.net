@@ -23,7 +23,7 @@ racket, now with a proper crowd.
 
 | Date        | Venue                        | Time    |
 | ----------- | ---------------------------- | ------- |
-| Sat 8 Aug   | Saughton Park Bandstand      | 1:30pm  |
+| Sat 8 Aug   | Saughton Park Bandstand      | 1:20pm  |
 | Sun 9 Aug   | Portobello Town Hall         | 1:00pm  |
 | Sat 29 Aug  | Big Beach Busk, Portobello   | TBC     |
 
