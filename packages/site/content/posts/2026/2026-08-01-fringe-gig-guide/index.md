@@ -21,11 +21,12 @@ Here's where to catch us. Turn up, sing along, heckle gently.
 A roomful of strummers, off the leash and onto a stage. Same songbook, same
 racket, now with a proper crowd.
 
-| Date        | Venue                        | Time    |
-| ----------- | ---------------------------- | ------- |
-| Sat 8 Aug   | Saughton Park Bandstand      | 1:20pm  |
-| Sun 9 Aug   | Portobello Town Hall         | 1:00pm  |
-| Sat 29 Aug  | Big Beach Busk, Portobello   | TBC     |
+| Date        | Venue                                                                                   | Time    |
+| ----------- | --------------------------------------------------------------------------------------- | ------- |
+| Sat 25 Jul  | [Picnic in the Park, Harrison Park](https://edinburghcanalfestival.org.uk/harrison-park-east/) | 1:00pm  |
+| Sat 8 Aug   | Saughton Park Bandstand                                                                  | 1:20pm  |
+| Sun 9 Aug   | Portobello Town Hall                                                                     | 1:00pm  |
+| Sat 29 Aug  | Big Beach Busk, Portobello                                                               | TBC     |
 
 
 ## "Instant Karma": Uke-O-Ono at PBH Free Fringe
