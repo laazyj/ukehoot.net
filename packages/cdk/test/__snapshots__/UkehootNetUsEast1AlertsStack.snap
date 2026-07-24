@@ -28,7 +28,7 @@
       "Properties": {
         "Budget": {
           "BudgetLimit": {
-            "Amount": 4,
+            "Amount": 10,
             "Unit": "USD",
           },
           "BudgetName": "ukehoot.net-monthly",
