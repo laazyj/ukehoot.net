@@ -24,7 +24,7 @@ racket, now with a proper crowd.
 | Date        | Venue                                                                                   | Time    |
 | ----------- | --------------------------------------------------------------------------------------- | ------- |
 | Sat 25 Jul  | [Picnic in the Park, Harrison Park](https://edinburghcanalfestival.org.uk/harrison-park-east/) | 1:00pm  |
-| Sat 8 Aug   | Saughton Park Bandstand                                                                  | 1:20pm  |
+| Sat 8 Aug   | Saughton Park Bandstand                                                                  | 1:00pm  |
 | Sun 9 Aug   | Portobello Town Hall                                                                     | 1:00pm  |
 | Sat 29 Aug  | Big Beach Busk, Portobello                                                               | TBC     |
 
