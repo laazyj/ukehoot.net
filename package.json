@@ -35,18 +35,18 @@
   ],
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@nx/js": "^23.1.0",
-    "@types/node": "^26.1.1",
-    "eslint": "^10.7.0",
+    "@nx/js": "^23.1.1",
+    "@types/node": "^26.1.2",
+    "eslint": "^10.8.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "nx": "^23.0.0",
     "postcss-html": "^1.8.1",
-    "prettier": "^3.9.5",
-    "stylelint": "^17.14.0",
+    "prettier": "^3.9.6",
+    "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.64.0"
+    "typescript-eslint": "^8.65.0"
   },
   "overrides": {
     "form-data": "^4.0.6",
