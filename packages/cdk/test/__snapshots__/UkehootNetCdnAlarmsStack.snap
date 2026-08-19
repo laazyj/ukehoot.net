@@ -141,7 +141,7 @@
             "Fn::ImportValue": "UkehootNetUsEast1AlertsStack:ExportsOutputRefukehootnetusEast1AlertsF44D0857E17B2A0C",
           },
         ],
-        "AlarmDescription": "CloudFront Function on default behavior (viewer-request) is being throttled — likely exceeding its 1ms compute budget. Threshold: > 0 throttles in 1 minute.",
+        "AlarmDescription": "CloudFront Function on default behavior (viewer-request) is being throttled - likely exceeding its 1ms compute budget. Threshold: > 0 throttles in 1 minute.",
         "AlarmName": "ukehoot-net-cdn-alarms-stack/ukehoot-net/cdn-alarms/default-behavior-viewer-request-throttles",
         "ComparisonOperator": "GreaterThanThreshold",
         "DatapointsToAlarm": 1,
