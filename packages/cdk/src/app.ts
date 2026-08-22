@@ -2,6 +2,8 @@ import { App, Stack } from "aws-cdk-lib";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { templateTextPolicy } from "@composurecdk/cloudformation";
+
 import { addCiOidc } from "./stacks/ci-oidc-stack.js";
 import { createSystem } from "./system.js";
 
@@ -36,6 +38,19 @@ export interface BuildAppOptions {
 export function buildApp({ account, siteContentPath, alertEmail }: BuildAppOptions): App {
   const app = new App();
 
+  // CloudFormation cannot store non-ASCII template text and rewrites it on
+  // deploy, leaving `cdk diff` permanently dirty. `throw` rather than
+  // `sanitize`: fixing the source beats papering over it, and the estate is
+  // small. `fields` adds the CloudFront resources the package's seed registry
+  // omits. See "Template text is ASCII only" in the README for the coverage
+  // gaps this cannot reach.
+  templateTextPolicy(app, {
+    fields: {
+      "AWS::CloudFront::Function": ["functionCode"],
+      "AWS::CloudFront::KeyValueStore": ["comment"],
+    },
+  });
+
   // Both ends of a cross-region ref must opt in, so every stack sets the flag.
   const stackProps = (region: string) => ({
     env: { account, region },
@@ -61,7 +76,7 @@ export function buildApp({ account, siteContentPath, alertEmail }: BuildAppOptio
 
   const siteStack = new Stack(app, "UkehootNetSiteStack", {
     ...stackProps(CONFIG.primaryRegion),
-    description: `${CONFIG.domain} — static site on CloudFront + S3.`,
+    description: `Static site for ${CONFIG.domain} (CloudFront + S3).`,
   });
 
   // Kept separate from certStack to avoid a cdn↔cert cycle (this stack reads

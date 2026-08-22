@@ -122,7 +122,7 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
 
   const redirectKvs = new KeyValueStore(siteStack, "RedirectKvs", {
     keyValueStoreName: `${siteStack.stackName}-redirects`,
-    comment: "Old Tumblr-URL → new path map for the redirect viewer-request function",
+    comment: "Old Tumblr-URL to new path map for the redirect viewer-request function",
     source: ImportSource.fromInline(buildKvsImportData(redirects)),
   });
 
@@ -209,7 +209,7 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
               runtime: FunctionRuntime.JS_2_0,
               keyValueStore: redirectKvs,
               code: FunctionCode.fromInline(buildRedirectFunctionCode(domain)),
-              comment: "www→apex 301 + KVS-backed old-URL redirect map",
+              comment: "www to apex 301 + KVS-backed old-URL redirect map",
             },
           ],
         })

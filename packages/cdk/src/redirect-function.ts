@@ -46,7 +46,7 @@ async function handler(event) {
 
   // Skip the KVS lookup for static assets (anything with a file extension);
   // every redirect key is /post/<digits> with no extension, so an extensioned
-  // URI cannot match — saves an async hop on the bulk of viewer requests.
+  // URI cannot match, saving an async hop on the bulk of viewer requests.
   if (!hasExtension) {
     // Tumblr exposed posts at both /post/<id> and /post/<id>/<slug>; the KVS
     // stores one entry per <id> and we strip any trailing slug here.
@@ -62,12 +62,12 @@ async function handler(event) {
         }
       };
     } catch (e) {
-      // Key not present in the store — fall through to S3 origin.
+      // Key not present in the store. Fall through to S3 origin.
     }
   }
 
   // Eleventy emits pretty URLs as <path>/index.html. CloudFront's
-  // defaultRootObject only rewrites "/" → "/index.html", so map directory-
+  // defaultRootObject only rewrites "/" to "/index.html", so map directory-
   // style requests onto their index file before the S3 origin sees them.
   if (uri.endsWith("/")) {
     req.uri = uri + "index.html";
