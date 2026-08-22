@@ -57,6 +57,9 @@
       "gray-matter": {
         "js-yaml": "^3.14.1"
       }
+    },
+    "babel-plugin-macros": {
+      "cosmiconfig": "^9.0.0"
     }
   }
 }

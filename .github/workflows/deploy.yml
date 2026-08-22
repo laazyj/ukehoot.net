@@ -34,6 +34,11 @@ jobs:
           node-version: 22
           cache: npm
 
+      # Node 22 ships npm 10, but the lockfile is generated under npm 11 and the
+      # two disagree on how optional peer deps are pinned (see AGENTS.md).
+      - name: Pin npm
+        run: npm install -g npm@11
+
       - run: npm ci
 
       - run: npm run verify
