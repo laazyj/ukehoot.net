@@ -1,5 +1,5 @@
 {
-  "Description": "ukehoot.net — static site on CloudFront + S3.",
+  "Description": "Static site for ukehoot.net (CloudFront + S3).",
   "Mappings": {
     "AWSCloudFrontPartitionHostedZoneIdMap": {
       "aws": {
@@ -402,7 +402,7 @@
     },
     "RedirectKvsE3AA2A4C": {
       "Properties": {
-        "Comment": "Old Tumblr-URL → new path map for the redirect viewer-request function",
+        "Comment": "Old Tumblr-URL to new path map for the redirect viewer-request function",
         "ImportSource": {
           "SourceArn": {
             "Fn::Join": [
@@ -960,7 +960,7 @@ async function handler(event) {
 
   // Skip the KVS lookup for static assets (anything with a file extension);
   // every redirect key is /post/<digits> with no extension, so an extensioned
-  // URI cannot match — saves an async hop on the bulk of viewer requests.
+  // URI cannot match, saving an async hop on the bulk of viewer requests.
   if (!hasExtension) {
     // Tumblr exposed posts at both /post/<id> and /post/<id>/<slug>; the KVS
     // stores one entry per <id> and we strip any trailing slug here.
@@ -976,12 +976,12 @@ async function handler(event) {
         }
       };
     } catch (e) {
-      // Key not present in the store — fall through to S3 origin.
+      // Key not present in the store. Fall through to S3 origin.
     }
   }
 
   // Eleventy emits pretty URLs as <path>/index.html. CloudFront's
-  // defaultRootObject only rewrites "/" → "/index.html", so map directory-
+  // defaultRootObject only rewrites "/" to "/index.html", so map directory-
   // style requests onto their index file before the S3 origin sees them.
   if (uri.endsWith("/")) {
     req.uri = uri + "index.html";
@@ -992,7 +992,7 @@ async function handler(event) {
   return req;
 }",
         "FunctionConfig": {
-          "Comment": "www→apex 301 + KVS-backed old-URL redirect map",
+          "Comment": "www to apex 301 + KVS-backed old-URL redirect map",
           "KeyValueStoreAssociations": [
             {
               "KeyValueStoreARN": {

@@ -14,7 +14,7 @@ moving parts (the builder block, the dependency block, and the
 
 | File                                                           | Role                                                                                                                                                              |
 | -------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`src/app.ts`](./src/app.ts)                                   | Entry point. Builds the `App`, the five application stacks, and the standalone CI OIDC stack. The top-of-file `CONFIG` block holds the domain and region.         |
+| [`src/app.ts`](./src/app.ts)                                   | Entry point. Builds the `App`, the five application stacks, and the standalone CI OIDC stack. `CONFIG` holds domain and region; installs the ASCII text policy.   |
 | [`src/system.ts`](./src/system.ts)                             | The composition root — the `compose(...)` call that wires every builder.                                                                                          |
 | [`src/stacks/ci-oidc-stack.ts`](./src/stacks/ci-oidc-stack.ts) | Standalone OIDC provider + `GitHubActionsDeployRole` assumed by `.github/workflows/`.                                                                             |
 | [`src/redirect-function.ts`](./src/redirect-function.ts)       | The CloudFront viewer-request function source: `www`→apex + KVS-backed Tumblr-URL 301s. Only the string between the backticks ships to the edge.                  |
@@ -145,6 +145,32 @@ CloudFormation for every stack. Any change that affects the templates
 (DNS records, alarm thresholds, distribution config) shows up in the snapshot
 diff in the PR. If you intend the change, regenerate with
 `npm run test:update`. If you don't, you have a regression.
+
+### Template text is ASCII only
+
+CloudFormation stores template text as ASCII and transliterates anything else
+to `?` at deploy time, silently. The deployed template then stops matching the
+synthesised one, so `cdk diff` reports a change on every run and each deploy
+rewrites the same fields, on a stack nobody touched.
+
+`buildApp()` installs composureCDK's `templateTextPolicy` to catch that at
+synth. Put an em-dash or a curly quote in a stack description, an alarm
+description, a CloudFront function comment (and so on) and `npm test` fails,
+naming the construct and the field. Rewrite the text in ASCII rather than
+suppressing it.
+
+The policy has two blind spots. It reads top-level L1 properties, so nested
+paths such as `FunctionConfig.Comment` and `DistributionConfig.Comment` are
+outside it. And it only checks resource types it knows about: the package ships
+a seed registry, which `app.ts` extends via `fields` for the CloudFront
+resources this app uses.
+
+Most free-text in this app sits in those blind spots, so
+[`test/app.test.ts`](./test/app.test.ts) also asserts that every synthesised
+template is ASCII-only. That needs no registry and covers nested paths and
+unregistered types alike, which makes it the real backstop. The policy earns
+its place by failing `cdk synth` with the construct path and field named,
+rather than pointing at a template full of JSON.
 
 ### First-time setup
 

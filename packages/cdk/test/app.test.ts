@@ -84,6 +84,17 @@ describe("app synthesis", () => {
     });
   });
 
+  // The templateTextPolicy in buildApp() fails synth on the fields it can
+  // reach, but it only knows registered resource types and cannot see nested
+  // paths like `FunctionConfig.Comment`. Asserting over the whole template
+  // needs no registry and covers every field, so it is the backstop that keeps
+  // a deploy from silently rewriting text CloudFormation cannot store.
+  it.each(STACK_NAMES)("%s is ASCII-only", (name) => {
+    const rendered = JSON.stringify(templates[name]);
+    const offenders = [...new Set(rendered)].filter((char) => (char.codePointAt(0) ?? 0) > 0x7f);
+    expect(offenders).toEqual([]);
+  });
+
   describe("CI OIDC", () => {
     it("creates a deploy role scoped to the ukehoot.net repo", () => {
       const template = stackTemplate(app, "UkehootNetCiOidcStack");
