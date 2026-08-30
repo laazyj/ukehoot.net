@@ -35,9 +35,9 @@
   ],
   "devDependencies": {
     "@eslint/js": "^10.0.1",
-    "@nx/js": "^23.1.1",
-    "@types/node": "^26.2.0",
-    "eslint": "^10.8.1",
+    "@nx/js": "^23.1.2",
+    "@types/node": "^26.4.0",
+    "eslint": "^10.9.1",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "nx": "^23.0.0",
@@ -46,7 +46,7 @@
     "stylelint": "^17.14.1",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.67.0"
+    "typescript-eslint": "^8.68.0"
   },
   "overrides": {
     "form-data": "^4.0.6",
