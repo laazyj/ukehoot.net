@@ -27,7 +27,7 @@
     "mapUrl": "https://www.google.com/maps/search/?api=1&query=Captains+Bar+4+South+College+Street+Edinburgh+EH8+9AA"
   },
   "notice": {
-    "active": true,
+    "active": false,
     "label": "Fringe 2026",
     "message": "Wednesday sessions are on hold for August while the Fringe takes over.",
     "linkText": "See where we're gigging instead",
