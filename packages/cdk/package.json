@@ -81,11 +81,11 @@
     "@composurecdk/route53": "^0.9.5",
     "@composurecdk/s3": "^0.9.5",
     "@composurecdk/sns": "^0.9.5",
-    "aws-cdk-lib": "^2.266.0",
+    "aws-cdk-lib": "^2.268.0",
     "constructs": "^10.8.1"
   },
   "devDependencies": {
-    "@types/node": "^26.4.0",
+    "@types/node": "^26.4.1",
     "aws-cdk": "^2.1139.0",
     "vitest": "^4.1.11"
   }
