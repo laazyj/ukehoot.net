@@ -13,11 +13,25 @@ updates:
         patterns:
           - "@composurecdk/*"
         update-types: [minor, patch, major]
+      # aws-cdk-lib bakes its own defaults into every synthesised template,
+      # so a routine minor bump can rewrite the CDK snapshots on its own
+      # (2.268.0 moved the BucketDeployment handler to arm64, for instance).
+      # Group the CDK packages so that churn lands in a PR of its own,
+      # where refreshing the snapshots is the expected review.
+      aws-cdk:
+        patterns:
+          - "aws-cdk"
+          - "aws-cdk-lib"
+          - "constructs"
+        update-types: [minor, patch, major]
       minor-and-patch:
         patterns:
           - "*"
         exclude-patterns:
           - "@composurecdk/*"
+          - "aws-cdk"
+          - "aws-cdk-lib"
+          - "constructs"
         update-types: [minor, patch]
 
   - package-ecosystem: github-actions
