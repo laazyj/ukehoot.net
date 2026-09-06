@@ -47,6 +47,9 @@
         "CustomCDKBucketDeployment8693BB64968944B69AAFB0CC9EB8756C256MiBServiceRoleF991ED9F",
       ],
       "Properties": {
+        "Architectures": [
+          "arm64",
+        ],
         "Code": {
           "S3Bucket": "cdk-hnb659fds-assets-111111111111-eu-west-2",
           "S3Key": "<asset-hash>.zip",
