@@ -86,7 +86,7 @@
   },
   "devDependencies": {
     "@types/node": "^26.4.1",
-    "aws-cdk": "^2.1140.0",
+    "aws-cdk": "^2.1141.0",
     "vitest": "^5.0.0"
   }
 }
