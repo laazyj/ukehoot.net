@@ -73,9 +73,24 @@
       "Type": "AWS::Budgets::Budget",
     },
     "ukehootnetbudgetTopicPolicyc88d610f55a045b12c7a17c250b00ebd2072b03a03EB7CA3D7": {
+      "DeletionPolicy": "Retain",
       "Properties": {
         "PolicyDocument": {
           "Statement": [
+            {
+              "Action": "sns:Publish",
+              "Condition": {
+                "Bool": {
+                  "aws:SecureTransport": "false",
+                },
+              },
+              "Effect": "Deny",
+              "Principal": "*",
+              "Resource": {
+                "Ref": "ukehootnetusEast1AlertsF44D0857",
+              },
+              "Sid": "AllowPublishThroughSSLOnly",
+            },
             {
               "Action": "SNS:Publish",
               "Effect": "Allow",
@@ -97,6 +112,7 @@
         ],
       },
       "Type": "AWS::SNS::TopicPolicy",
+      "UpdateReplacePolicy": "Retain",
     },
     "ukehootnetusEast1AlertsEmailSubscriptionB086A4BE": {
       "Properties": {
@@ -259,6 +275,17 @@
                 "Ref": "ukehootnetusEast1AlertsF44D0857",
               },
               "Sid": "AllowPublishThroughSSLOnly",
+            },
+            {
+              "Action": "SNS:Publish",
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "budgets.amazonaws.com",
+              },
+              "Resource": {
+                "Ref": "ukehootnetusEast1AlertsF44D0857",
+              },
+              "Sid": "AllowBudgetsPublish",
             },
           ],
           "Version": "2012-10-17",

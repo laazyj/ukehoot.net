@@ -3,6 +3,7 @@ import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 
 import { templateTextPolicy } from "@composurecdk/cloudformation";
+import { topicPolicyConflictPolicy } from "@composurecdk/sns";
 
 import { addCiOidc } from "./stacks/ci-oidc-stack.js";
 import { createSystem } from "./system.js";
@@ -50,6 +51,11 @@ export function buildApp({ account, siteContentPath, alertEmail }: BuildAppOptio
       "AWS::CloudFront::KeyValueStore": ["comment"],
     },
   });
+
+  // An SNS topic holds one access policy and each TopicPolicy replaces it
+  // outright, so two policy resources on one topic silently race. Fail synth on
+  // that, rather than find out when an alert never arrives.
+  topicPolicyConflictPolicy(app);
 
   // Both ends of a cross-region ref must opt in, so every stack sets the flag.
   const stackProps = (region: string) => ({
