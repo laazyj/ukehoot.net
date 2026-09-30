@@ -32,8 +32,18 @@ the branch is pushed, so skipping the local scan is safe for secret-free
 changes. If you are committing something that might be a secret, stop and flag
 it rather than bypassing.
 
-**IMPORTANT**: gitleaks is unique in its optionality. There are no other analyser tools
-that can be bypassed.
+**IMPORTANT**: gitleaks and zizmor are the only analyser tools that may be
+skipped, and only when they are not installed. No other analyser tool can be
+bypassed.
+
+## GitHub Actions audit (zizmor)
+
+`npm run lint` runs zizmor over `.github/` when it is on `PATH` and prints a
+skip note when it isn't (CI always runs it; see the README's "GitHub Actions
+audit"). A skip is expected, so don't install zizmor to get past it. When it
+does run, its findings are real failures: fix them, or add a
+`# zizmor: ignore[<audit>]` comment with a stated reason only when the
+flagged behaviour is deliberate.
 
 ## Build system
 

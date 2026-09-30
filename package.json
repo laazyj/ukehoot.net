@@ -4,10 +4,11 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "lint": "eslint . && stylelint \"**/*.{css,html}\"",
+    "lint": "eslint . && stylelint \"**/*.{css,html}\" && npm run lint:actions",
     "lint:fix": "eslint --fix . && stylelint --fix \"**/*.{css,html}\"",
     "lint:css": "stylelint \"**/*.{css,html}\"",
     "lint:css:fix": "stylelint --fix \"**/*.{css,html}\"",
+    "lint:actions": "if command -v zizmor >/dev/null 2>&1; then zizmor --quiet --strict-collection .; else echo 'lint:actions: zizmor not found in PATH, skipping (the zizmor workflow covers CI).'; fi",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "typecheck": "nx run-many -t typecheck",

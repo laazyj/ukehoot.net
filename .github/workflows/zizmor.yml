@@ -1,0 +1,33 @@
+name: zizmor
+
+# Static analysis of our GitHub Actions workflows and Dependabot config.
+# See README.md "GitHub Actions audit" for running it locally.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions: {}
+
+concurrency:
+  group: zizmor-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  zizmor:
+    name: zizmor
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+
+      - uses: zizmorcore/zizmor-action@cc914d7f3750a2d13d75c7f184a1060aa0e9d482 # v0.6.4
+        with:
+          # Fail the job and annotate the PR inline, rather than uploading
+          # SARIF to code scanning (which reports but never fails the job).
+          advanced-security: false
+          annotations: true
