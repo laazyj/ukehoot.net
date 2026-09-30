@@ -4,6 +4,10 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    # Hold new releases for a week so a compromised or yanked version has
+    # time to be caught upstream before it lands here.
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
       # composurecdk is pre-1.0, so a minor bump is breaking by semver
@@ -38,6 +42,8 @@ updates:
     directory: /
     schedule:
       interval: weekly
+    cooldown:
+      default-days: 7
     open-pull-requests-limit: 5
     groups:
       actions:
