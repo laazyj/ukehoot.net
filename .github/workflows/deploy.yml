@@ -28,6 +28,8 @@ jobs:
       INDEXNOW_KEY: ${{ secrets.INDEXNOW_KEY }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
 
       - uses: actions/setup-node@820762786026740c76f36085b0efc47a31fe5020 # v7.0.0
         with:
@@ -36,8 +38,9 @@ jobs:
 
       # Node 22 ships npm 10, but the lockfile is generated under npm 11 and the
       # two disagree on how optional peer deps are pinned (see AGENTS.md).
+      # The ad-hoc global install is deliberate, hence the zizmor ignore.
       - name: Pin npm
-        run: npm install -g npm@11
+        run: npm install -g npm@11 # zizmor: ignore[adhoc-packages]
 
       - run: npm ci
 

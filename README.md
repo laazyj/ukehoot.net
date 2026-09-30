@@ -71,6 +71,26 @@ GitHub's server-side secret scanning + push protection runs as a second layer.
 The pre-commit hook stops accidental leaks before they leave the laptop;
 GitHub catches anything that slips through.
 
+## GitHub Actions audit
+
+[zizmor](https://docs.zizmor.sh/) statically analyses our workflows and
+Dependabot config for security issues (unpinned actions, credential
+persistence, template injection, missing update cooldowns and so on). The
+[`zizmor` workflow](.github/workflows/zizmor.yml) runs it on every PR and
+push to `main`, and fails on any finding.
+
+Locally, `npm run lint` runs it too (via `npm run lint:actions`) if zizmor is
+on `PATH`, and skips it with a note if not. Install it with:
+
+```sh
+brew install zizmor      # macOS
+# or: pipx install zizmor / uv tool install zizmor / cargo install --locked zizmor
+```
+
+Suppress a finding that is deliberate with an inline
+`# zizmor: ignore[<audit>]` comment on the offending line, and say why in a
+nearby comment.
+
 ## License
 
 Code (CDK app, Eleventy config, build scripts) is licensed under the
