@@ -49,23 +49,22 @@ flagged behaviour is deliberate.
 
 Use npx nx to run build/test scripts — this is an nx monorepo.
 
-## Installing dependencies (npm 11)
+## Installing dependencies (Node 24 / npm 11)
 
-**Install with npm 11** (`npm install -g npm@11`). Node 22 ships npm 10, and the
-two disagree on the lockfile. Ours is generated under npm 11, which records a
-`libc` field on platform-specific optional binaries (14 of them, across nx,
-rolldown and lightningcss). npm 10 does not know that field, so a plain
-`npm install` on npm 10 silently rewrites `package-lock.json` to strip all 14.
+**Use Node 24**, which ships npm 11 (CI runs Node 24 too). On an older Node,
+install npm 11 first (`npm install -g npm@11`). The lockfile is generated under
+npm 11, which records a `libc` field on platform-specific optional binaries
+(14 of them, across nx, rolldown and lightningcss). npm 10 does not know that
+field, so a plain `npm install` on npm 10 silently rewrites
+`package-lock.json` to strip all 14.
 
 Neither the field nor the rewrite is a defect, and the rewrite does not want
 committing. Under npm 11 the same `npm install` is a no-op, which is the
-tell that the lockfile is already correct. CI pins npm 11 before every
-`npm ci` for the same reason (see the `Pin npm` steps in
-[pr.yml](.github/workflows/pr.yml) and [deploy.yml](.github/workflows/deploy.yml)).
+tell that the lockfile is already correct.
 
 So if `libc` blocks are disappearing from your `package-lock.json` diff, that is
-npm 10 talking. Restore the file (`git checkout package-lock.json`), pin npm,
-and install again.
+npm 10 talking. Restore the file (`git checkout package-lock.json`), switch to
+Node 24 (or npm 11), and install again.
 
 ## Voice & copy
 
