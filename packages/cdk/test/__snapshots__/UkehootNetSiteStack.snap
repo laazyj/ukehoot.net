@@ -1084,7 +1084,7 @@ async function handler(event) {
           "FailureThreshold": 3,
           "FullyQualifiedDomainName": "ukehoot.net",
           "Inverted": false,
-          "MeasureLatency": true,
+          "MeasureLatency": false,
           "Port": 443,
           "RequestInterval": 30,
           "ResourcePath": "",
