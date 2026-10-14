@@ -35,14 +35,20 @@ jobs:
   cdk-diff:
     name: cdk diff
     runs-on: ubuntu-latest
-    # Skip the AWS-touching job for PRs that can't assume the deploy role:
-    #   - Fork PRs run under the fork's OIDC namespace.
-    #   - Dependabot PRs don't receive repo Actions secrets, so the role ARN
-    #     is empty and configure-aws-credentials fails.
-    # The verify job still runs in both cases.
+    # Runs the PR's code with AWS credentials, so only for PRs from people trusted with
+    # this repository: an inclusion list, so bots (Dependabot, DependaBuddy, any added
+    # later), forks and other contributors are all left out without being named.
+    #   - The PR comes from a branch in this repository, not a fork.
+    #   - Its author is a person, not an App: Dependabot and DependaBuddy count as
+    #     CONTRIBUTOR once they have commits here, so the association alone isn't enough.
+    #   - Its author is the owner, an organisation member or an invited collaborator.
+    #   - The push that triggered this run is the author's own.
+    # The verify job still runs for every PR.
     if: >-
       github.event.pull_request.head.repo.full_name == github.repository &&
-      github.event.pull_request.user.login != 'dependabot[bot]'
+      github.event.pull_request.user.type == 'User' &&
+      contains(fromJSON('["OWNER", "MEMBER", "COLLABORATOR"]'), github.event.pull_request.author_association) &&
+      github.triggering_actor == github.event.pull_request.user.login
     needs: verify
     permissions:
       contents: read
