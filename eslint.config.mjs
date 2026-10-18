@@ -3,6 +3,7 @@ import eslint from "@eslint/js";
 import { defineConfig } from "eslint/config";
 import tseslint from "typescript-eslint";
 import eslintConfigPrettier from "eslint-config-prettier/flat";
+import composurecdk from "@composurecdk/eslint-plugin";
 
 export default defineConfig(
   { ignores: ["**/dist/", "**/node_modules/", "**/cdk.out/", "gallery-staging/"] },
@@ -42,6 +43,19 @@ export default defineConfig(
         URL: "readonly",
         AbortSignal: "readonly",
       },
+    },
+  },
+  // composureCDK's builder/Lifecycle invariants, on app source only (they flag
+  // tests and config). An application takes `recommended` alone; the other
+  // tiers guard hazards of publishing a package.
+  {
+    files: ["packages/cdk/src/**/*.ts"],
+    extends: [composurecdk.configs.recommended],
+    rules: {
+      "composurecdk/no-realm-bound-instanceof": [
+        "error",
+        { assumeNeverInstalledAsADependency: true },
+      ],
     },
   },
   eslintConfigPrettier,
