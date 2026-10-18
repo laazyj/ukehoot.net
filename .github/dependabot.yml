@@ -37,6 +37,12 @@ updates:
           - "aws-cdk-lib"
           - "constructs"
         update-types: [minor, patch]
+    ignore:
+      # TypeScript 7.0 lacks the compiler APIs typescript-eslint needs; 7.1
+      # adds them. Its PR stays red until typescript-eslint's peer range
+      # accepts 7.1, so merge it then and drop this entry.
+      - dependency-name: "typescript"
+        versions: [">=7.0.0 <7.1.0"]
 
   - package-ecosystem: github-actions
     directory: /
