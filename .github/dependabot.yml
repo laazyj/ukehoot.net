@@ -28,6 +28,14 @@ updates:
           - "aws-cdk-lib"
           - "constructs"
         update-types: [minor, patch, major]
+      # nx and its @nx/* plugins are released in lockstep and check each
+      # other's versions at runtime, so a split bump (nx on one major,
+      # @nx/js on another) breaks the workspace. Move them together.
+      nx:
+        patterns:
+          - "nx"
+          - "@nx/*"
+        update-types: [minor, patch, major]
       minor-and-patch:
         patterns:
           - "*"
@@ -36,6 +44,8 @@ updates:
           - "aws-cdk"
           - "aws-cdk-lib"
           - "constructs"
+          - "nx"
+          - "@nx/*"
         update-types: [minor, patch]
     ignore:
       # TypeScript 7.0 lacks the compiler APIs typescript-eslint needs; 7.1
