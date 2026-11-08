@@ -38,8 +38,8 @@
     "@composurecdk/eslint-plugin": "^0.10.3",
     "@eslint/js": "^10.0.1",
     "@nx/js": "^24.0.3",
-    "@types/node": "^26.6.5",
-    "eslint": "^10.13.0",
+    "@types/node": "^26.6.6",
+    "eslint": "^10.14.0",
     "eslint-config-prettier": "^10.1.8",
     "husky": "^9.1.7",
     "nx": "^24.0.3",
@@ -48,7 +48,7 @@
     "stylelint": "^17.16.0",
     "stylelint-config-standard": "^40.0.0",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.72.0"
+    "typescript-eslint": "^8.72.1"
   },
   "overrides": {
     "form-data": "^4.0.6",
