@@ -12,8 +12,13 @@ on:
 
 jobs:
   claude-review:
-    # Only review PRs from owners, org members, collaborators and past contributors.
-    if: contains(fromJSON('["OWNER","MEMBER","COLLABORATOR","CONTRIBUTOR"]'), github.event.pull_request.author_association)
+    # Only review PRs from owners, org members, collaborators and past
+    # contributors. Skip bot-authored PRs (Dependabot counts as a
+    # CONTRIBUTOR): the action refuses non-human actors, and Dependabot
+    # runs cannot read the repository's Actions secrets anyway.
+    if: >-
+      github.event.pull_request.user.type != 'Bot' &&
+      contains(fromJSON('["OWNER","MEMBER","COLLABORATOR","CONTRIBUTOR"]'), github.event.pull_request.author_association)
 
     runs-on: ubuntu-latest
     permissions:
