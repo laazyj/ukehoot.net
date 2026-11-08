@@ -37,7 +37,7 @@
   "devDependencies": {
     "@composurecdk/eslint-plugin": "^0.10.3",
     "@eslint/js": "^10.0.1",
-    "@nx/js": "^23.3.0",
+    "@nx/js": "^24.0.3",
     "@types/node": "^26.6.5",
     "eslint": "^10.13.0",
     "eslint-config-prettier": "^10.1.8",
