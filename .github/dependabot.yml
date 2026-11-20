@@ -36,6 +36,14 @@ updates:
           - "nx"
           - "@nx/*"
         update-types: [minor, patch, major]
+      # stylelint-config-standard pins stylelint as a peer at one major, so
+      # a split major bump (stylelint 18 beside config-standard 40, or the
+      # reverse) fails npm ci with ERESOLVE. Keep them in one PR.
+      stylelint:
+        patterns:
+          - "stylelint"
+          - "stylelint-config-*"
+        update-types: [minor, patch, major]
       minor-and-patch:
         patterns:
           - "*"
@@ -46,6 +54,8 @@ updates:
           - "constructs"
           - "nx"
           - "@nx/*"
+          - "stylelint"
+          - "stylelint-config-*"
         update-types: [minor, patch]
     ignore:
       # TypeScript 7.0 lacks the compiler APIs typescript-eslint needs; 7.1
