@@ -35,7 +35,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "@composurecdk/eslint-plugin": "^0.11.2",
+    "@composurecdk/eslint-plugin": "^0.13.0",
     "@eslint/js": "^10.0.1",
     "@nx/js": "^24.0.5",
     "@types/node": "^26.6.6",
