@@ -141,13 +141,9 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
 
   return compose(
     {
-      // DNS
-      // composureCDK 0.8.0 enables Route 53 DNS query logging by default, which
-      // requires a us-east-1 log group; this zone is deployed in eu-west-2 and
-      // had no query logging under 0.7.0. Opt out to preserve that behaviour.
-      // See https://github.com/laazyj/composureCDK/issues/142 for the upstream
-      // discussion on making this default region-adaptive.
-      zone: createHostedZoneBuilder().zoneName(domain).queryLogging(false),
+      // DNS. Query logging stays off (the builder default): its log group must
+      // live in us-east-1 and this zone deploys in eu-west-2.
+      zone: createHostedZoneBuilder().zoneName(domain),
       records: zoneRecords(ZONE_RECORDS).zone(hostedZone),
       // Routed to siteStack in withStacks() so the stack graph stays acyclic.
       aliasRecords: zoneRecords(aliasSpecs).zone(hostedZone),
