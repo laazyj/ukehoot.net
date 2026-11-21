@@ -1141,38 +1141,6 @@ async function handler(event) {
       },
       "Type": "AWS::CloudWatch::Alarm",
     },
-    "ukehootnetsiteAlertsNumberOfNotificationsFailedToRedriveToDlqAlarm8D2B90E3": {
-      "Properties": {
-        "AlarmActions": [
-          {
-            "Ref": "ukehootnetsiteAlerts5F1696A2",
-          },
-        ],
-        "AlarmDescription": "SNS topic failed to redrive a message to a subscription dead-letter queue; messages may be lost. Threshold: > 0 failed redrives in 1 minute.",
-        "AlarmName": "ukehoot-net-site-stack/ukehoot-net/site-alerts/number-of-notifications-failed-to-redrive-to-dlq",
-        "ComparisonOperator": "GreaterThanThreshold",
-        "DatapointsToAlarm": 1,
-        "Dimensions": [
-          {
-            "Name": "TopicName",
-            "Value": {
-              "Fn::GetAtt": [
-                "ukehootnetsiteAlerts5F1696A2",
-                "TopicName",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 1,
-        "MetricName": "NumberOfNotificationsFailedToRedriveToDlq",
-        "Namespace": "AWS/SNS",
-        "Period": 60,
-        "Statistic": "Sum",
-        "Threshold": 0,
-        "TreatMissingData": "notBreaching",
-      },
-      "Type": "AWS::CloudWatch::Alarm",
-    },
     "ukehootnetsiteAlertsNumberOfNotificationsFilteredOutInvalidAttributesAlarmE28462DC": {
       "Properties": {
         "AlarmActions": [
@@ -1197,38 +1165,6 @@ async function handler(event) {
         ],
         "EvaluationPeriods": 1,
         "MetricName": "NumberOfNotificationsFilteredOut-InvalidAttributes",
-        "Namespace": "AWS/SNS",
-        "Period": 60,
-        "Statistic": "Sum",
-        "Threshold": 0,
-        "TreatMissingData": "notBreaching",
-      },
-      "Type": "AWS::CloudWatch::Alarm",
-    },
-    "ukehootnetsiteAlertsNumberOfNotificationsRedrivenToDlqAlarm8FC6D08B": {
-      "Properties": {
-        "AlarmActions": [
-          {
-            "Ref": "ukehootnetsiteAlerts5F1696A2",
-          },
-        ],
-        "AlarmDescription": "SNS topic is redriving messages to a subscription dead-letter queue, indicating delivery failures. Threshold: > 0 redrives in 1 minute.",
-        "AlarmName": "ukehoot-net-site-stack/ukehoot-net/site-alerts/number-of-notifications-redriven-to-dlq",
-        "ComparisonOperator": "GreaterThanThreshold",
-        "DatapointsToAlarm": 1,
-        "Dimensions": [
-          {
-            "Name": "TopicName",
-            "Value": {
-              "Fn::GetAtt": [
-                "ukehootnetsiteAlerts5F1696A2",
-                "TopicName",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 1,
-        "MetricName": "NumberOfNotificationsRedrivenToDlq",
         "Namespace": "AWS/SNS",
         "Period": 60,
         "Statistic": "Sum",

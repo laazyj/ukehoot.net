@@ -1,7 +1,6 @@
 import { CfnOutput, type Stack } from "aws-cdk-lib";
-import { OpenIdConnectPrincipal, OpenIdConnectProvider } from "aws-cdk-lib/aws-iam";
 
-import { createRoleBuilder, createStatementBuilder } from "@composurecdk/iam";
+import { createRoleBuilder, createStatementBuilder, githubActions } from "@composurecdk/iam";
 
 export interface CiOidcOptions {
   readonly githubOwner: string;
@@ -9,33 +8,22 @@ export interface CiOidcOptions {
   readonly cdkBootstrapQualifier?: string;
 }
 
-const GITHUB_OIDC_URL = "https://token.actions.githubusercontent.com";
-const GITHUB_OIDC_AUDIENCE = "sts.amazonaws.com";
 const DEFAULT_CDK_QUALIFIER = "hnb659fds";
 
 export function addCiOidc(stack: Stack, options: CiOidcOptions): void {
   const qualifier = options.cdkBootstrapQualifier ?? DEFAULT_CDK_QUALIFIER;
-  const repoSubject = `repo:${options.githubOwner}/${options.githubRepo}`;
 
-  const provider = new OpenIdConnectProvider(stack, "GithubOidcProvider", {
-    url: GITHUB_OIDC_URL,
-    clientIds: [GITHUB_OIDC_AUDIENCE],
-  });
+  const { provider } = githubActions.provider().build(stack, "GithubOidcProvider");
 
   // Subject-claim allowlist scopes role assumption to this exact repo. Forks
   // run workflows under their own `repo:<fork>/<name>:*` namespace, so they
   // cannot mint a token that satisfies these conditions even though the OIDC
   // provider is account-wide.
-  const principal = new OpenIdConnectPrincipal(provider, {
-    StringEquals: {
-      "token.actions.githubusercontent.com:aud": GITHUB_OIDC_AUDIENCE,
-    },
-    StringLike: {
-      "token.actions.githubusercontent.com:sub": [
-        `${repoSubject}:ref:refs/heads/main`,
-        `${repoSubject}:pull_request`,
-      ],
-    },
+  const principal = githubActions.principal({
+    owner: options.githubOwner,
+    repo: options.githubRepo,
+    provider,
+    subjects: [githubActions.Subject.branch("main"), githubActions.Subject.pullRequest()],
   });
 
   // The role's only direct permission is to assume CDK's bootstrap roles in
