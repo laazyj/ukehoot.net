@@ -583,7 +583,6 @@
     "ukehootnetbucketAccessLogs0025A5F2": {
       "DeletionPolicy": "Retain",
       "Properties": {
-        "AccessControl": "LogDeliveryWrite",
         "BucketEncryption": {
           "ServerSideEncryptionConfiguration": [
             {
@@ -604,7 +603,7 @@
         "OwnershipControls": {
           "Rules": [
             {
-              "ObjectOwnership": "ObjectWriter",
+              "ObjectOwnership": "BucketOwnerEnforced",
             },
           ],
         },
@@ -658,6 +657,40 @@
                   ],
                 },
               ],
+            },
+            {
+              "Action": "s3:PutObject",
+              "Condition": {
+                "ArnLike": {
+                  "aws:SourceArn": {
+                    "Fn::GetAtt": [
+                      "ukehootnetbucket97BA971F",
+                      "Arn",
+                    ],
+                  },
+                },
+                "StringEquals": {
+                  "aws:SourceAccount": "111111111111",
+                },
+              },
+              "Effect": "Allow",
+              "Principal": {
+                "Service": "logging.s3.amazonaws.com",
+              },
+              "Resource": {
+                "Fn::Join": [
+                  "",
+                  [
+                    {
+                      "Fn::GetAtt": [
+                        "ukehootnetbucketAccessLogs0025A5F2",
+                        "Arn",
+                      ],
+                    },
+                    "/logs/*",
+                  ],
+                ],
+              },
             },
           ],
           "Version": "2012-10-17",
@@ -1108,70 +1141,6 @@ async function handler(event) {
         },
       },
       "Type": "AWS::SNS::Subscription",
-    },
-    "ukehootnetsiteAlertsNumberOfNotificationsFailedAlarmF725CCAF": {
-      "Properties": {
-        "AlarmActions": [
-          {
-            "Ref": "ukehootnetsiteAlerts5F1696A2",
-          },
-        ],
-        "AlarmDescription": "SNS topic is failing to deliver notifications. Threshold: > 0 failures in 1 minute.",
-        "AlarmName": "ukehoot-net-site-stack/ukehoot-net/site-alerts/number-of-notifications-failed",
-        "ComparisonOperator": "GreaterThanThreshold",
-        "DatapointsToAlarm": 1,
-        "Dimensions": [
-          {
-            "Name": "TopicName",
-            "Value": {
-              "Fn::GetAtt": [
-                "ukehootnetsiteAlerts5F1696A2",
-                "TopicName",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 1,
-        "MetricName": "NumberOfNotificationsFailed",
-        "Namespace": "AWS/SNS",
-        "Period": 60,
-        "Statistic": "Sum",
-        "Threshold": 0,
-        "TreatMissingData": "notBreaching",
-      },
-      "Type": "AWS::CloudWatch::Alarm",
-    },
-    "ukehootnetsiteAlertsNumberOfNotificationsFilteredOutInvalidAttributesAlarmE28462DC": {
-      "Properties": {
-        "AlarmActions": [
-          {
-            "Ref": "ukehootnetsiteAlerts5F1696A2",
-          },
-        ],
-        "AlarmDescription": "SNS topic messages are being filtered out due to invalid subscription filter policy attributes. Threshold: > 0 filtered messages in 1 minute.",
-        "AlarmName": "ukehoot-net-site-stack/ukehoot-net/site-alerts/number-of-notifications-filtered-out-invalid-attributes",
-        "ComparisonOperator": "GreaterThanThreshold",
-        "DatapointsToAlarm": 1,
-        "Dimensions": [
-          {
-            "Name": "TopicName",
-            "Value": {
-              "Fn::GetAtt": [
-                "ukehootnetsiteAlerts5F1696A2",
-                "TopicName",
-              ],
-            },
-          },
-        ],
-        "EvaluationPeriods": 1,
-        "MetricName": "NumberOfNotificationsFilteredOut-InvalidAttributes",
-        "Namespace": "AWS/SNS",
-        "Period": 60,
-        "Statistic": "Sum",
-        "Threshold": 0,
-        "TreatMissingData": "notBreaching",
-      },
-      "Type": "AWS::CloudWatch::Alarm",
     },
     "ukehootnetsiteAlertsPolicy93A20C01": {
       "Properties": {

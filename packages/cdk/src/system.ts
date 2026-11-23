@@ -118,6 +118,14 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
   const { dnsStack, usEast1AlertsStack, certStack, siteStack, cdnAlarmsStack } = stacks;
   const { domain, siteContentPath, alertEmail } = options;
   const www = `www.${domain}`;
+  // The topics' own delivery-failure alarms are off: alarmActionsPolicy would
+  // route them back to the failing topic, and with a single email subscriber
+  // there is nowhere else for them to go.
+  const alertTopic = (displayName: string) =>
+    createTopicBuilder()
+      .displayName(displayName)
+      .addSubscription("email", new EmailSubscription(alertEmail))
+      .recommendedAlarms(false);
   const redirects = loadRedirects();
 
   const redirectKvs = new KeyValueStore(siteStack, "RedirectKvs", {
@@ -155,12 +163,8 @@ export function createSystem(stacks: SystemStacks, options: SystemOptions) {
         .validationZone(hostedZone),
 
       // CloudWatch alarms can only target same-region SNS topics, so one topic per region.
-      usEast1Alerts: createTopicBuilder()
-        .displayName(`${domain} us-east-1 alerts`)
-        .addSubscription("email", new EmailSubscription(alertEmail)),
-      siteAlerts: createTopicBuilder()
-        .displayName(`${domain} site alerts`)
-        .addSubscription("email", new EmailSubscription(alertEmail)),
+      usEast1Alerts: alertTopic(`${domain} us-east-1 alerts`),
+      siteAlerts: alertTopic(`${domain} site alerts`),
 
       // Notifies usEast1Alerts at AWS-recommended thresholds (80% actual, 100%
       // forecasted). The builder adds the budgets.amazonaws.com:Publish grant
