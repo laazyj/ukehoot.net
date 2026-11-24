@@ -30,7 +30,8 @@ export default function (eleventyConfig) {
     measurementId: process.env.GA_MEASUREMENT_ID || null,
   }));
   eleventyConfig.addGlobalData("build", () => ({
-    sha: process.env.GITHUB_SHA || "dev",
+    // BUILD_SHA lets pr.yml's cdk diff stamp the base SHA (GITHUB_* is read-only).
+    sha: process.env.BUILD_SHA || process.env.GITHUB_SHA || "dev",
   }));
 
   // Inline a file's contents verbatim. Used to ship the stylesheet inside

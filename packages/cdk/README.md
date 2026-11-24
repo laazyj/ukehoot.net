@@ -200,7 +200,8 @@ automatically once delegation lands).
 
 - **`.github/workflows/pr.yml`** — runs on every PR: lint, format, build,
   test, plus `cdk diff` posted as a comment so infra changes are visible at
-  review time.
+  review time. The diff builds the site with the base commit's SHA
+  (`BUILD_SHA`), so a PR that doesn't touch the site shows no site change.
 - **`.github/workflows/deploy.yml`** — runs on push to `main`: full verify,
   fresh `site:build` (with `GITHUB_SHA` baked into a `<meta name="build-sha">`
   tag), `cdk deploy --all`, post-deploy smoke test, redirect compatibility

@@ -37,6 +37,7 @@ Optional environment variables (see [`.env.example`](./.env.example)):
   analytics-free build.
 - `GITHUB_SHA` — baked into a `<meta name="build-sha">` tag and asserted by
   the post-deploy smoke test. CI sets this automatically; locally it's optional.
+  `BUILD_SHA`, if set, takes precedence (the PR cdk diff uses the base SHA).
 
 ## Styling
 
