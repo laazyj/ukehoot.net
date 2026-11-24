@@ -79,6 +79,8 @@ jobs:
         env:
           CDK_DEFAULT_ACCOUNT: ${{ steps.aws.outputs.aws-account-id }}
           CDK_DEFAULT_REGION: ${{ env.AWS_REGION }}
+          # Stamp the base SHA so the site diff only shows real content changes.
+          BUILD_SHA: ${{ github.event.pull_request.base.sha }}
         run: npm run cdk:synth
 
       - name: cdk diff
